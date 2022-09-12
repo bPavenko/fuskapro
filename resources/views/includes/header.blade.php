@@ -1,0 +1,93 @@
+<header class="header">
+    @php
+        if (!Session::get('locale')) {
+            Session::put('locale', 'ua');
+        }
+        $locales = ['ua', 'en', 'cz'];
+    @endphp
+    <div class="container">
+        <a href="{{ url('/') }}" class="logo">
+            <img loading="lazy" src="{{URL::asset('/img/logo.svg')}}" alt="img">
+        </a>
+        @if (Route::has('login'))
+            <div class="header-btns" data-da=".mob-menu, 1023, 0">
+                @auth
+                    <a href="{{ url('/my-orders') }}" class="basket hed-circle" data-da=".header-person-mob, 1023, 0"></a>
+                    <a href="{{ url('/notifications') }}" class="notifications dot-show hed-circle"></a>
+                    <a href="#" class="coins hed-circle " data-da=".header-person-mob, 1023, 1">{{ trans('main.coins') }}: 0</a>
+                    <a href="{{ url('/home') }}" class="hed-person">
+                        <div class="hed-person__icon">
+                            <img loading="lazy" src="{{URL::asset('/img/hed-person-icon.png')}}" alt="img">
+                        </div>
+                        <div class="hed-person__name">
+                            {{Auth::user()->name}} <br>
+                            {{Auth::user()->surname}}
+                        </div>
+                    </a>
+
+{{--                    <a href="{{ route('logout') }}"--}}
+{{--                       class="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4" onclick="event.preventDefault(); document.getElementById('account-logout-form').submit();">--}}
+{{--                                        <span class="icon icon-sm icon-secondary">--}}
+{{--                                            <i class="fas fa-sign-out-alt"></i>--}}
+{{--                                        </span>--}}
+{{--                        <div class="ml-4">--}}
+{{--                                            <span class="text-dark d-block">--}}
+{{--                                                Logout--}}
+{{--                                            </span>--}}
+{{--                            <span class="small">Logout from your account!</span>--}}
+{{--                        </div>--}}
+{{--                    </a>--}}
+{{--                    <form id="account-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
+{{--                        @csrf--}}
+{{--                    </form>--}}
+                @else
+                    <a href="{{ route('login') }}" class="header__btn">
+                        {{ trans('auth.login') }}
+                    </a>
+
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="header__btn btn btn--purple">
+                            {{ trans('auth.register') }}
+                        </a>
+                    @endif
+
+                @endauth
+            </div>
+        @endif
+
+        <div class="header-person">
+            <a href="#" class="basket hed-circle" data-da=".header-person-mob, 1023, 0"></a>
+            <a href="#" class="notifications dot-show hed-circle"></a>
+            <a href="#" class="coins hed-circle " data-da=".header-person-mob, 1023, 1">{{ trans('main.coins') }}: 0</a>
+            <a href="#" class="hed-person">
+                <div class="hed-person__icon">
+                    <img loading="lazy" src="{{URL::asset('/img/hed-person-icon.png')}}" alt="img">
+                </div>
+                <div class="hed-person__name">
+                    John <br>
+                    Doe
+                </div>
+            </a>
+        </div>
+        <div class="lang" data-da=".mob-menu, 1023, 2">
+            <div class="lang-act">
+                <a href="{{ route('locale', ['locale' => Session::get('locale') ? Session::get('locale') : 'EN']) }}" class="lang__link">{{ strtoupper(Session::get('locale')) }}</a>
+            </div>
+            <div class="lang__list">
+                @foreach($locales as $locale)
+                    @if ($locale != Session::get('locale'))
+                        <a href="{{ route('locale', ['locale' => $locale]) }}" class="lang__link">{{ strtoupper($locale) }}</a>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+        <div class="burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mob-menu">
+            <div class="header-person-mob"></div>
+        </div>
+    </div>
+</header>
