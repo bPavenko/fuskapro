@@ -12,7 +12,8 @@ class OrderRequest extends Model
 
     protected $fillable = [
         'order_id',
-        'executor_id'
+        'executor_id',
+        'type'
     ];
 
     public function executor () {

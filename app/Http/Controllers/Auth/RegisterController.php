@@ -52,9 +52,13 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'phone' => ['required', 'string', 'regex:/^\+380\d{3}\d{2}\d{2}\d{2}$/'],
             'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+            'city' => ['required', 'integer'],
+            'gender' => ['required'],
+            'birth_date' => ['required' , 'date'],
+       ]);
     }
 
     /**
@@ -70,7 +74,10 @@ class RegisterController extends Controller
             'phone' => $data['phone'],
             'city' => $data['city'] ? $data['city'] : '',
             'name' => $data['name'],
+            'surname' => $data['surname'],
+            'birth_date' => $data['birth_date'],
             'email' => $data['email'],
+            'gender' => $data['gender'],
             'password' => Hash::make($data['password']),
         ]);
     }

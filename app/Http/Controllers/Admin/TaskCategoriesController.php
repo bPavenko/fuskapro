@@ -86,7 +86,13 @@ class TaskCategoriesController extends Controller
 
         // Sanitize input
         $sanitized = $request->getSanitized();
-        // Store the TaskCategory
+
+        $sanitized['name'] = [
+            'ua' => $request->get('ua'),
+            'en' => $request->get('en'),
+            'cz' => $request->get('cz'),
+        ];
+
         $taskCategory = TaskCategory::create($sanitized);
 
         if ($request->ajax()) {

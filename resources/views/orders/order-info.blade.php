@@ -20,7 +20,7 @@
                             </div>
                             <div>
                                 {{ trans('main.views') }}:
-                                <span>56</span>
+                                <span>{{ $order->count_views }}</span>
                             </div>
                         </div>
                         <div class="order-box-item">
@@ -38,12 +38,20 @@
                             </div>
                             <div>
                                 {{ trans('main.execute_to') }}:
-                                <span>5 червня</span>
+                                <span>{{ date('Y-m-d', strtotime($order->execution_date)) }}</span>
                             </div>
                         </div>
+
                         <div class="price-block">
                             <div class="price-item"><span>€</span> {{ $order->price }}</div>
                         </div>
+                        @if($order->price_negotiable)
+                            <div class="order-box-item">
+                                <div>
+                                    <span>{{ trans('main.price_negotiable') }}</span>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="order-info-task">
                         <div class="order-info-task-item">
@@ -65,9 +73,11 @@
                         <div class="specialist__img">
                             <img loading="lazy" src="{{URL::asset('/img/specialist-img.png')}}" alt="img">
                         </div>
+                        @if(Auth::user() && Auth::user()->isAuthor($order->id))
                         <div class="specialist__name">
                                 {{ trans('main.select_executor') }}
                         </div>
+                        @endif
                         <div class="specialist__responded">
                             {{ trans('main.specialists_responded') }}: <span> {{ count($order->order_requests) }}</span>
                         </div>
@@ -75,79 +85,112 @@
                 @else
                     <div class="specialist">
                         <div class="specialist__title">
-                            Вибраний спеціаліст
+                            {{ trans('main.selected_specialist') }}
                         </div>
                         <div class="specialist__img">
                             <img loading="lazy" src="{{URL::asset('/img/specialist-img2.png')}}" alt="img">
                         </div>
                         <div class="specialist__name">
-                            {{ $order->executor->name }}
+                            <a class="profile-link" href="{{ route('show-user', $order->executor->id) }}">
+                                {{ $order->executor->name . ' ' . $order->executor->surname }}
+                            </a>
                         </div>
                         <div class="specialist-info">
-                            <div class="specialist-info-item specialist-info-item--reviews">
+                            <div class="specialist-info-item">
                                 <div class="specialist-info-item__num">
-                                    22
+                                    {{ count($order->executor->rates) }}
                                 </div>
                                 <a href="#" class="specialist-info-item__text">
-                                    відгуки
+                                    {{ trans('main.rates_count') }}
                                 </a>
                             </div>
-                            <div class="specialist-info-item specialist-info-item--like">
+                            <div class="specialist-info-item">
                                 <div class="specialist-info-item__num">
-                                    95%
+                                    {{ $order->executor->getRate() }}
                                 </div>
                                 <div class="specialist-info-item__text">
-                                    позитивні
+                                    {{ trans('main.rate') }}
                                 </div>
                             </div>
                         </div>
+                        <br>
+                        <div class="star {{ 'star-' . intval($order->executor->getRate()) }}">
+                            <div id="star-1" class="star-item"></div>
+                            <div id="star-2" class="star-item"></div>
+                            <div id="star-3" class="star-item"></div>
+                            <div id="star-4" class="star-item"></div>
+                            <div id="star-5" class="star-item"></div>
+                        </div>
                         <div class="specialist__bottom">
-                            <div>Закрито замовлень: <span>22</span></div>
-                            <div>Активних замовлень: <span>3</span></div>
+                            <div>{{ trans('main.closed_orders') }}: <span>{{ $order->executor->closedOrders() }}</span></div>
+                            <div>{{ trans('main.active_orders') }}:: <span>{{ $order->executor->activeOrders() }}</span></div>
                         </div>
                     </div>
                     @endif
             </div>
-            @if(!Auth::user()->isAuthor($order->id))
-            <div class="specialist-contact specialist-contact-payment">
-                <div class="specialist-contact__left">
-                    <div class="specialist-contact__title">{{ trans('main.show_contacts') }}</div>
-                    <div class="specialist-contact__subtitle">{{ trans('main.cost_per_action') }}</div>
-                </div>
-                <a href="#" class="specialist-contact__btn btn btn--orange">
-                    {{ trans('main.price_per_display') }}
-                </a>
-            </div>
-            <div class="specialist-contact specialist-contact-show" hidden>
-                <div class="specialist-contact__left">
-                    <div class="specialist-contact__title">{{ trans('main.show_contacts') }}</div>
-                    <div class="specialist-contact__subtitle">{{ trans('main.cost_per_action') }}</div>
-                </div>
-                <div class="specialist-contact__center">
-                    <a href="tel:380989140248">Тел. +38 (098) 914 02 48</a>
-                    <a href="perryj99@gmail.com">E-mail: test@test.com</a>
-                </div>
-                <a href="#" class="specialist-contact__btn btn btn--grey">
-                    {{trans('main.displayed')}}
-                </a>
-            </div>
-            @endif
-            <div class="order-info-btns">
-                @if(Auth::user()->isAuthor($order->id)))
-                    <a href="#" class="order-info__btn btn btn--purple">{{ trans('main.close_as_done') }}</a>
-                    @if($order->executor_id)
-                    <a href="{{route('order-respond-change', ['order_id' => $order->id, 'executor_id' => $order->executor_id, 'author_id' => $order->by_user])}}" class="order-info__btn btn btn--orange-border">{{ trans('main.change_specialist') }}</a>
-                    @endif
-                    <a href="#" class="order-info__btn btn btn--orange-border">{{ trans('main.continue_order') }}</a>
-                    <a href="#" class="order-info__btn btn btn--purple-border">{{ trans('main.delete') }}</a>
-                @else
-                    <a href="#" class="order-respond__btn btn btn--purple">{{ trans('main.respond') }}</a>
-                    <div class="order-responded order-box-item" hidden>{{ trans('main.responded') }}</div>
+            @if(Auth::user() && !Auth::user()->isAuthor($order->id))
+                @if (!$order->checkRequest(Auth::user()->id, 'show'))
+                    <div class="specialist-contact specialist-contact-payment">
+                        <div class="specialist-contact__left">
+                            <div class="specialist-contact__title">{{ trans('main.show_contacts') }}</div>
+                            <div class="specialist-contact__subtitle">{{ trans('main.cost_per_action') }}</div>
+                        </div>
+                        <a href="" class="specialist-contact__btn btn btn--orange">
+                            {{ trans('main.price_per_display') }}
+                        </a>
+                    </div>
                 @endif
+                <div class="specialist-contact specialist-contact-show" @if(!$order->checkRequest(Auth::user()->id, 'show')) hidden @endif>
+                    <div class="specialist-contact__left">
+                        <div class="specialist-contact__title">{{ trans('main.show_contacts') }}</div>
+                        <div class="specialist-contact__subtitle">{{ trans('main.cost_per_action') }}</div>
+                    </div>
+                    <div class="specialist-contact__center">
+                        <a href="tel:380989140248">{{ $order->author->phone }}</a>
+                        <a href="">{{ $order->author->email }}</a>
+                    </div>
+                    <br>
+                    <a href="#" class="btn btn--grey">
+                        {{trans('main.displayed')}}
+                    </a>
+                </div>
+            @endif
+
+            <div class="order-info-btns">
+                @if($order->status != 'closed')
+                    @if(Auth::user())
+                        @if(Auth::user()->isAuthor($order->id))
+                            @if($order->checkRequest(null, 'close'))
+                                <a href="{{ route('close-order', ['order_id' => $order->id]) }}" class="order-info__btn btn btn--purple">{{ trans('main.close_as_done') }}</a>
+                            @endif
+                            @if($order->executor_id)
+                                <a href="{{route('order-respond-change', ['order_id' => $order->id, 'executor_id' => $order->executor_id, 'author_id' => $order->by_user])}}" class="order-info__btn btn btn--orange-border">{{ trans('main.change_specialist') }}</a>
+                            @endif
+                            <a href="#" class="order-info__btn btn btn--orange-border">{{ trans('main.continue_order') }}</a>
+                            <a href="#" class="order-info__btn btn btn--purple-border">{{ trans('main.delete') }}</a>
+                        @elseif (Auth::user()->isExecutor($order->id)))
+                        @if (!$order->checkRequest(Auth::user()->id, 'close'))
+                            <div class="order-respond-close__btn btn btn--purple">{{ trans('main.close_as_done') }}</div>
+                        @endif
+                        <div class="btn order-respond-close btn--grey" @if(!$order->checkRequest(Auth::user()->id, 'close')) hidden @endif>{{ trans('main.responded') }}</div>
+                        @else
+                            @if (!$order->checkRequest(Auth::user()->id, 'request') && Auth::user()->isSpecialist())
+                                <div class="order-respond__btn btn btn--purple">{{ trans('main.respond') }}</div>
+                            @endif
+                            <div class="btn order-responded btn--grey" @if(!$order->checkRequest(Auth::user()->id, 'request')) hidden @endif>{{ trans('main.responded') }}</div>
+                        @endif
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn--purple">{{ trans('main.respond') }}</a>
+                    @endif
+                @else
+                    <div href="" class="btn btn--grey">{{ trans('main.closed') }}</div>
+                @endif
+
+
             </div>
         </div>
     </div>
-    @if (Auth::user()->isAuthor($order->id) && !$order->executor_id)
+    @if (Auth::user() && Auth::user()->isAuthor($order->id) && !$order->executor_id)
     <div class="offers-specialist">
         <div class="container">
             <h2 class="offers-specialist__title title">
@@ -162,23 +205,37 @@
                             </div>
                             <div class="person-block__info">
                                 <div class="person-block__name">
-                                    {{ $request->executor->name }}
+                                    <a class="profile-link" href="{{ route('show-user', $request->executor->id) }}">
+                                    {{ $request->executor->name . ' ' . $request->executor->surname }}
+                                    </a>
                                 </div>
                                 <div class="person-block__online">
-                                    Був на сайті 8 год тому
+                                    {{ $request->executor->lastSeen() }}
                                 </div>
                             </div>
                         </div>
-                        <div class="star star-4">
+                        <div class="star {{ 'star-' . intval($request->executor->getRate()) }}">
                             <div class="star-item"></div>
                             <div class="star-item"></div>
                             <div class="star-item"></div>
                             <div class="star-item"></div>
                             <div class="star-item"></div>
                         </div>
-                        <div class="person-info">
-                            <div class="person-info__reviews">3</div>
-                            <div class="person-info__like">95%</div>
+                        <div class="specialist-info-item">
+                            <div class="specialist-info-item__num">
+                                {{ $request->executor->getRate() }}
+                            </div>
+                            <div class="specialist-info-item__text">
+                                {{ trans('main.rate') }}
+                            </div>
+                        </div>
+                        <div class="specialist-info-item">
+                            <div class="specialist-info-item__num">
+                                {{ count($request->executor->rates) }}
+                            </div>
+                            <a href="#" class="specialist-info-item__text">
+                                {{ trans('main.rates_count') }}
+                            </a>
                         </div>
                         <a href="{{ route('order-respond-accept', ['order_id' => $order->id, 'executor_id' => $request->executor->id, 'author_id' => $order->by_user]) }}" class="person-row__btn btn btn--orange">
                             {{ trans('main.order') }}

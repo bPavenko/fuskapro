@@ -18,8 +18,8 @@ class AddFieldsToUsersTable extends Migration
 //            $table->string('phone');
 //            $table->string('city')->nullable();
 //            $table->integer('type_id');
-            $table->text('about_me')->nullable();
-            $table->text('gender')->nullable();
+//            $table->text('about_me')->nullable();
+//            $table->text('gender')->nullable();
         });
     }
 

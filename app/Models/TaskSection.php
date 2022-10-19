@@ -3,14 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Brackets\Translatable\Traits\HasTranslations;
+
 
 class TaskSection extends Model
 {
+    use HasTranslations;
+
     protected $fillable = [
         'name',
-    
+
     ];
-    
+    public $translatable = ['name'];
     
     protected $dates = [
         'created_at',
@@ -30,5 +34,10 @@ class TaskSection extends Model
     public function categories()
     {
         return $this->hasMany(TaskCategory::class, 'parent_id', 'id');
+    }
+
+    public function orders ()
+    {
+        return $this->hasMany(Order::class, 'section_id', 'id');
     }
 }

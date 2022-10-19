@@ -75,11 +75,16 @@ class TaskSectionsController extends Controller
      */
     public function store(StoreTaskSection $request)
     {
-        // Sanitize input
         $sanitized = $request->getSanitized();
-
-        // Store the TaskSection
+        $sanitized['name'] = [
+            'ua' => $request->get('ua'),
+            'en' => $request->get('en'),
+            'cz' => $request->get('cz'),
+        ];
+            // Store the TaskSection
         $taskSection = TaskSection::create($sanitized);
+
+        $taskSection->save();
 
         if ($request->ajax()) {
             return ['redirect' => url('admin/task-sections'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];

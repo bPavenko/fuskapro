@@ -28,7 +28,7 @@
                             <input id="name" type="text" class="input @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="{{ trans('main.name') }}" required autocomplete="name" autofocus>
 
                             @error('name')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
@@ -36,7 +36,7 @@
                         <div class="input-block">
                             <input class="input" required name="surname" type="text" value="{{ old('surname') }}" placeholder="{{ trans('main.surname') }}">
                             @error('surname')
-                            <span class="invalid-feedback" role="alert">
+                            <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
@@ -45,7 +45,7 @@
                             <input id="email" type="email" placeholder="E-mail" class="input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
                             @error('email')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
@@ -54,7 +54,7 @@
                             <input placeholder="{{ trans('main.password') }}" id="password" type="password" class="input @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                             @error('password')
-                            <span class="invalid-feedback" role="alert">
+                            <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
@@ -68,38 +68,39 @@
                                 <input required class="custom-select-input" name="gender" type="hidden" value="">
                             </div>
                             <div class="gender-list custom-select__list">
-                                <div class="custom-select-item">
-                                    Чоловіча
+                                <div class="custom-select-item" id="male">
+                                    {{ trans('main.male') }}
                                 </div>
-                                <div class="custom-select-item">
-                                    Жіноча
+                                <div class="custom-select-item" id="female">
+                                    {{ trans('main.female') }}
                                 </div>
                             </div>
                         </div>
                         <div class="input-block">
-                            <input required id="phone" name="phone" class="input" type="text" placeholder="Ном. тел.">
-                            @error('phone')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                            <input required type="hidden" name="city" id="city-id" value="{{ old('city') }}">
+                            <input placeholder="{{ trans('main.city') }}" id="city-search" name="city_name" value="{{ old('city_name') }}" class="input" type="text">
+                            @error('city')
+                            <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
-                        <div class="custom-select">
-                            <div class="custom-select__top">
-                                <div class="custom-select-value">Місто</div>
-                                <input required class="custom-select-input" name="city" type="hidden" value="">
-                            </div>
-                            <div class="cities-list custom-select__list">
-                                <div class="custom-select-item">
-                                    Київ
-                                </div>
-                                <div class="custom-select-item">
-                                    Львів
-                                </div>
-                                <div class="custom-select-item">
-                                    Одесса
-                                </div>
-                            </div>
+                        <div class="input-block">
+                            <input placeholder="{{ trans('main.phone') }}" name="phone" class="input" value="{{ old('phone') }}">
+                            @error('phone')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $errors->first('phone') }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="input-block">
+                            <input type="date" name="birth_date" class="input" value="{{ old('birth_date') }}">
+                            @error('birth_date')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <label class="checkbox-block">

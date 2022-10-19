@@ -8,165 +8,118 @@
                 <span>{{ trans('main.banner_text_1') }}</span> <br>
                 {{ trans('main.banner_text_2') }}
             </h1>
-            <form action="#" class="search">
-                <input class="search__input" type="text">
+            <div class="search search-container">
+                <input class="search__input search__input_border typeahead form-control" id="search" type="text">
                 <button class="search__btn"></button>
-            </form>
-            <div class="promo-btns">
+            </div>
+             <div class="promo-btns">
                 <a href="{{ url('/orders') }}" class="promo__btn btn btn--purple">{{ trans('main.find_work') }}</a>
-                <a href="#" class="promo__btn btn btn--purple">{{ trans('main.find_employee') }}</a>
+                <a href="{{ url('/executors') }}" class="promo__btn btn btn--purple">{{ trans('main.find_employee') }}</a>
             </div>
         </div>
     </section>
-
+    <br>
+    <h2 class="offers__title title">
+        {{ trans('main.popular_sections') }}
+    </h2>
     <section class="category sec-marg">
         <div class="container category__wrapper">
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Загальна категорія
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Ремонт побутової
-                    техніки
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Загальна категорія
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Загальна категорія
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Загальна категорія
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Загальна категорія
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Загальна категорія
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Загальна категорія
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Загальна категорія
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Загальна категорія
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Загальна категорія
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
-            <a href="#" class="category-item">
-                <div class="category-item__text">
-                    Загальна категорія
-                </div>
-                <div class="category-item__num">
-                    45
-                </div>
-            </a>
+            @foreach($sections as $section)
+                @if(count($section->orders))
+                    <a href="{{ route('orders', ['section_id' =>  $section->id]) }}" class="category-item">
+                        <div class="col">
+                            <div class="row">
+                                <div class="category-item__text">
+                                    {{ $section->name }}
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <p class="section-description" style="font-size: 12px">({{ trans('main.section') }})</p>
+                            </div>
+                        </div>
+                        <div class="category-item__num">
+                            {{ count($section->orders) }}
+                        </div>
+                    </a>
+                @endif
+            @endforeach
         </div>
     </section>
-
-    <section class="offers sec-marg">
-        <div class="container">
-            <h2 class="offers__title title">
-                {{ trans('main.latest_offers') }}
-            </h2>
-            <div class="offers__wrapper">
-                <div class="offers-row row-item">
-                    <div class="offers-row-left">
-                        <div class="offers-row-left__top">
-                            Розробка логотипу
-                        </div>
-                        <div class="person-block">
-                            <div class="person-block__img">
-                                <img loading="lazy" src="img/person-block-img.png" alt="img">
-                            </div>
-                            <div class="person-block__info">
-                                <div class="person-block__name">
-                                    Jennifer Miller
-                                </div>
-                                <div class="person-block__online">
-                                    Був на сайті 8 год тому
+    <h2 class="offers__title title">
+        {{ trans('main.popular_categories') }}
+    </h2>
+    <section class="category sec-marg">
+        <div class="container category__wrapper">
+            @foreach($categories as $category)
+                @if(count($category->orders))
+                    <a href="{{ route('orders', ['section_id' =>  $category->parent_id, 'category_id' => $category->id]) }}" class="category-item">
+                        <div class="col">
+                            <div class="row">
+                                <div class="category-item__text">
+                                    {{ $category->name }}
                                 </div>
                             </div>
+                            <div class="row justify-content-center">
+                                <p class="section-description" style="font-size: 12px">({{ trans('main.category') }})</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="offers-row-center">
-                        <div>
-                            {{ trans('main.perform') }} <span>10 червня</span>
+                        <div class="category-item__num">
+                            {{ count($category->orders) }}
                         </div>
-                        <div>
-                            {{ trans('main.status') }}: <span>Очікує спеціаліста</span>
+                    </a>
+                @endif
+            @endforeach
+        </div>
+    </section>
+    @if(count($lastUserCategoriesOrders))
+        <section class="offers sec-marg">
+            <div class="container">
+                <h2 class="offers__title title">
+                    {{ trans('main.latest_offers') }}
+                </h2>
+                <div class="offers__wrapper">
+                    @foreach($lastUserCategoriesOrders as $order)
+                        <div class="offers-row row-item">
+                            <div class="offers-row-left">
+                                <div class="offers-row-left__top">
+                                    {{ $order->title }}
+                                </div>
+                                <div class="person-block">
+                                    <div class="person-block__img">
+                                        <img loading="lazy" src="img/person-block-img.png" alt="img">
+                                    </div>
+                                    <div class="person-block__info">
+                                        <div class="person-block__name">
+                                            {{ $order->author->name }}
+                                        </div>
+                                        <div class="person-block__online">
+                                            {{ $order->author->lastSeen() }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="offers-row-center">
+                                <div>
+                                    {{ trans('main.execute_to') }}: <span> {{ $order->execution_date->format('d/m/Y') }} </span>
+                                </div>
+                                <div>
+                                    {{ trans('main.status') }}: <span> {{ trans('main.' . $order->status) }} </span>
+                                </div>
+                            </div>
+                            <div class="offers-row-right">
+                                <div class="offers-row__price">
+                                    € <span>{{$order->price}}</span>
+                                </div>
+                                <a href="{{ route('order-info', ['id' => $order->id]) }}" class="offers-row__btn btn btn--orange">
+                                    {{ trans('main.review') }}
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="offers-row-right">
-                        <div class="offers-row__price">
-                            € <span>1000</span>
-                        </div>
-                        <a href="#" class="offers-row__btn btn btn--orange">
-                            {{ trans('main.review') }}
-                        </a>
-                    </div>
+                    @endforeach
                 </div>
             </div>
-        </div>
-    </section>
-
+        </section>
+    @endif
     <section class="how-work sec-marg">
         <div class="container">
             <h2 class="how-work__title title">
@@ -284,3 +237,4 @@
         </div>
     </section>
 @endsection
+

@@ -2,10 +2,17 @@
 @section('content')
     <div class="top-ban active-orders-ban">
         <div class="container">
-            <div class="active-orders-top">
-                <h1 class="top-ban__title">{{trans('main.create_new_order')}}</h1>
-                <a href="{{ url('/create-order') }}" class="top-ban__btn btn btn--purple">{{trans('main.create_order')}}</a>
-            </div>
+            @if (Auth::user()->isSpecialist())
+                <div class="active-orders-top">
+                    <h1 class="top-ban__title">{{trans('main.search_new_order')}}</h1>
+                    <a href="{{ url('/orders') }}" class="top-ban__btn btn btn--purple">{{trans('main.search-order')}}</a>
+                </div>
+            @else
+                <div class="active-orders-top">
+                    <h1 class="top-ban__title">{{trans('main.create_new_order')}}</h1>
+                    <a href="{{ url('/create-order') }}" class="top-ban__btn btn btn--purple">{{trans('main.create_order')}}</a>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -44,6 +51,7 @@
                     </div>
                 @endforeach
             </div>
+            {{ $orders->links() }}
             <a href="#" class="active-orders__btn btn btn--grey">
                 {{ trans('main.archive_orders') }}
             </a>

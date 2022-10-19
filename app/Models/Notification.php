@@ -14,7 +14,8 @@ class Notification extends Model
         'order_id',
         'user_id',
         'from',
-        'notification'
+        'notification',
+        'type'
     ];
 
     public function from_user () {

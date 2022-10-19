@@ -14,7 +14,6 @@
                         </div>
                     </div>
                 </div>
-{{--                <button class="name-edit"></button>--}}
             </div>
             <div class="tabs-wrapper tab-link-wrapper">
                 <a class="tab tab-active" href="#tab-1">
@@ -26,9 +25,14 @@
                 <a class="tab" href="#tab-3">
                     {{ trans('main.change_password') }}
                 </a>
+                <a class="tab" href="#tab-4">
+                    {{ trans('main.change_categories') }}
+                </a>
             </div>
             <div class="tabs-wrapper tab-content-wrapper">
                 <div id="tab-1" class="tabs-content tabs-content-active">
+                    <button class="portfolio-catalog-item__edit edit-profile">{{ trans('main.edit') }}</button>
+
                     <div class="general-information">
                         <div class="order-box">
                             <div class="order-box-item">
@@ -37,7 +41,7 @@
                                 </div>
                                 <div>
                                     {{ trans('main.city') }}:
-                                    <span>{{Auth::user()->city}}</span>
+                                    <span>{{Auth::user()->cityName}}</span>
                                 </div>
                             </div>
                             <div class="order-box-item">
@@ -61,28 +65,18 @@
                         </div>
                         <h4>{{ trans('main.about_me') }}:</h4>
                         <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                            has been the industry's standard
-                            dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                            scrambled it to make a type specimen
-                            book. It has survived not only five centuries, but also the leap into electronic
-                            typesetting, remaining essentially
-                            unchanged. It was popularised in the 1960s with the release of Letraset sheets
-                            containing Lorem Ipsum passages, and more
-                            recently with desktop publishing software like Aldus PageMaker including versions of
-                            Lorem Ipsum.
+                            {{ Auth::user()->about_me }}
                         </p>
                         <h4>{{ trans('main.orders_categories') }}:</h4>
                         <div class="purple-block-wrap">
-                            <span class="purple-block">Розробка логотипів</span>
-                            <span class="purple-block">Дизайн сайтів</span>
-                            <span class="purple-block">Дизайн банерів</span>
-                            <span class="purple-block">Дизайн поліграфії</span>
+                            @foreach(Auth::user()->categories as $category)
+                                <span class="purple-block">{{ $category->name }}</span>
+                            @endforeach
                         </div>
-                        <h4>{{ trans('main.city_orders') }}:</h4>
-                        <div class="purple-block-wrap">
-                            <span class="purple-block">Київ</span>
-                        </div>
+{{--                        <h4>{{ trans('main.city_orders') }}:</h4>--}}
+{{--                        <div class="purple-block-wrap">--}}
+{{--                            <span class="purple-block">Київ</span>--}}
+{{--                        </div>--}}
                         <div class="bottom-link">
                             <a href="#">{{ trans('main.payments_data') }}</a>
                             <a href="#">{{ trans('main.add_card') }}</a>
@@ -159,6 +153,36 @@
                             {{ trans('main.save_password') }}
                         </button>
                     </form>
+                </div>
+                <div id="tab-4" class="tabs-content">
+                    <div aria-multiselectable="true" class="panel-group" id="accordion" role="tablist">
+                        <div class="panel panel-warning">
+                            <form action="{{ route('save-user-categories') }}" method="POST">
+                                @csrf
+                                @foreach($sections as $key => $section)
+                                    <h3 class="panel-title"><a class="section-header" data-bs-toggle="collapse" href="{{ '#section-' . $section->id }}"  role="button">{{ $section->name }}<span class="section-collapse"></span></a></h3>
+                                    <div class="panel-collapse collapse in" id="{{ 'section-' . $section->id }}" role="tabpanel">
+                                        @if(count($section->categories))
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    @foreach($section->categories as $category)
+                                                        <label class="checkbox-block">
+                                                            <input value="{{ $category->id }}" name="category[]" type="checkbox" @if(in_array($category->id, Auth::user()->getCategoriesIds())) checked @endif>
+                                                            {{ $category->name }}
+                                                        </label>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <hr>
+                                @endforeach
+                                <button type="submit" class="search-filter-row__btn btn btn--orange m-auto">
+                                    {{ trans('main.save') }}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -422,4 +446,5 @@
             </div>
         </div>
     </div>
+    @include('modals.edit-profile')
 @endsection

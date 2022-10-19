@@ -20,7 +20,8 @@ class Order extends Model
         'city',
         'executor_id',
         'status',
-        'title'
+        'title',
+        'count_views'
     ];
     
     
@@ -54,5 +55,27 @@ class Order extends Model
 
     public function executor() {
         return $this->hasOne(User::class, 'id', 'executor_id');
+    }
+
+    public function author() {
+        return $this->hasOne(User::class, 'id', 'by_user');
+    }
+
+    public function checkRequest($executorId = null, $type) {
+        if (!$executorId) {
+            $order = OrderRequest::where('order_id', $this->id)
+                ->where('type', $type)
+                ->get()
+                ->toArray();
+        } else {
+            $order = OrderRequest::where('order_id', $this->id)
+                ->where('executor_id', $executorId)
+                ->where('type', $type)
+                ->get()
+                ->toArray();
+        }
+
+
+        return $order ? true : false;
     }
 }

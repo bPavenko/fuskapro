@@ -13,9 +13,7 @@ use Brackets\AdminAuth\Models\AdminUser;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
 Route::get('locale/{locale}', function ($locale) {
     Session::put('locale', $locale);
 
@@ -29,23 +27,46 @@ Route::get('user-locale/{locale}/{admin_id}', function ($locale, $admin_id) {
 
 Auth::routes();
 
+Route::post('/get-search-ajax', [App\Http\Controllers\MainController::class, 'getSearchAjax'])->name('get-search-ajax');
+Route::get('/orders', [App\Http\Controllers\OrdersController::class, 'index'])->name('orders');
+Route::get('/order-info/{id}', [App\Http\Controllers\OrdersController::class, 'show'])->name('order-info');
+Route::post('/get-categories-ajax', [App\Http\Controllers\OrdersController::class, 'getCategoriesAjax'])->name('get-categories');
+Route::post('/get-city-search-ajax', [App\Http\Controllers\MainController::class, 'getCitiesAjax'])->name('get-city-search-ajax');
 Route::group([
     'middleware' => 'auth',
     'prefix' => ''
 ], function() {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
     Route::get('/notifications', [App\Http\Controllers\NotificationsController::class, 'index'])->name('notifications');
     Route::get('/my-orders', [App\Http\Controllers\OrdersController::class, 'userOrders'])->name('my-orders');
-    Route::get('/orders', [App\Http\Controllers\OrdersController::class, 'index'])->name('orders');
-    Route::get('/create-order', [App\Http\Controllers\OrdersController::class, 'create'])->name('create-orders');
+    Route::group([
+        'middleware' => 'default-user',
+        'prefix' => ''
+    ], function() {
+        Route::get('/create-order', [App\Http\Controllers\OrdersController::class, 'create'])->name('create-orders');
+        Route::post('/store-order', [App\Http\Controllers\OrdersController::class, 'store'])->name('store-order');
+
+    });
     Route::post('/order-respond/create', [App\Http\Controllers\OrdersController::class, 'orderRespond'])->name('order-respond-create');
-    Route::get('/order-respond/accept', [App\Http\Controllers\OrdersController::class, 'orderRespondAccept'])->name('order-respond-accept');
-    Route::get('/order-respond/change', [App\Http\Controllers\OrdersController::class, 'orderRespondChange'])->name('order-respond-change');
-    Route::post('/get-categories-ajax', [App\Http\Controllers\OrdersController::class, 'getCategoriesAjax'])->name('get-categories');
-    Route::post('/store-order', [App\Http\Controllers\OrdersController::class, 'store'])->name('store-order');
-    Route::get('/order-info/{id}', [App\Http\Controllers\OrdersController::class, 'show'])->name('order-info');
-    Route::get('/users', [App\Http\Controllers\UsersController::class, 'index']);
+    Route::post('/save-user-categories', [App\Http\Controllers\UserController::class, 'saveUserCategories'])->name('save-user-categories');
+    Route::get('/executors', [App\Http\Controllers\UserController::class, 'executors'])->name('executors');
+    Route::post('/executors/search', [App\Http\Controllers\UserController::class, 'searchExecutors'])->name('search-executors');
+    Route::post('/edit-user', [App\Http\Controllers\UserController::class, 'update'])->name('edit-user');
+    Route::get('/users/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('show-user');
+    Route::post('/user-request/create', [App\Http\Controllers\UserController::class, 'userRequest'])->name('user-request-create');
+
+    Route::group([
+        'middleware' => 'author',
+        'prefix' => ''
+    ], function() {
+        Route::get('/order-respond/accept', [App\Http\Controllers\OrdersController::class, 'orderRespondAccept'])->name('order-respond-accept');
+        Route::get('/order-respond/change', [App\Http\Controllers\OrdersController::class, 'orderRespondChange'])->name('order-respond-change');
+        Route::get('/close-order', [App\Http\Controllers\OrdersController::class, 'closeOrder'])->name('close-order');
+        Route::get('/rate-user', [App\Http\Controllers\NotificationsController::class, 'rateUser'])->name('rate-user');
+    });
 });
+
+
 
 Route::group([
     'middleware' => 'auth',

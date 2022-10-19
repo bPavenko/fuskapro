@@ -10,20 +10,29 @@
             <img loading="lazy" src="{{URL::asset('/img/logo.svg')}}" alt="img">
         </a>
         @if (Route::has('login'))
-            <div class="header-btns" data-da=".mob-menu, 1023, 0">
+            <div class="header-btns" data-da=".mob-menu, 580, 0">
                 @auth
-                    <a href="{{ url('/my-orders') }}" class="basket hed-circle" data-da=".header-person-mob, 1023, 0"></a>
+                    <a href="{{ url('/my-orders') }}" class="basket hed-circle" data-da=".header-person-mob, 580, 0"></a>
                     <a href="{{ url('/notifications') }}" class="notifications dot-show hed-circle"></a>
                     <a href="#" class="coins hed-circle " data-da=".header-person-mob, 1023, 1">{{ trans('main.coins') }}: 0</a>
-                    <a href="{{ url('/home') }}" class="hed-person">
-                        <div class="hed-person__icon">
-                            <img loading="lazy" src="{{URL::asset('/img/hed-person-icon.png')}}" alt="img">
+                    <div class="hed-person-menu">
+                        <div class="hed-person">
+                            <div class="hed-person__icon">
+                                <img loading="lazy" src="{{URL::asset('/img/hed-person-icon.png')}}" alt="img">
+                            </div>
+                            <div class="hed-person__name">
+                                {{Auth::user()->name}} <br>
+                                {{Auth::user()->surname}}
+                            </div>
                         </div>
-                        <div class="hed-person__name">
-                            {{Auth::user()->name}} <br>
-                            {{Auth::user()->surname}}
+                        <div class="hed-person-menu-list">
+                            <a href="{{ route('home') }}" class="lang__link">{{ trans('main.profile') }}</a>
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('account-logout-form').submit();" class="lang__link">{{ trans('auth.logout') }}</a>
                         </div>
-                    </a>
+                        <form id="account-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
+                            @csrf
+                        </form>
+                    </div>
 
 {{--                    <a href="{{ route('logout') }}"--}}
 {{--                       class="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4" onclick="event.preventDefault(); document.getElementById('account-logout-form').submit();">--}}
@@ -37,9 +46,7 @@
 {{--                            <span class="small">Logout from your account!</span>--}}
 {{--                        </div>--}}
 {{--                    </a>--}}
-{{--                    <form id="account-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
-{{--                        @csrf--}}
-{{--                    </form>--}}
+
                 @else
                     <a href="{{ route('login') }}" class="header__btn">
                         {{ trans('auth.login') }}
@@ -55,21 +62,26 @@
             </div>
         @endif
 
-        <div class="header-person">
-            <a href="#" class="basket hed-circle" data-da=".header-person-mob, 1023, 0"></a>
-            <a href="#" class="notifications dot-show hed-circle"></a>
-            <a href="#" class="coins hed-circle " data-da=".header-person-mob, 1023, 1">{{ trans('main.coins') }}: 0</a>
-            <a href="#" class="hed-person">
-                <div class="hed-person__icon">
-                    <img loading="lazy" src="{{URL::asset('/img/hed-person-icon.png')}}" alt="img">
-                </div>
-                <div class="hed-person__name">
-                    John <br>
-                    Doe
-                </div>
-            </a>
-        </div>
-        <div class="lang" data-da=".mob-menu, 1023, 2">
+{{--        <div class="header-person">--}}
+{{--            <a href="#" class="basket hed-circle" data-da=".header-person-mob, 1023, 0"></a>--}}
+{{--            <a href="#" class="notifications dot-show hed-circle"></a>--}}
+{{--            <a href="#" class="coins hed-circle " data-da=".header-person-mob, 1023, 1">{{ trans('main.coins') }}: 0</a>--}}
+{{--            <a href="#" class="hed-person-menu">--}}
+{{--                <div class="hed-person">--}}
+{{--                    <div class="hed-person__icon">--}}
+{{--                        <img loading="lazy" src="{{URL::asset('/img/hed-person-icon.png')}}" alt="img">--}}
+{{--                    </div>--}}
+{{--                    <div class="hed-person__name">--}}
+{{--                        John <br>--}}
+{{--                        Doe--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="hed-person-menu-list">--}}
+{{--                    <a href="{{ route('locale', ['locale' => 'UA']) }}" class="lang__link">{{ strtoupper('test') }}</a>--}}
+{{--                </div>--}}
+{{--            </a>--}}
+{{--        </div>--}}
+        <div class="lang" data-da=".mob-menu, 580, 2">
             <div class="lang-act">
                 <a href="{{ route('locale', ['locale' => Session::get('locale') ? Session::get('locale') : 'EN']) }}" class="lang__link">{{ strtoupper(Session::get('locale')) }}</a>
             </div>

@@ -15,7 +15,7 @@
                     <div class="custom-select">
                         <div class="custom-select__top">
                             <div class="custom-select-value">{{ trans('main.choose_section') }}</div>
-                            <input name="section_id" class="custom-select-input" type="hidden" value="Оберіть розділ" placeholder="Выберите категорию">
+                            <input name="section_id" class="custom-select-input" type="hidden" placeholder="{{ trans('main.choose_section') }}">
                         </div>
                         <div class="sections-list custom-select__list">
                             @foreach($sections as $section)
@@ -37,26 +37,33 @@
                         </div>
                     </div>
                 </div>
-                <div class="select-block">
-                    <div class="form-block-title">{{ trans('main.city') }}:</div>
-                    <div class="custom-select">
-                        <div class="custom-select__top">
-                            <div class="custom-select-value">Місто</div>
-                            <input required class="custom-select-input" name="city" type="hidden" value="">
-                        </div>
-                        <div class="cities-list custom-select__list">
-                            <div class="custom-select-item">
-                                Київ
-                            </div>
-                            <div class="custom-select-item">
-                                Львів
-                            </div>
-                            <div class="custom-select-item">
-                                Одесса
-                            </div>
-                        </div>
+                <div class="input-block">
+                    <div class="form-block-title">
+                        <span>{{trans('main.city')}}</span>
                     </div>
+                    <input required type="hidden" name="city" id="city-id" value="{{ Auth::user()->city }}">
+                    <input placeholder="{{ trans('main.city') }}" id="city-search"  class="input" type="text">
                 </div>
+{{--                <div class="select-block">--}}
+{{--                    <div class="form-block-title">{{ trans('main.city') }}:</div>--}}
+{{--                    <div class="custom-select">--}}
+{{--                        <div class="custom-select__top">--}}
+{{--                            <div class="custom-select-value">Місто</div>--}}
+{{--                            <input required class="custom-select-input" name="city" type="hidden" value="">--}}
+{{--                        </div>--}}
+{{--                        <div class="cities-list custom-select__list">--}}
+{{--                            <div class="custom-select-item">--}}
+{{--                                Київ--}}
+{{--                            </div>--}}
+{{--                            <div class="custom-select-item">--}}
+{{--                                Львів--}}
+{{--                            </div>--}}
+{{--                            <div class="custom-select-item">--}}
+{{--                                Одесса--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 <div hidden>
                     {{ trans('main.open') }}
                     {{ trans('main.progress') }}
@@ -130,11 +137,11 @@
                     </div>
                     <div class="creation-form-time__wrapper">
                         <label class="radio-block">
-                            <input type="radio" name="time">
+                            <input type="radio" name="time" value="{{ false }}" checked>
                             {{ trans('main.anytime') }}
                         </label>
                         <div class="radio-block radio-block-selects">
-                            <input type="radio" name="without_execution_time" checked>
+                            <input type="radio" value="{{ true }}" name="time" checked>
                             <div class="custom-select">
                                 <div class="custom-select__top">
                                     <div class="custom-select-value">00:00</div>
@@ -213,12 +220,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="star star-4">
-                            <div class="star-item"></div>
-                            <div class="star-item"></div>
-                            <div class="star-item"></div>
-                            <div class="star-item"></div>
-                            <div class="star-item"></div>
+                        <div class="star star-5">
+                            <div id="star-1" class="star-item"></div>
+                            <div id="star-2" class="star-item"></div>
+                            <div id="star-3" class="star-item"></div>
+                            <div id="star-4" class="star-item"></div>
+                            <div id="star-5" class="star-item"></div>
                         </div>
                         <div class="person-info">
                             <div class="person-info__reviews">3</div>
