@@ -9,6 +9,8 @@ use App\Http\Requests\Admin\Order\IndexOrder;
 use App\Http\Requests\Admin\Order\StoreOrder;
 use App\Http\Requests\Admin\Order\UpdateOrder;
 use App\Models\Order;
+use App\Models\TaskCategory;
+use App\Models\TaskSection;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -19,6 +21,8 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Igaster\LaravelCities\Geo;
 
 class OrdersController extends Controller
 {
@@ -64,8 +68,8 @@ class OrdersController extends Controller
     public function create()
     {
         $this->authorize('admin.order.create');
-
-        return view('admin.order.create');
+        $sections = TaskSection::all();
+        return view('admin.order.create', ['sections' => $sections]);
     }
 
     /**
@@ -78,7 +82,6 @@ class OrdersController extends Controller
     {
         // Sanitize input
         $sanitized = $request->getSanitized();
-
         // Store the Order
         $order = Order::create($sanitized);
 
@@ -184,5 +187,31 @@ class OrdersController extends Controller
         });
 
         return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
+    }
+
+    public function getCategories(Request $request) {
+        $results = [];
+        $categories = TaskCategory::where('parent_id', $request->section_id)->get();
+        foreach ($categories as $category) {
+            $results[] = [
+                'name' => $category->name,
+                'id' => $category->id,
+            ];
+        }
+        return response()->json($results);
+    }
+
+    public function getCities(Request $request) {
+        $term = $request->get('query');
+        $results = [];
+        $cities = Geo::where('name', 'like', '%' . $term . '%')->orderBy('population', 'desc')->limit(10)->get();
+
+        foreach ($cities as $city) {
+            $results[] = [
+                'name' => $city->name,
+                'id' => $city->id,
+            ];
+        }
+        return response()->json($results);
     }
 }

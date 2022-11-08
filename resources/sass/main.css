@@ -349,17 +349,14 @@ body.scroll-hide {
 }
 
 .logo {
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  z-index: 222222;
+    width: 140px;
+    display: block;
 }
 .logo img {
-  max-width: 100%;
-  max-height: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
-  display: block;
+    max-width: 100%;
+    max-height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
 }
 
 .header-btns {
@@ -3903,6 +3900,15 @@ body.scroll-hide {
   top: 0;
 }
 
+.user-portfolio-catalog {
+    margin-top: 50px;
+    padding-top: 50px;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
 .portfolio-catalog-item__top {
   display: block;
 }
@@ -4128,7 +4134,7 @@ body.scroll-hide {
   top: 0;
   background: rgba(0, 0, 0, 0.69);
   box-shadow: 10px 20px 50px rgba(0, 0, 0, 0.24);
-  z-index: 20000000;
+  z-index: 99;
   opacity: 0;
   visibility: hidden;
   overflow-y: auto;
@@ -4180,9 +4186,12 @@ body.scroll-hide {
     text-decoration: none;
     color: #761CBD;
 }
+.save-portfolio__btn {
+    margin-left: 10px;
+}
 .edit-profile-modal .modal-balance-size {
-    max-width: 370px !important;
-    min-width: 370px !important;
+    max-width: 800px !important;
+    min-width: 800px !important;
 }
 .edit-profile-modal .modal-balance-size  .modal__body {
     padding: 25px !important;
@@ -4191,7 +4200,7 @@ body.scroll-hide {
     margin-bottom: 0px !important;
 }
 .modal-edit-profile-size {
-    height: 580px !important;
+    height: 480px !important;
     overflow-y: scroll;
 }
 .validation-error {
@@ -4251,7 +4260,9 @@ body.scroll-hide {
 .modal-edit__wrapper {
   display: flex;
 }
-
+.edit-profile-modal .change-password {
+    margin-left: 15px;
+}
 .modal-edit__img {
   width: 570px;
   min-width: 570px;
@@ -4502,8 +4513,8 @@ body.scroll-hide {
 }
 @media (max-width: 1400px) {
   .modal-edit__img {
-    width: 480px;
-    min-width: 480px;
+    width: 380px;
+    min-width: 380px;
   }
 
   .modal-edit-form {

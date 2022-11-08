@@ -10,6 +10,8 @@
             <a href="#" class="entry-soc__img">
                 <img src="img/entry-soc-img2.png" alt="img">
             </a>
+            <a href="{{ url('redirect/google') }}">Google Login</a>
+
         </div>
         <div class="or">
             <span>або</span>

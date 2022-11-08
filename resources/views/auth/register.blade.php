@@ -12,16 +12,15 @@
             </a>
         </div>
         <div class="registr-wrap">
-            <div class="tabs-wrapper tab-link-wrapper">
-                <a class="tab tab-active" href="#tab-1">
-                    {{ trans('main.specialist') }}
-                </a>
-                <a class="tab" href="#tab-2">
-                    {{ trans('main.company') }}
-                </a>
-            </div>
-            <div class="tabs-wrapper tab-content-wrapper">
-                <div id="tab-1" class="tabs-content tabs-content-active">
+{{--            <div class="tabs-wrapper tab-link-wrapper">--}}
+{{--                <a class="tab tab-active" href="#tab-1">--}}
+{{--                    {{ trans('main.specialist') }}--}}
+{{--                </a>--}}
+{{--                <a class="tab" href="#tab-2">--}}
+{{--                    {{ trans('main.company') }}--}}
+{{--                </a>--}}
+{{--            </div>--}}
+{{--            <div class="tabs-wrapper tab-content-wrapper">--}}
                     <form method="POST" action="{{ route('register') }}" class="registr-form">
                         @csrf
                         <div class="input-block">
@@ -65,7 +64,7 @@
                         <div class="input-block custom-select">
                             <div class="custom-select__top">
                                 <div class="custom-select-value">{{ trans('main.gender') }}</div>
-                                <input required class="custom-select-input" name="gender" type="hidden" value="">
+                                <input class="custom-select-input" name="gender" type="hidden" value="">
                             </div>
                             <div class="gender-list custom-select__list">
                                 <div class="custom-select-item" id="male">
@@ -86,7 +85,7 @@
                             @enderror
                         </div>
                         <div class="input-block">
-                            <input placeholder="{{ trans('main.phone') }}" name="phone" class="input" value="{{ old('phone') }}">
+                            <input required placeholder="{{ trans('main.phone') }}" name="phone" class="input" value="{{ old('phone') }}">
                             @error('phone')
                                 <span class="text-danger" role="alert">
                                     <strong>{{ $errors->first('phone') }}</strong>
@@ -111,47 +110,46 @@
                             {{ trans('main.register') }}
                         </button>
                     </form>
-                </div>
-                <div id="tab-2" class="tabs-content">
-                    <form method="POST" action="{{ route('register') }}" class="registr-form">
-                        @csrf
-                        <input class="input" type="hidden" name="type_id" value="2">
-                        <div class="input-block">
-                            <input class="input" type="text" placeholder="Компанія">
-                        </div>
-                        <div class="input-block">
-                            <input class="input" type="text" placeholder="E-mail">
-                        </div>
-                        <div class="input-block">
-                            <input class="input" type="text" placeholder="Ном. тел.">
-                        </div>
-                        <div class="custom-select">
-                            <div class="custom-select__top">
-                                <div class="custom-select-value">Місто</div>
-                                <input class="custom-select-input" type="hidden" value="Місто">
-                            </div>
-                            <div class="custom-select__list">
-                                <div class="custom-select-item">
-                                    Місто
-                                </div>
-                                <div class="custom-select-item">
-                                    Місто2
-                                </div>
-                                <div class="custom-select-item">
-                                    Місто3
-                                </div>
-                            </div>
-                        </div>
-                        <label class="checkbox-block">
-                            <input type="checkbox">
-                            Ціна обговорюється
-                        </label>
-                        <button class="registr-form__btn btn btn--purple">
-                            Зареєструватися
-                        </button>
-                    </form>
-                </div>
-            </div>
+{{--                <div id="tab-2" class="tabs-content">--}}
+{{--                    <form method="POST" action="{{ route('register') }}" class="registr-form">--}}
+{{--                        @csrf--}}
+{{--                        <input class="input" type="hidden" name="type_id" value="2">--}}
+{{--                        <div class="input-block">--}}
+{{--                            <input class="input" type="text" placeholder="Компанія">--}}
+{{--                        </div>--}}
+{{--                        <div class="input-block">--}}
+{{--                            <input class="input" type="text" placeholder="E-mail">--}}
+{{--                        </div>--}}
+{{--                        <div class="input-block">--}}
+{{--                            <input class="input" type="text" placeholder="Ном. тел.">--}}
+{{--                        </div>--}}
+{{--                        <div class="custom-select">--}}
+{{--                            <div class="custom-select__top">--}}
+{{--                                <div class="custom-select-value">Місто</div>--}}
+{{--                                <input class="custom-select-input" type="hidden" value="Місто">--}}
+{{--                            </div>--}}
+{{--                            <div class="custom-select__list">--}}
+{{--                                <div class="custom-select-item">--}}
+{{--                                    Місто--}}
+{{--                                </div>--}}
+{{--                                <div class="custom-select-item">--}}
+{{--                                    Місто2--}}
+{{--                                </div>--}}
+{{--                                <div class="custom-select-item">--}}
+{{--                                    Місто3--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <label class="checkbox-block">--}}
+{{--                            <input type="checkbox">--}}
+{{--                            Ціна обговорюється--}}
+{{--                        </label>--}}
+{{--                        <button class="registr-form__btn btn btn--purple">--}}
+{{--                            Зареєструватися--}}
+{{--                        </button>--}}
+{{--                    </form>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
     </div>
 </div>

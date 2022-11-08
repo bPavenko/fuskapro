@@ -36,6 +36,7 @@ class StoreOrder extends FormRequest
             'price' => ['required', 'numeric'],
             'by_user' => ['required', 'integer'],
             'price_negotiable' => ['required', 'boolean'],
+            'city' => ['required']
             
         ];
     }

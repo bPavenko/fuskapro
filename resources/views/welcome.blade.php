@@ -33,9 +33,6 @@
                                     {{ $section->name }}
                                 </div>
                             </div>
-                            <div class="row justify-content-center">
-                                <p class="section-description" style="font-size: 12px">({{ trans('main.section') }})</p>
-                            </div>
                         </div>
                         <div class="category-item__num">
                             {{ count($section->orders) }}
@@ -58,9 +55,6 @@
                                 <div class="category-item__text">
                                     {{ $category->name }}
                                 </div>
-                            </div>
-                            <div class="row justify-content-center">
-                                <p class="section-description" style="font-size: 12px">({{ trans('main.category') }})</p>
                             </div>
                         </div>
                         <div class="category-item__num">

@@ -30,9 +30,13 @@ class User extends Authenticatable
         'about_me',
         'last_seen',
         'rate',
-        'birth_date'
+        'birth_date',
+        'avatar',
+        'delete_request',
+        'vip_status',
+        'priority'
     ];
-
+    protected $appends = ['resource_url'];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -61,6 +65,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Rate::class,  'user_id', 'id');
     }
+
+    public function portfolio()
+    {
+        return $this->hasMany(UserPortfolio::class,  'user_id', 'id');
+    }
+
 
     public function categories() {
         return $this->belongsToMany(TaskCategory::class, UserCategories::class, 'user_id', 'category_id', 'id');
@@ -128,6 +138,10 @@ class User extends Authenticatable
         return '';
     }
 
+    public function getTypeAttribute() {
+        return $this->type_id == 2 ? 'executor' : 'user';
+    }
+
     public function closedOrders() {
         $orders = Order::where('executor_id', $this->id)->where('status', 'closed')->get();
 
@@ -150,5 +164,9 @@ class User extends Authenticatable
         }
 
         return $request ? true : false;
+    }
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/users/'.$this->getKey());
     }
 }

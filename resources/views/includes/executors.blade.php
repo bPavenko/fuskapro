@@ -37,7 +37,7 @@
             </div>
         </div>
         <a href="{{ route('show-user', $executor->id) }}" class="person-row__btn btn btn--orange">
-            Замовити
+            {{ trans('main.order') }}
         </a>
     </div>
 @endforeach

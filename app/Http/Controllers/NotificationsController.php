@@ -43,7 +43,7 @@ class NotificationsController extends Controller
             ]);
 
             Notification::create([
-                'notification' => 'Дякую за ваш відгук',
+                'notification' => trans('alerts.thanks_for_feedback'),
                 'user_id' => Auth::user()->id
             ]);
             $user->rate = $user->getRate();

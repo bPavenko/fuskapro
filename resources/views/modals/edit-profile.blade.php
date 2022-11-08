@@ -1,43 +1,54 @@
-<div class="modal-wrap modal-balance edit-profile-modal">
+<div class="modal-wrap modal-balance edit-profile-modal ">
     <div class="modal modal-balance-size">
         <div class="modal__body">
             <div class="modal__close"></div>
             <div class="modal-balance__title">
-                Редагувати профіль
+                {{ trans('main.update-profile') }}
             </div>
-                <form method="POST" action="{{ route('edit-user') }}" class="change-password">
+            <div class="modal-edit__wrapper">
+                <div class="modal-edit__img" style="margin-bottom: 5px">
+                    <img id="modal-edit-image" src="{{ asset('storage/images/' . Auth::user()->avatar) }}"  loading="lazy" src="" alt="img">
+                </div>
+                <form method="POST" action="{{ route('edit-user') }}" class="change-password" enctype="multipart/form-data">
                     @csrf
+                    <div class="modal-edit-form__top">
+                        <div class="input-file btn btn--purple">
+                            <input name="image" type="file">
+                            {{ trans('main.upload_photo') }}
+                        </div>
+                    </div>
                     <div class="modal-edit-profile-size">
+
                         <div class="input-block">
                             <div class="form-block-title">{{ trans('main.name') }}</div>
                             <input id="name" type="text" class="input @error('name') is-invalid @enderror" name="name" value="{{ Auth::user()->name }}" placeholder="{{ trans('main.name') }}" required autocomplete="name" autofocus>
 
-                            @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                            @if($errors->first('name'))
+                                <span class="text-danger" role="alert">
+                                        <strong>{{ $errors->first('name') }}</strong>
                                     </span>
-                            @enderror
+                            @endif
                         </div>
                         <div class="input-block">
                             <div class="form-block-title">{{ trans('main.surname') }}</div>
 
                             <input class="input" required name="surname" type="text" value="{{ Auth::user()->surname }}" placeholder="{{ trans('main.surname') }}">
-                            @error('surname')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                            @if($errors->first('surname'))
+                                <span class="text-danger" role="alert">
+                                        <strong>{{ $errors->first('surname') }}</strong>
                                     </span>
-                            @enderror
+                            @endif
                         </div>
                         <div class="input-block">
                             <div class="form-block-title">{{ trans('main.email') }}</div>
 
                             <input id="email" type="email" value="{{ Auth::user()->email }}" class="input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
-                            @error('email')
-                            <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                            @if($errors->first('email'))
+                                <span class="text-danger" role="alert">
+                            <strong>{{ $errors->first('email') }}</strong>
                         </span>
-                            @enderror
+                            @endif
                         </div>
                         <div class="form-block-title">{{ trans('main.gender') }}</div>
                         <div class="input-block custom-select">
@@ -61,31 +72,31 @@
                             <input required type="hidden" name="city" id="city-id" value="{{ Auth::user()->city }}">
                             <input placeholder="{{ trans('main.city') }}" id="profile-city-search" name="city_name" value="{{ Auth::user()->cityName }}" class="input" type="text">
                             <div class="ui-front"></div>
-                            @error('city')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                            @if($errors->first('city'))
+                                <span class="text-danger" role="alert">
+                                <strong>{{ $errors->first('city') }}</strong>
                             </span>
-                            @enderror
+                            @endif
                         </div>
                         <div class="input-block">
                             <div class="form-block-title">{{ trans('main.phone') }}</div>
 
                             <input placeholder="{{ trans('main.phone') }}" name="phone" class="input" value="{{ Auth::user()->phone }}">
-                            @error('phone')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                            @if($errors->first('phone'))
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $errors->first('phone') }}</strong>
                                 </span>
-                            @enderror
+                            @endif
                         </div>
                         <div class="input-block">
-                            <div class="form-block-title">{{ trans('main.birth_date') }}</div>
+                            <div class="form-block-title">{{ trans('main.__date') }}</div>
 
                             <input type="date" name="birth_date" class="input" value="{{ Auth::user()->birth_date  }}">
-                            @error('birth_date')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                            @if($errors->first('birth_date'))
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $errors->first('birth_date') }}</strong>
                                 </span>
-                            @enderror
+                            @endif
                         </div>
 
                         <div class="textarea-block">
@@ -94,14 +105,19 @@
                         </div>
                     </div>
                     <button class="edit-form__btn btn btn--purple">
-                        {{ trans('main.register') }}
+                        {{ trans('main.save') }}
                     </button>
                 </form>
+            </div>
+
         </div>
     </div>
 </div>
+
+{{--{{ dd($errors->has('birth_date'), $errors->birth_date, $errors->first('birth_date')) }}--}}
+{{--{{ dd($errors) }}--}}
 <script type="text/javascript">
-    @if (count($errors) > 0)
+    @if (isset(session('active_modals')['edit-profile']))
         $('.edit-profile-modal').addClass('active');
     @endif
 </script>

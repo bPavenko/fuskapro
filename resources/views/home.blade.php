@@ -6,23 +6,29 @@
             <div class="profile-top">
                 <div class="person-block">
                     <div class="person-block__img">
-                        <img loading="lazy" src="img/person-block-img4.png" alt="img">
+                        <img loading="lazy" src="{{ asset('storage/images/' . Auth::user()->avatar) }}" alt="img">
                     </div>
                     <div class="person-block__info">
                         <div class="person-block__name">
                             {{Auth::user()->name . ' ' . Auth::user()->surname}}
                         </div>
+                        @if(Auth::user()->isSpecialist() && Auth::user()->vip_status)
+                            <div>
+                                Віп статус до: {{ Auth::user()->vip_status }}
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
             <div class="tabs-wrapper tab-link-wrapper">
-                <a class="tab tab-active" href="#tab-1">
+                <a class="tab  @if(!session('active_tabs')) tab-active @endif" href="#tab-1">
                     {{ trans('main.general_information') }}
                 </a>
-                <a class="tab" href="#tab-2">
+                <a class="tab @if(isset(session('active_tabs')['portfolio'])) tab-active @endif" href="#tab-2">
                     {{ trans('main.portfolio') }}
                 </a>
-                <a class="tab" href="#tab-3">
+                <a class="tab  @if(isset(session('active_tabs')['password'])) tab-active @endif" href="#tab-3">
                     {{ trans('main.change_password') }}
                 </a>
                 <a class="tab" href="#tab-4">
@@ -30,294 +36,21 @@
                 </a>
             </div>
             <div class="tabs-wrapper tab-content-wrapper">
-                <div id="tab-1" class="tabs-content tabs-content-active">
-                    <button class="portfolio-catalog-item__edit edit-profile">{{ trans('main.edit') }}</button>
-
-                    <div class="general-information">
-                        <div class="order-box">
-                            <div class="order-box-item">
-                                <div class="order-box-item__icon">
-                                    <img loading="lazy" src="img/order-box-item-icon4.svg" alt="img">
-                                </div>
-                                <div>
-                                    {{ trans('main.city') }}:
-                                    <span>{{Auth::user()->cityName}}</span>
-                                </div>
-                            </div>
-                            <div class="order-box-item">
-                                <div class="order-box-item__icon">
-                                    <img loading="lazy" src="img/order-box-item-icon5.svg" alt="img">
-                                </div>
-                                <div>
-                                    {{ trans('main.date_birth') }}:
-                                    <span>02.10.1982</span>
-                                </div>
-                            </div>
-                            <div class="order-box-item">
-                                <div class="order-box-item__icon">
-                                    <img loading="lazy" src="img/order-box-item-icon6.svg" alt="img">
-                                </div>
-                                <div>
-                                    {{ trans('main.gender') }}:
-                                    <span>чоловіча</span>
-                                </div>
-                            </div>
-                        </div>
-                        <h4>{{ trans('main.about_me') }}:</h4>
-                        <p>
-                            {{ Auth::user()->about_me }}
-                        </p>
-                        <h4>{{ trans('main.orders_categories') }}:</h4>
-                        <div class="purple-block-wrap">
-                            @foreach(Auth::user()->categories as $category)
-                                <span class="purple-block">{{ $category->name }}</span>
-                            @endforeach
-                        </div>
-{{--                        <h4>{{ trans('main.city_orders') }}:</h4>--}}
-{{--                        <div class="purple-block-wrap">--}}
-{{--                            <span class="purple-block">Київ</span>--}}
-{{--                        </div>--}}
-                        <div class="bottom-link">
-                            <a href="#">{{ trans('main.payments_data') }}</a>
-                            <a href="#">{{ trans('main.add_card') }}</a>
-                        </div>
-                        <button class="remove">{{ trans('main.delete_profile') }}</button>
-                    </div>
+                <div id="tab-1" class="tabs-content @if(!session('active_tabs')) tabs-content-active @endif">
+                    @include('includes.personal-info');
                 </div>
-                <div id="tab-2" class="tabs-content ">
-                    <div class="portfolio">
-                        <div class="portfolio-block">
-                            <img class="portfolio-block__icon" src="img/portfolio-block-icon.svg" alt="img">
-                            <div class="portfolio-block__text">
-                                {{ trans('main.drag_photo') }}
-                            </div>
-                            <div class="input-file btn btn--purple">
-                                <input type="file">
-                                {{ trans('main.upload_photo') }}
-                            </div>
-                        </div>
-{{--                        <div class="portfolio-block">--}}
-{{--                            <img class="portfolio-block__icon" src="img/portfolio-block-icon2.svg" alt="img">--}}
-{{--                            <div class="input-block">--}}
-{{--                                <input class="input" type="text">--}}
-{{--                            </div>--}}
-{{--                            <button class="portfolio-block__btn btn btn--purple">--}}
-{{--                                {{ trans('main.upload_') }}--}}
-{{--                                Додати відео--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
-                    </div>
-                    <div class="portfolio-catalog">
-                        <div class="portfolio-catalog-item portfolio-catalog-item--img">
-                            <a href="#" class="portfolio-catalog-item__top">
-                                <img loading="lazy" src="img/portfolio-catalog-item-img.jpg" alt="img">
-                                <div class="portfolio-catalog-item__title">
-                                    Логотип для подарункової
-                                    компанії
-                                </div>
-                            </a>
-                            <div class="portfolio-catalog-item__bottom">
-                                <button class="portfolio-catalog-item__remove">{{ trans('main.delete') }}</button>
-                                <button class="portfolio-catalog-item__edit edit-img">{{ trans('main.edit') }}</button>
-                            </div>
-                        </div>
-                        <div class="portfolio-catalog-item portfolio-catalog-item--video">
-                            <a href="#" class="portfolio-catalog-item__top">
-                                <img loading="lazy" src="img/portfolio-catalog-item-img2.jpg" alt="img">
-                                <div class="portfolio-catalog-item__title">
-                                    Промо ролик для “Eagle Shell”
-                                </div>
-                            </a>
-                            <div class="portfolio-catalog-item__bottom">
-                                <button class="portfolio-catalog-item__remove">{{ trans('main.delete') }}</button>
-                                <button class="portfolio-catalog-item__edit edit-video">{{ trans('main.edit') }}</button>
-                            </div>
-                        </div>
-                    </div>
+                <div id="tab-2" class="tabs-content @if(isset(session('active_tabs')['portfolio'])) tabs-content-active @endif">
+                    @include('includes.portfolio');
                 </div>
-                <div id="tab-3" class="tabs-content ">
-                    <form action="#" class="change-password">
-                        <div class="input-block">
-                            <div class="form-block-title">{{ trans('main.password') }}</div>
-                            <input class="input" type="password">
-                        </div>
-                        <div class="input-block">
-                            <div class="form-block-title">{{ trans('main.new_password') }}</div>
-                            <input class="input" type="password">
-                        </div>
-                        <div class="input-block">
-                            <div class="form-block-title">{{ trans('main.repeat_password') }}</div>
-                            <input class="input" type="password">
-                        </div>
-                        <button class="change-password__btn btn btn--orange trigger-pasword-done">
-                            {{ trans('main.save_password') }}
-                        </button>
-                    </form>
+                <div id="tab-3" class="tabs-content @if(isset(session('active_tabs')['password'])) tabs-content-active @endif">
+                    @include('includes.change-password')
                 </div>
                 <div id="tab-4" class="tabs-content">
-                    <div aria-multiselectable="true" class="panel-group" id="accordion" role="tablist">
-                        <div class="panel panel-warning">
-                            <form action="{{ route('save-user-categories') }}" method="POST">
-                                @csrf
-                                @foreach($sections as $key => $section)
-                                    <h3 class="panel-title"><a class="section-header" data-bs-toggle="collapse" href="{{ '#section-' . $section->id }}"  role="button">{{ $section->name }}<span class="section-collapse"></span></a></h3>
-                                    <div class="panel-collapse collapse in" id="{{ 'section-' . $section->id }}" role="tabpanel">
-                                        @if(count($section->categories))
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    @foreach($section->categories as $category)
-                                                        <label class="checkbox-block">
-                                                            <input value="{{ $category->id }}" name="category[]" type="checkbox" @if(in_array($category->id, Auth::user()->getCategoriesIds())) checked @endif>
-                                                            {{ $category->name }}
-                                                        </label>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <hr>
-                                @endforeach
-                                <button type="submit" class="search-filter-row__btn btn btn--orange m-auto">
-                                    {{ trans('main.save') }}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                    @include('includes.user-categories')
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal-wrap modal-edit-img">
-        <div class="modal modal-edit">
-            <div class="modal__body">
-                <div class="modal__close"></div>
-                <div class="modal-edit__wrapper">
-                    <div class="modal-edit__img">
-                        <img loading="lazy" src="img/modal-edit-img.jpg" alt="img">
-                    </div>
-                    <form action="#" class="modal-edit-form">
-                        <div class="modal-edit-form__top">
-                            {{ trans('main.change_photo') }}:
-                            <div class="input-file btn btn--purple">
-                                <input type="file">
-                                {{ trans('main.upload_photo') }}
-                            </div>
-                        </div>
-                        <div class="custom-select">
-                            <div class="custom-select__top">
-                                <div class="custom-select-value">{{ trans('main.choose_section') }}</div>
-                                <input class="custom-select-input" type="hidden" value="Виберіть розділ">
-                            </div>
-                            <div class="custom-select__list">
-                                <div class="custom-select-item">
-                                    Виберіть розділ
-                                </div>
-                                <div class="custom-select-item">
-                                    Виберіть розділ2
-                                </div>
-                                <div class="custom-select-item">
-                                    Виберіть розділ3
-                                </div>
-                            </div>
-                        </div>
-                        <div class="custom-select">
-                            <div class="custom-select__top">
-                                <div class="custom-select-value">{{ trans('main.choose_category') }}</div>
-                                <input class="custom-select-input" type="hidden" value="Виберіть категорію">
-                            </div>
-                            <div class="custom-select__list">
-                                <div class="custom-select-item">
-                                    Виберіть категорію
-                                </div>
-                                <div class="custom-select-item">
-                                    Виберіть категорію2
-                                </div>
-                                <div class="custom-select-item">
-                                    Виберіть категорію3
-                                </div>
-                            </div>
-                        </div>
-                        <div class="textarea-block">
-                            <textarea placeholder="Опис" class="textarea"></textarea>
-                        </div>
-                        <div class="modal-edit-form__bottom">
-                            <button class="modal-edit-form__btn btn btn--purple-border">
-                                {{ trans('main.delete') }}
-                            </button>
-                            <button class="modal-edit-form__btn btn btn--purple">
-                                {{ trans('main.save') }}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-wrap modal-edit-video">
-        <div class="modal modal-edit">
-            <div class="modal__body">
-                <div class="modal__close"></div>
-                <div class="modal-edit__wrapper">
-                    <div class="modal-edit__img">
-                        <img loading="lazy" src="img/modal-edit-img2.jpg" alt="img">
-                    </div>
-                    <form action="#" class="modal-edit-form">
-                        <div class="input-block">
-                            <input class="input" type="text" value="https://www.youtube.com/watch?v...">
-                        </div>
-                        <div class="custom-select">
-                            <div class="custom-select__top">
-                                <div class="custom-select-value">Виберіть розділ</div>
-                                <input class="custom-select-input" type="hidden" value="Виберіть розділ">
-                            </div>
-                            <div class="custom-select__list">
-                                <div class="custom-select-item">
-                                    Виберіть розділ
-                                </div>
-                                <div class="custom-select-item">
-                                    Виберіть розділ2
-                                </div>
-                                <div class="custom-select-item">
-                                    Виберіть розділ3
-                                </div>
-                            </div>
-                        </div>
-                        <div class="custom-select">
-                            <div class="custom-select__top">
-                                <div class="custom-select-value">Виберіть категорію</div>
-                                <input class="custom-select-input" type="hidden" value="Виберіть категорію">
-                            </div>
-                            <div class="custom-select__list">
-                                <div class="custom-select-item">
-                                    Виберіть категорію
-                                </div>
-                                <div class="custom-select-item">
-                                    Виберіть категорію2
-                                </div>
-                                <div class="custom-select-item">
-                                    Виберіть категорію3
-                                </div>
-                            </div>
-                        </div>
-                        <div class="textarea-block">
-                            <textarea placeholder="Опис" class="textarea"></textarea>
-                        </div>
-                        <div class="modal-edit-form__bottom">
-                            <button class="modal-edit-form__btn btn btn--purple-border">
-                                Видалити
-                            </button>
-                            <button class="modal-edit-form__btn btn btn--purple">
-                                Зберегти
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal-wrap modal-password">
         <div class="modal modal-password-edit">
             <div class="modal__body">
@@ -334,29 +67,7 @@
             </div>
         </div>
     </div>
-    <div class="modal-wrap modal-balance modal-balance--one">
-        <div class="modal modal-balance-size">
-            <div class="modal__body">
-                <div class="modal__close"></div>
-                <div class="modal-balance__title">
-                    {{ trans('main.balance_replenishment') }}
-                </div>
-                <div class="modal-balance__subtitle">
-                    Коротка інформація як користувач сайту може використати придбані монети
-                </div>
-                <div class="now-available">
-                    Зараз в наявності:
-                    <div class="now-available__wrap">
-                        <img src="img/coins-orange.svg" alt="img">
-                        0 монет
-                    </div>
-                </div>
-                <button class="modal-balance__btn btn btn--purple trigger-next1">
-                    Поповнити баланс
-                </button>
-            </div>
-        </div>
-    </div>
+
 
     <div class="modal-wrap modal-balance modal-balance--two">
         <div class="modal modal-balance-size">
@@ -447,4 +158,8 @@
         </div>
     </div>
     @include('modals.edit-profile')
+    @include('modals.balance')
+    @include('modals.edit-portfolio-img', ['sections' => $sections])
+    @include('modals.edit-portfolio-video', ['sections' => $sections])
+
 @endsection

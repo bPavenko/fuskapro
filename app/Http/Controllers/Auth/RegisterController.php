@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RegisterController extends Controller
 {
@@ -50,14 +51,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'phone' => ['required', 'string', 'regex:/^\+380\d{3}\d{2}\d{2}\d{2}$/'],
+            'phone' => ['required', 'min:10', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'city' => ['required', 'integer'],
-            'gender' => ['required'],
-            'birth_date' => ['required' , 'date'],
        ]);
     }
 
@@ -69,6 +68,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        Alert::success('Congrats', 'You\'ve Successfully Registered');
         return User::create([
             'type_id' => (isset($data['type_id']) && $data['type_id'] == 'on') ? "2" : "1",
             'phone' => $data['phone'],

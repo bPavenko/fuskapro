@@ -1,18 +1,52 @@
-<div class="form-group row align-items-center" :class="{'has-danger': errors.has('section_id'), 'has-success': fields.section_id && fields.section_id.valid }">
-    <label for="section_id" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.order.columns.section_id') }}</label>
-        <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
-        <input type="text" v-model="form.section_id" v-validate="'required|integer'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('section_id'), 'form-control-success': fields.section_id && fields.section_id.valid}" id="section_id" name="section_id" placeholder="{{ trans('admin.order.columns.section_id') }}">
-        <div v-if="errors.has('section_id')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('section_id') }}</div>
+{{--<div class="form-group row align-items-center" :class="{'has-danger': errors.has('section_id'), 'has-success': fields.section_id && fields.section_id.valid }">--}}
+{{--    <label for="section_id" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.order.columns.section_id') }}</label>--}}
+{{--        <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">--}}
+{{--        <input type="text" v-model="form.section_id" v-validate="'required|integer'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('section_id'), 'form-control-success': fields.section_id && fields.section_id.valid}" id="section_id" name="section_id" placeholder="{{ trans('admin.order.columns.section_id') }}">--}}
+{{--        <div v-if="errors.has('section_id')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('section_id') }}</div>--}}
+{{--    </div>--}}
+{{--</div>--}}
+
+
+<div class="form-group row align-items-center" :class="{'has-danger': errors.has('parent_id'), 'has-success': fields.parent_id && fields.parent_id.valid }">
+    <label for="parent_id" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.task-category.columns.parent_id') }}</label>
+    <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
+        <select @change='getCategories(form.section_id)' v-validate="'required'"  v-model="form.section_id" class="form-control" id="section_id" name="section_id">
+            @foreach($sections as $section)
+                <option class="custom-select-item" value="{{ $section->id }}">{{$section->name}}</option>
+            @endforeach
+        </select>
     </div>
 </div>
 
-<div class="form-group row align-items-center" :class="{'has-danger': errors.has('category_id'), 'has-success': fields.category_id && fields.category_id.valid }">
-    <label for="category_id" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.order.columns.category_id') }}</label>
-        <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
-        <input type="text" v-model="form.category_id" v-validate="'required|integer'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('category_id'), 'form-control-success': fields.category_id && fields.category_id.valid}" id="category_id" name="category_id" placeholder="{{ trans('admin.order.columns.category_id') }}">
-        <div v-if="errors.has('category_id')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('category_id') }}</div>
+<div class="form-group row align-items-center" :class="{'has-danger': errors.has('parent_id'), 'has-success': fields.parent_id && fields.parent_id.valid }">
+    <label for="parent_id" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.task-category.columns.parent_id') }}</label>
+    <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
+        <select v-validate="'required'"  v-model="form.category_id" class="form-control" id="category_id" name="category_id">
+            <option v-for='data in categories' :value='data.id'>@{{ data.name }}</option>
+        </select>
     </div>
 </div>
+<div class="form-group row align-items-center">
+    <label for="title" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.order.columns.city') }}</label>
+    <input type="hidden"  v-model="form.city" name="city">
+    <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
+        <input type="text" placeholder="" v-model="query" v-on:keyup="autoComplete" class="form-control">
+    </div>
+    <div class="panel-footer" v-if="cities.length">
+        <ul class="list-group">
+            <li @click="setCity(result.id, result.name)" :value='result.id' class="list-group-item" v-for="result in cities">
+                @{{ result.name }}
+            </li>
+        </ul>
+    </div>
+</div>
+{{--<div class="form-group row align-items-center" :class="{'has-danger': errors.has('category_id'), 'has-success': fields.category_id && fields.category_id.valid }">--}}
+{{--    <label for="category_id" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.order.columns.category_id') }}</label>--}}
+{{--        <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">--}}
+{{--        <input type="text" v-model="form.category_id" v-validate="'required|integer'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('category_id'), 'form-control-success': fields.category_id && fields.category_id.valid}" id="category_id" name="category_id" placeholder="{{ trans('admin.order.columns.category_id') }}">--}}
+{{--        <div v-if="errors.has('category_id')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('category_id') }}</div>--}}
+{{--    </div>--}}
+{{--</div>--}}
 
 <div class="form-group row align-items-center" :class="{'has-danger': errors.has('title'), 'has-success': fields.title && fields.title.valid }">
     <label for="title" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.order.columns.title') }}</label>

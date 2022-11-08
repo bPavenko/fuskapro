@@ -6,3 +6,5 @@ import './task-category';
 import './section';
 import './task-section';
 import './order';
+import './footer-title';
+import './footer-link';

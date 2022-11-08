@@ -5471,49 +5471,32 @@ document.addEventListener('DOMContentLoaded', function () {
   $('.statuses-list .custom-select-item').on('click', function () {
     var text = $(this).text();
     $(this).parents('.custom-select').find('.custom-select-value').text(text);
-    var status = $(this).parents('.statuses-list').find('#status-name').val();
+    // var status = $(this).parents('.statuses-list').find('.status-name').val();
+    var status = $(this).attr('id');
+    console.log(status)
     $(this).parents('.custom-select').find('.custom-select-input').val(status);
     $('.custom-select__list').slideUp(200);
     $('.custom-select__top').removeClass('active');
-  });
-  $('.specialist-contact__btn').on('click', function () {
-    var order_id = $(this).parents('.order-info').find('#order-id').val();
-    $.ajax({
-      url: "/order-respond/create",
-      type: "POST",
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
-      data: {
-        order_id: order_id,
-        type: 'show'
-      },
-      dataType: 'json',
-      success: function success() {
-        $(".specialist-contact-payment").hide();
-        $(".specialist-contact-show").removeAttr('hidden');
-      }
-    });
-  });
-  $('.profile-contact__btn').on('click', function () {
-    var profile_id = $(this).attr('id');
-    $.ajax({
-      url: "/user-request/create",
-      type: "POST",
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
-      data: {
-        profile_id: profile_id,
-        type: 'show'
-      },
-      dataType: 'json',
-      success: function success() {
-        $(".profile-contact-payment").hide();
-        $(".profile-contact-show").removeAttr('hidden');
-      }
-    });
-  });
+  }); // $('.specialist-contact__btn').on('click', function () {
+  //     var order_id = $(this).parents('.order-info').find('#order-id').val();
+  //     $.ajax({
+  //         url: "/order-respond/create",
+  //         type: "POST",
+  //         headers: {
+  //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  //         },
+  //         data: {
+  //             order_id: order_id,
+  //             type: 'show'
+  //         },
+  //         dataType: 'json',
+  //         success: function success() {
+  //             $(".specialist-contact-payment").hide();
+  //             $(".specialist-contact-show").removeAttr('hidden');
+  //         }
+  //     });
+  // });
+
   $('.order-respond-close__btn').on('click', function () {
     var order_id = $(this).parents('.order-info').find('#order-id').val();
     $.ajax({
@@ -5557,6 +5540,11 @@ document.addEventListener('DOMContentLoaded', function () {
       select: function select(event, ui) {
         $('#city-search').val(ui.item.label);
         $('#city-id').val(ui.item.id);
+
+        if ($(".executors-city-search-id").val()) {
+          getExecutors();
+        }
+
         return false;
       }
     }).data("ui-autocomplete")._renderItem = function (ul, item) {
@@ -5595,7 +5583,12 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   }
 
-  $(".executors-city-search").change(function () {
+  $(".executors-city-search-id").on("input", function () {
+    console.log('hererer');
+    getExecutors();
+  });
+  $(".executors--id").change(function () {
+    console.log('jere');
     getExecutors();
   });
 
@@ -5668,6 +5661,57 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+  $('.edit-img').on('click', function () {
+    $.ajax({
+      url: "/get-portfolio-media",
+      type: "POST",
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      data: {
+        id: $(this).attr('media-id')
+      },
+      dataType: 'json',
+      success: function success(data) {
+        $('.modal-edit-image').attr('src', data.media.path);
+        $('#image-id').val(data.media.id);
+        $('#image-type').val(data.media.type);
+        $('#image-category-name').html(data.media.category_name);
+        $('#image-section-name').html(data.media.section_name);
+        $('#category-name').val(data.media.category_name);
+        $('#section-name').val(data.media.section_name);
+        $('#image-description').val(data.media.description);
+        $('#image-category-id').val(data.media.category_id);
+        $('#image-section-id').val(data.media.section_id);
+      }
+    });
+  });
+  $('.edit-video').on('click', function () {
+    $.ajax({
+      url: "/get-portfolio-media",
+      type: "POST",
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      data: {
+        id: $(this).attr('media-id')
+      },
+      dataType: 'json',
+      success: function success(data) {
+        $('#video-id').val(data.media.id);
+        $('#video-type').val(data.media.type);
+        $('#video-category-name').html(data.media.category_name);
+        $('#video-section-name').html(data.media.section_name);
+        $('#video-show-category-name').val(data.media.category_name);
+        $('#video-show-section-name').val(data.media.section_name);
+        $('#video-description').val(data.media.description);
+        $('#video-category-id').val(data.media.category_id);
+        $('#video-section-id').val(data.media.section_id);
+        $('#video-path').attr('src', data.media.url);
+        $('#video-link').val(data.media.path);
+      }
+    });
+  });
   $('.result__link').on('click', function () {
     console.log('here');
     console.log($(this).attr('link'));
@@ -5682,6 +5726,12 @@ document.addEventListener('DOMContentLoaded', function () {
     $(this).parents('.custom-select').find('.custom-select-input').val(text);
     $('.custom-select__list').slideUp(200);
     $('.custom-select__top').removeClass('active');
+  });
+  $(".porftolio-file").change(function () {
+    $(".portfolio-block__text").html($(this).val().replace(/^.*[\\\/]/, ''));
+  });
+  $(".copy-text").on('click', function () {
+    copyText($(this).attr('text'));
   });
   $(".search__input").blur(function () {
     if (!$(this).hasClass("search__input_border")) {
@@ -5755,6 +5805,29 @@ function getExecutors() {
       $(".executors-list").html(data.html);
     }
   });
+}
+
+function copyText(copyText) {
+  if (window.isSecureContext && navigator.clipboard) {
+    navigator.clipboard.writeText(copyText);
+  } else {
+    var textArea = document.createElement("textarea");
+    textArea.value = copyText;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      document.execCommand('copy');
+    } catch (err) {
+      console.error('Unable to copy to clipboard', err);
+    }
+
+    document.body.removeChild(textArea);
+  }
+
+  console.log(copyText);
+  navigator.clipboard.writeText(copyText);
 }
 
 function getCategories(sectionId) {

@@ -6,9 +6,9 @@
 
     <div class="container-xl">
         <div class="card">
-
             <user-form
                 :action="'{{ $user->resource_url }}'"
+
                 :data="{{ $user->toJson() }}"
                 v-cloak
                 inline-template>

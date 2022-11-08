@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Brackets\AdminAuth\Models\AdminUser;
+use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,8 +13,30 @@ use Brackets\AdminAuth\Models\AdminUser;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/foo', function () {
+//    dd(Artisan::call('storage:link'));
+    Artisan::call('storage:link');
+});
+Route::get('/cahe', function () {
+//    dd(Artisan::call('storage:link'));
+    Artisan::call('cache:clear');
+    Artisan::call('optimize');
+    Artisan::call('config:cache');
+    dd('1');
+});
+Route::get('/symlink', function () {
+    $target =$_SERVER['DOCUMENT_ROOT'].'/storage/app/public';
+    $link = $_SERVER['DOCUMENT_ROOT'].'/public/storage';
+    symlink($target, $link);
+    echo "Done";
+});
 Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
+Route::get('redirect/{driver}', [App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider']);
+Route::get('{driver}/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleProviderCallback']);
+
+Route::get('/public', function () {
+    return redirect('/');
+});
 Route::get('locale/{locale}', function ($locale) {
     Session::put('locale', $locale);
 
@@ -26,6 +49,7 @@ Route::get('user-locale/{locale}/{admin_id}', function ($locale, $admin_id) {
 })->name('user-locale');
 
 Auth::routes();
+
 
 Route::post('/get-search-ajax', [App\Http\Controllers\MainController::class, 'getSearchAjax'])->name('get-search-ajax');
 Route::get('/orders', [App\Http\Controllers\OrdersController::class, 'index'])->name('orders');
@@ -47,6 +71,15 @@ Route::group([
         Route::post('/store-order', [App\Http\Controllers\OrdersController::class, 'store'])->name('store-order');
 
     });
+    Route::post('/change-password', [App\Http\Controllers\UserController::class, 'changePassword'])->name('change-password');
+
+    Route::post('/update-portfolio', [App\Http\Controllers\UserController::class, 'updatePortfolio'])->name('update-portfolio');
+    Route::post('/get-portfolio-media', [App\Http\Controllers\UserController::class, 'getPortfolioMedia'])->name('get-portfolio-media');
+    Route::post('/add-portfolio-image', [App\Http\Controllers\UserController::class, 'addPortfolioImage'])->name('add-portfolio-image');
+    Route::post('/add-portfolio-video', [App\Http\Controllers\UserController::class, 'addPortfolioVideo'])->name('add-portfolio-video');
+    Route::post('/delete-user', [App\Http\Controllers\UserController::class, 'deleteUser'])->name('delete-user');
+    Route::post('/delete-media', [App\Http\Controllers\UserController::class, 'deleteMedia'])->name('delete-media');
+    Route::post('/recover-delete-user', [App\Http\Controllers\UserController::class, 'recoverDeleteUser'])->name('recover-delete-user');
     Route::post('/order-respond/create', [App\Http\Controllers\OrdersController::class, 'orderRespond'])->name('order-respond-create');
     Route::post('/save-user-categories', [App\Http\Controllers\UserController::class, 'saveUserCategories'])->name('save-user-categories');
     Route::get('/executors', [App\Http\Controllers\UserController::class, 'executors'])->name('executors');
@@ -54,6 +87,7 @@ Route::group([
     Route::post('/edit-user', [App\Http\Controllers\UserController::class, 'update'])->name('edit-user');
     Route::get('/users/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('show-user');
     Route::post('/user-request/create', [App\Http\Controllers\UserController::class, 'userRequest'])->name('user-request-create');
+    Route::post('/buy-vip-status', [App\Http\Controllers\UserController::class, 'buyVipStatus'])->name('buy-vip-status');
 
     Route::group([
         'middleware' => 'author',
@@ -112,7 +146,7 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
             Route::post('/',                                            'UsersController@store')->name('store');
             Route::get('/{user}/edit',                                  'UsersController@edit')->name('edit');
             Route::post('/bulk-destroy',                                'UsersController@bulkDestroy')->name('bulk-destroy');
-            Route::post('/{user}',                                      'UsersController@update')->name('update');
+            Route::post('/{user}',                                      'UsersController@update')->name('update-backend-user');
             Route::delete('/{user}',                                    'UsersController@destroy')->name('destroy');
         });
     });
@@ -167,6 +201,8 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
     Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
         Route::prefix('orders')->name('orders/')->group(static function() {
+            Route::get('/get-categories', 'OrdersController@getCategories')->name('get-categories');
+            Route::get('/get-cities', 'OrdersController@getCities')->name('get-cities');
             Route::get('/',                                             'OrdersController@index')->name('index');
             Route::get('/create',                                       'OrdersController@create')->name('create');
             Route::post('/',                                            'OrdersController@store')->name('store');
@@ -189,6 +225,36 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
             Route::post('/bulk-destroy',                                'OrdersController@bulkDestroy')->name('bulk-destroy');
             Route::post('/{order}',                                     'OrdersController@update')->name('update');
             Route::delete('/{order}',                                   'OrdersController@destroy')->name('destroy');
+        });
+    });
+});
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
+        Route::prefix('footer-titles')->name('footer-titles/')->group(static function() {
+            Route::get('/',                                             'FooterTitlesController@index')->name('index');
+            Route::get('/create',                                       'FooterTitlesController@create')->name('create');
+            Route::post('/',                                            'FooterTitlesController@store')->name('store');
+            Route::get('/{footerTitle}/edit',                           'FooterTitlesController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'FooterTitlesController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{footerTitle}',                               'FooterTitlesController@update')->name('update');
+            Route::delete('/{footerTitle}',                             'FooterTitlesController@destroy')->name('destroy');
+        });
+    });
+});
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
+        Route::prefix('footer-links')->name('footer-links/')->group(static function() {
+            Route::get('/',                                             'FooterLinksController@index')->name('index');
+            Route::get('/create',                                       'FooterLinksController@create')->name('create');
+            Route::post('/',                                            'FooterLinksController@store')->name('store');
+            Route::get('/{footerLink}/edit',                            'FooterLinksController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'FooterLinksController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{footerLink}',                                'FooterLinksController@update')->name('update');
+            Route::delete('/{footerLink}',                              'FooterLinksController@destroy')->name('destroy');
         });
     });
 });

@@ -63,7 +63,7 @@ class OrdersController extends Controller
         }
         if ($request->get('status')) {
             $status = $request->get('status');
-            $query = $query->where('status', '>=', $status);
+            $query = $query->where('status', $status);
         }
         $orders = $query->paginate(10);
 
@@ -124,7 +124,7 @@ class OrdersController extends Controller
 
         if ($request->type == 'request') {
             $data = [
-                'notification' => 'Користувач відгукнувся на ваше замовлення',
+                'notification' => trans('alerts.responded_your_order'),
                 'user_id' => $order->by_user,
                 'from' => Auth::user()->id,
                 'order_id' => $order->id
@@ -134,7 +134,7 @@ class OrdersController extends Controller
         }
         if ($request->type == 'close') {
             $data = [
-                'notification' => 'Користувач виконав ваше замовлення',
+                'notification' => trans('alerts.complete_your_order'),
                 'user_id' => $order->by_user,
                 'from' => Auth::user()->id,
                 'order_id' => $order->id
@@ -153,7 +153,7 @@ class OrdersController extends Controller
         OrderRequest::where('order_id', $order->id)->where('type', 'close')->delete();
 
         $authorNotification = [
-            'notification' => 'Оцініть користувача',
+            'notification' => trans('alerts.rate_user'),
             'user_id' => $order->by_user,
             'from' => $order->executor_id,
             'order_id' => $order->id,
@@ -163,7 +163,7 @@ class OrdersController extends Controller
         Notification::create($authorNotification);
 
         $executorNotification = [
-            'notification' => 'Оцініть користувача',
+            'notification' => trans('alerts.rate_user'),
             'user_id' => $order->executor_id,
             'from' => $order->by_user,
             'order_id' => $order->id,
@@ -201,7 +201,7 @@ class OrdersController extends Controller
             'from' => $request->author_id,
             'order_id' => $request->order_id,
             'user_id' => $request->executor_id,
-            'notification' => 'Підтвердив ваш запит'
+            'notification' => trans('alerts.confirmed_your_request')
         ]);
         $order = Order::find($request->order_id);
         $order->update(['executor_id' => $request->executor_id, 'status' => 'progress']);
@@ -214,7 +214,7 @@ class OrdersController extends Controller
             'from' => $request->author_id,
             'order_id' => $request->order_id,
             'user_id' => $request->executor_id,
-            'notification' => 'Зммінив спеціаліста в задачі'
+            'notification' => trans('alerts.changed_the_specialist')
         ]);
         $order = Order::find($request->order_id);
         $order->update(['executor_id' => null, 'status' => 'open']);

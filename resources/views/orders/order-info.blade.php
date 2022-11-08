@@ -135,9 +135,9 @@
                             <div class="specialist-contact__title">{{ trans('main.show_contacts') }}</div>
                             <div class="specialist-contact__subtitle">{{ trans('main.cost_per_action') }}</div>
                         </div>
-                        <a href="" class="specialist-contact__btn btn btn--orange">
+                        <button class="specialist-contact__btn btn btn--orange">
                             {{ trans('main.price_per_display') }}
-                        </a>
+                        </button>
                     </div>
                 @endif
                 <div class="specialist-contact specialist-contact-show" @if(!$order->checkRequest(Auth::user()->id, 'show')) hidden @endif>
@@ -246,4 +246,39 @@
         </div>
     </div>
     @endif
+    <script>
+
+        $('.specialist-contact__btn').click(function(event){
+            var order_id = $(this).parents('.order-info').find('#order-id').val();
+            event.preventDefault();
+            swal({
+                title: "{{ trans('main.payment_confirmation') }}",
+                text: "{{ trans('main.cost_per_action') }}",
+                icon: "warning",
+                type: "warning",
+                buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+            }).then((confirm) => {
+                if (confirm) {
+                    $.ajax({
+                        url: "/order-respond/create",
+                        type: "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            order_id: order_id,
+                            type: 'show'
+                        },
+                        dataType: 'json',
+                        success: function success() {
+                            $(".specialist-contact-payment").hide();
+                            $(".specialist-contact-show").removeAttr('hidden');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

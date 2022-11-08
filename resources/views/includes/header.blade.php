@@ -7,7 +7,7 @@
     @endphp
     <div class="container">
         <a href="{{ url('/') }}" class="logo">
-            <img loading="lazy" src="{{URL::asset('/img/logo.svg')}}" alt="img">
+            <img style="width: 100%; height:100% " loading="lazy" src="{{URL::asset('/img/Fuska_pro_color.png')}}" alt="img">
         </a>
         @if (Route::has('login'))
             <div class="header-btns" data-da=".mob-menu, 580, 0">
@@ -18,7 +18,7 @@
                     <div class="hed-person-menu">
                         <div class="hed-person">
                             <div class="hed-person__icon">
-                                <img loading="lazy" src="{{URL::asset('/img/hed-person-icon.png')}}" alt="img">
+                                <img loading="lazy" src="{{ asset('storage/images/' . Auth::user()->avatar) }}" alt="img">
                             </div>
                             <div class="hed-person__name">
                                 {{Auth::user()->name}} <br>

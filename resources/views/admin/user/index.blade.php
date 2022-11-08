@@ -86,7 +86,7 @@
                                         <td>@{{ item.surname }}</td>
                                         <td>@{{ item.phone }}</td>
                                         <td>@{{ item.city }}</td>
-                                        <td>@{{ item.type_id }}</td>
+                                        <td>@{{ item.type_id == 2 ? 'executor' : 'user' }}</td>
                                         
                                         <td>
                                             <div class="row no-gutters">

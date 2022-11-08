@@ -32,8 +32,8 @@
                 </div>
             </div>
             <div class="city-input">
-                <input type="hidden" id="city-id" value="">
-                <input id="city-search" name="price_to" value="{{ request()->get('price_to') }}" placeholder="{{trans('main.city')}}" class="input executors-city-search" type="text">
+                <input type="hidden" id="city-id" value="" class="executors-city-search-id">
+                <input id="city-search" name="city" value="{{ request()->get('price_to') }}" placeholder="{{trans('main.city')}}" class="input executors-city-search" type="text">
             </div>
             <div class="sort-radio-wrap">
                 <label class="sort-radio active">

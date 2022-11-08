@@ -73,9 +73,9 @@
                                     <div class="specialist-contact__title">{{ trans('main.show_contacts') }}</div>
                                     <div class="specialist-contact__subtitle">{{ trans('main.cost_per_action') }}</div>
                                 </div>
-                                <a id="{{ $user->id }}" href="" class="profile-contact__btn btn btn--orange">
+                                <button id="{{ $user->id }}" class="profile-contact__btn btn btn--orange">
                                     {{ trans('main.price_per_display') }}
-                                </a>
+                                </button>
                             </div>
                         @endif
                         <div class="specialist-contact profile-contact-show" @if(!Auth::user()->checkRequest($user->id, 'show')) hidden @endif>
@@ -88,35 +88,54 @@
                                 <a href="">{{ $user->email }}</a>
                             </div>
                             <br>
-                            <a href="#" class="btn btn--grey">
-                                {{trans('main.displayed')}}
+                            <a href="#" text="{{ $user->phone }}" class="btn btn--grey copy-text">
+                                {{trans('main.copy')}}
                             </a>
                         </div>
                     @endif
                 </div>
                 <div id="tab-2" class="tabs-content ">
-{{--                    <div class="portfolio">--}}
-{{--                        <div class="portfolio-catalog-item portfolio-catalog-item--img">--}}
-{{--                            <a href="#" class="portfolio-catalog-item__top">--}}
-{{--                                <img loading="lazy" src="img/portfolio-catalog-item-img.jpg" alt="img">--}}
-{{--                                <div class="portfolio-catalog-item__title">--}}
-{{--                                    Логотип для подарункової--}}
-{{--                                    компанії--}}
-{{--                                </div>--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
-{{--                        <div class="portfolio-catalog-item portfolio-catalog-item--img">--}}
-{{--                            <a href="#" class="portfolio-catalog-item__top">--}}
-{{--                                <img loading="lazy" src="img/portfolio-catalog-item-img2.jpg" alt="img">--}}
-{{--                                <div class="portfolio-catalog-item__title">--}}
-{{--                                    Промо ролик для “Eagle Shell”--}}
-{{--                                </div>--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                    @include('includes.user-portfolio');
                 </div>
             </div>
         </div>
     </div>
+    @include('modals.edit-portfolio-img')
+    @include('modals.edit-portfolio-video')
+    <script type="text/javascript">
+        $('.profile-contact__btn').click(function(event){
+            connsole.log('here')
+            var profile_id = $(this).attr('id');
+            event.preventDefault();
+            swal({
+                title: "{{ trans('main.payment_confirmation') }}",
+                text: "{{ trans('main.cost_per_action') }}",
+                icon: "warning",
+                type: "warning",
+                buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+            }).then((confirm) => {
+                if (confirm) {
+                    $.ajax({
+                        url: "/user-request/create",
+                        type: "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            profile_id: profile_id,
+                            type: 'show'
+                        },
+                        dataType: 'json',
+                        success: function success() {
+                            $(".profile-contact-payment").hide();
+                            $(".profile-contact-show").removeAttr('hidden');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endsection
 

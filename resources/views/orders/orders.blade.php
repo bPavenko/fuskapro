@@ -38,8 +38,7 @@
                                 </div>
                                 <div class="statuses-list custom-select__list">
                                     @foreach($statuses as $status)
-                                        <input id="status-name" type="hidden" value="{{ $status }}">
-                                        <div class="custom-select-item">
+                                        <div id="{{ $status }}" class="custom-select-item">
                                             {{ trans('main.' . $status) }}
                                         </div>
                                     @endforeach
