@@ -5471,9 +5471,7 @@ document.addEventListener('DOMContentLoaded', function () {
   $('.statuses-list .custom-select-item').on('click', function () {
     var text = $(this).text();
     $(this).parents('.custom-select').find('.custom-select-value').text(text);
-    // var status = $(this).parents('.statuses-list').find('.status-name').val();
     var status = $(this).attr('id');
-    console.log(status)
     $(this).parents('.custom-select').find('.custom-select-input').val(status);
     $('.custom-select__list').slideUp(200);
     $('.custom-select__top').removeClass('active');

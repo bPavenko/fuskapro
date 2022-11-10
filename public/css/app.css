@@ -15032,6 +15032,25 @@ body.scroll-hide {
   gap: 30px;
 }
 
+.privacy-policy li {
+  list-style-type: square !important;
+  font-size: 16px !important;
+  list-style-position: inside;
+  display: list-item;
+}
+
+.privacy-policy ul {
+  margin-left: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.privacy-policy span {
+  font-size: 19px !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .portfolio-catalog-item__top {
   display: block;
 }

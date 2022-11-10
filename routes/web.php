@@ -31,6 +31,7 @@ Route::get('/symlink', function () {
     echo "Done";
 });
 Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
+Route::get('/privacy-policy', [App\Http\Controllers\MainController::class, 'privacyPolicy']);
 Route::get('redirect/{driver}', [App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider']);
 Route::get('{driver}/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleProviderCallback']);
 

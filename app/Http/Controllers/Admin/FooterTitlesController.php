@@ -135,7 +135,11 @@ class FooterTitlesController extends Controller
     {
         // Sanitize input
         $sanitized = $request->getSanitized();
-
+        $sanitized['name'] = [
+            'ua' => $request->get('ua'),
+            'en' => $request->get('en'),
+            'cz' => $request->get('cz'),
+        ];
         // Update changed values FooterTitle
         $footerTitle->update($sanitized);
 
