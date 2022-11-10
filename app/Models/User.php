@@ -34,7 +34,9 @@ class User extends Authenticatable
         'avatar',
         'delete_request',
         'vip_status',
-        'priority'
+        'priority',
+        'provider_name',
+        'provider_id'
     ];
     protected $appends = ['resource_url'];
     /**

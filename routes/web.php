@@ -13,23 +13,6 @@ use Illuminate\Support\Facades\Artisan;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/foo', function () {
-//    dd(Artisan::call('storage:link'));
-    Artisan::call('storage:link');
-});
-Route::get('/cahe', function () {
-//    dd(Artisan::call('storage:link'));
-    Artisan::call('cache:clear');
-    Artisan::call('optimize');
-    Artisan::call('config:cache');
-    dd('1');
-});
-Route::get('/symlink', function () {
-    $target =$_SERVER['DOCUMENT_ROOT'].'/storage/app/public';
-    $link = $_SERVER['DOCUMENT_ROOT'].'/public/storage';
-    symlink($target, $link);
-    echo "Done";
-});
 Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
 Route::get('/privacy-policy', [App\Http\Controllers\MainController::class, 'privacyPolicy']);
 Route::get('redirect/{driver}', [App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider']);

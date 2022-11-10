@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -46,7 +47,6 @@ class LoginController extends Controller
 
     public function handleProviderCallback($driver)
     {
-        dd( $user = Socialite::driver($driver)->user());
         try {
             $user = Socialite::driver($driver)->user();
         } catch (\Exception $e) {
@@ -66,7 +66,8 @@ class LoginController extends Controller
             // we set email_verified_at because the user's email is already veridied by social login portal
             $newUser->email_verified_at = now();
             // you can also get avatar, so create avatar column in database it you want to save profile image
-            // $newUser->avatar            = $user->getAvatar();
+            $newUser->password = Hash::make(str_random(8));
+            $newUser->avatar            = $user->getAvatar();
             $newUser->save();
 
             auth()->login($newUser, true);
