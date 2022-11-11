@@ -70,11 +70,10 @@ class LoginController extends Controller
             $newUser->avatar            = $user->getAvatar();
             $checkEmail = User::where('email', $newUser->email)->first();
 
-            if (!$checkEmail) {
-                $newUser->save();
-            } else {
+            if ($newUser->email && $checkEmail) {
                 Alert::error('error', trans('alerts.email_already_taken'));
-                return redirect()->route('login');
+            } else {
+                $newUser->save();
             }
 
             auth()->login($newUser, true);
