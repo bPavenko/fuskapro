@@ -171,4 +171,12 @@ class User extends Authenticatable
     {
         return url('/admin/users/'.$this->getKey());
     }
+
+    public function getAvatarPathAttribute() {
+        if(stristr($this->avatar, 'https://')){
+            return $this->avatar;
+        } else {
+            return asset('storage/images/' . $this->avatar);
+        }
+    }
 }

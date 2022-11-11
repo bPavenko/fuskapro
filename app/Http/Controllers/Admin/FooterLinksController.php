@@ -124,7 +124,7 @@ class FooterLinksController extends Controller
     {
         $this->authorize('admin.footer-link.edit', $footerLink);
         $footerTitles = FooterTitle::all();
-        
+
         return view('admin.footer-link.edit', [
             'footerLink' => $footerLink,
             'footerTitles' => $footerTitles

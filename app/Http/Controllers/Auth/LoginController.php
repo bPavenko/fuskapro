@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -53,7 +54,7 @@ class LoginController extends Controller
             return redirect()->route('login');
         }
 
-        $existingUser = User::where('email', $user->getEmail())->first();
+        $existingUser = User::where('provider_id', $user->getId())->first();
 
         if ($existingUser) {
             auth()->login($existingUser, true);
@@ -63,9 +64,7 @@ class LoginController extends Controller
             $newUser->provider_id       = $user->getId();
             $newUser->name              = $user->getName();
             $newUser->email             = $user->getEmail();
-            // we set email_verified_at because the user's email is already veridied by social login portal
             $newUser->email_verified_at = now();
-            // you can also get avatar, so create avatar column in database it you want to save profile image
             $newUser->password = Hash::make(str_random(8));
             $newUser->avatar            = $user->getAvatar();
             $newUser->save();

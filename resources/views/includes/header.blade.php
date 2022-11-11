@@ -18,7 +18,7 @@
                     <div class="hed-person-menu">
                         <div class="hed-person">
                             <div class="hed-person__icon">
-                                <img loading="lazy" src="{{ asset('storage/images/' . Auth::user()->avatar) }}" alt="img">
+                                <img loading="lazy" src="{{ Auth::user()->avatar_path }}" alt="img">
                             </div>
                             <div class="hed-person__name">
                                 {{Auth::user()->name}} <br>

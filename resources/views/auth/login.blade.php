@@ -4,17 +4,16 @@
 <div class="container entry-wrap-container">
     <div class="entry-wrap">
         <div class="entry-soc">
-            <a href="#" class="entry-soc__img">
+            <a href="{{ url('redirect/google') }}" class="entry-soc__img">
                 <img src="img/entry-soc-img.png" alt="img">
             </a>
-            <a href="#" class="entry-soc__img">
+            <a href="{{ url('redirect/facebook') }}" class="entry-soc__img">
                 <img src="img/entry-soc-img2.png" alt="img">
             </a>
-            <a href="{{ url('redirect/google') }}">Google Login</a>
 
         </div>
         <div class="or">
-            <span>або</span>
+            <span>{{ trans('main.or') }}</span>
         </div>
         <div class="registr-wrap">
             <form method="POST" action="{{ route('login') }}" class="registr-form">
