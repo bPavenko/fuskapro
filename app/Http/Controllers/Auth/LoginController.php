@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Alert;
 
 class LoginController extends Controller
 {
@@ -67,7 +68,14 @@ class LoginController extends Controller
             $newUser->email_verified_at = now();
             $newUser->password = Hash::make(str_random(8));
             $newUser->avatar            = $user->getAvatar();
-            $newUser->save();
+            $checkEmail = User::where('email', $newUser->email)->first();
+
+            if (!$checkEmail) {
+                $newUser->save();
+            } else {
+                Alert::error('error', trans('alerts.email_already_taken'));
+                return redirect()->route('login');
+            }
 
             auth()->login($newUser, true);
         }
