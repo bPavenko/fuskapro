@@ -7,7 +7,7 @@
             </div>
             <div class="modal-edit__wrapper">
                 <div class="modal-edit__img" style="margin-bottom: 5px">
-                    <img id="modal-edit-image" src="{{ asset('storage/images/' . Auth::user()->avatar) }}"  loading="lazy" src="" alt="img">
+                    <img id="modal-edit-image" src="{{ Auth::user()->avatar_path }}"  loading="lazy" src="" alt="img">
                 </div>
                 <form method="POST" action="{{ route('edit-user') }}" class="change-password" enctype="multipart/form-data">
                     @csrf
