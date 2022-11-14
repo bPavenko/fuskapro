@@ -6,9 +6,14 @@
                 {{ trans('main.update-profile') }}
             </div>
             <div class="modal-edit__wrapper">
-                <div class="modal-edit__img" style="margin-bottom: 5px">
-                    <img id="modal-edit-image" src="{{ Auth::user()->avatar_path }}"  loading="lazy" src="" alt="img">
+                <div class="person-block">
+                    <div class="modal-edit__img person-block__img">
+                        <img loading="lazy" src="{{ Auth::user()->avatar_path }}" alt="img">
+                    </div>
                 </div>
+{{--                <div class="modal-edit__img" style="margin-bottom: 5px">--}}
+{{--                    <img id="modal-edit-image" src="{{ Auth::user()->avatar_path }}"  loading="lazy" src="" alt="img">--}}
+{{--                </div>--}}
                 <form method="POST" action="{{ route('edit-user') }}" class="change-password" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-edit-form__top">
@@ -25,8 +30,8 @@
 
                             @if($errors->first('name'))
                                 <span class="text-danger" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
+                                    <strong>{{ $errors->first('name') }}</strong>
+                                </span>
                             @endif
                         </div>
                         <div class="input-block">
@@ -35,8 +40,8 @@
                             <input class="input" required name="surname" type="text" value="{{ Auth::user()->surname }}" placeholder="{{ trans('main.surname') }}">
                             @if($errors->first('surname'))
                                 <span class="text-danger" role="alert">
-                                        <strong>{{ $errors->first('surname') }}</strong>
-                                    </span>
+                                    <strong>{{ $errors->first('surname') }}</strong>
+                                </span>
                             @endif
                         </div>
                         <div class="input-block">
@@ -46,16 +51,16 @@
 
                             @if($errors->first('email'))
                                 <span class="text-danger" role="alert">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
+                        <strong>{{ $errors->first('email') }}</strong>
+                    </span>
                             @endif
                         </div>
                         <div class="form-block-title">{{ trans('main.gender') }}</div>
                         <div class="input-block custom-select">
 
                             <div class="custom-select__top">
-                                <div class="custom-select-value">{{ trans('main.gender') }}</div>
-                                <input required class="custom-select-input" name="gender" type="hidden" value="{{ trans('main.' . Auth::user()->gender) }}">
+                                <div class="custom-select-value">{{ trans('main.' . Auth::user()->gender) }}</div>
+                                <input required class="custom-select-input" name="gender" type="hidden" value="{{ Auth::user()->gender }}">
                             </div>
                             <div class="gender-list custom-select__list">
                                 <div class="custom-select-item" id="male">
@@ -74,8 +79,8 @@
                             <div class="ui-front"></div>
                             @if($errors->first('city'))
                                 <span class="text-danger" role="alert">
-                                <strong>{{ $errors->first('city') }}</strong>
-                            </span>
+                            <strong>{{ $errors->first('city') }}</strong>
+                        </span>
                             @endif
                         </div>
                         <div class="input-block">
@@ -84,8 +89,8 @@
                             <input placeholder="{{ trans('main.phone') }}" name="phone" class="input" value="{{ Auth::user()->phone }}">
                             @if($errors->first('phone'))
                                 <span class="text-danger" role="alert">
-                                    <strong>{{ $errors->first('phone') }}</strong>
-                                </span>
+                                <strong>{{ $errors->first('phone') }}</strong>
+                            </span>
                             @endif
                         </div>
                         <div class="input-block">
@@ -94,8 +99,8 @@
                             <input type="date" name="birth_date" class="input" value="{{ Auth::user()->birth_date  }}">
                             @if($errors->first('birth_date'))
                                 <span class="text-danger" role="alert">
-                                    <strong>{{ $errors->first('birth_date') }}</strong>
-                                </span>
+                                <strong>{{ $errors->first('birth_date') }}</strong>
+                            </span>
                             @endif
                         </div>
 

@@ -20229,3 +20229,6 @@ div.trumbowyg-dropdown-table table td.active {
     font-size: 0.875rem !important;
   }
 }
+.home-cards .table-listing td:last-of-type {
+  justify-content: flex-start;
+}

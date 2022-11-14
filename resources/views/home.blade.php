@@ -14,7 +14,7 @@
                         </div>
                         @if(Auth::user()->isSpecialist() && Auth::user()->vip_status)
                             <div>
-                                Віп статус до: {{ Auth::user()->vip_status }}
+                                {{ trans('main.vip_status_to' )}}: {{ Auth::user()->vip_status }}
                             </div>
                         @endif
 

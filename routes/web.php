@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Artisan;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
 Route::get('/privacy-policy', [App\Http\Controllers\MainController::class, 'privacyPolicy']);
 Route::get('redirect/{driver}', [App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider']);
@@ -34,6 +35,11 @@ Route::get('user-locale/{locale}/{admin_id}', function ($locale, $admin_id) {
 
 Auth::routes();
 
+Route::middleware(['web', 'admin', 'auth:' . config('admin-auth.defaults.guard')])->group(static function () {
+    Route::namespace('App\Http\Controllers\Admin')->group(static function () {
+        Route::get('/admin', 'AdminHomepageController@index');
+    });
+});
 
 Route::post('/get-search-ajax', [App\Http\Controllers\MainController::class, 'getSearchAjax'])->name('get-search-ajax');
 Route::get('/orders', [App\Http\Controllers\OrdersController::class, 'index'])->name('orders');

@@ -17,7 +17,7 @@
             </div>
             <div>
                 {{ trans('main.date_birth') }}:
-                <span>02.10.1982</span>
+                <span>{{ Auth::user()->birth_date }}</span>
             </div>
         </div>
         <div class="order-box-item">
@@ -26,7 +26,7 @@
             </div>
             <div>
                 {{ trans('main.gender') }}:
-                <span>чоловіча</span>
+                <span> {{ trans("main." .  Auth::user()->gender) }}</span>
             </div>
         </div>
     </div>

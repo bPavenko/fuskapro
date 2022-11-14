@@ -241,12 +241,12 @@ class UserController extends Controller
 
     public function update(Request $request) {
         $validator = Validator::make($request->all(), [
-            'phone' => ['required', 'string', 'regex:/^\+380\d{3}\d{2}\d{2}\d{2}$/'],
+            'phone' => ['required', 'string', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255',  Rule::unique('users')->ignore(Auth::user()->id)],
             'city' => ['required', 'integer'],
-            'birth_date' => ['required' , 'date'],
+            'birth_date' => ['date'],
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         if ($validator->fails()) {
