@@ -118,7 +118,10 @@ class OrdersController extends Controller
         $this->authorize('admin.order.edit', $order);
 
         $sections = TaskSection::all();
-        
+        $categories = TaskCategory::where('parent_id', $order->section_id)->get();
+        $order->categories = $categories;
+        $order->city_name = Geo::where('id', $order->city)->first()->name;
+
         return view('admin.order.edit', [
             'order' => $order,
             'sections' => $sections
@@ -136,7 +139,6 @@ class OrdersController extends Controller
     {
         // Sanitize input
         $sanitized = $request->getSanitized();
-
         // Update changed values Order
         $order->update($sanitized);
 

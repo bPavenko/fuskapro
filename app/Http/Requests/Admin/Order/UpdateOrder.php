@@ -36,7 +36,7 @@ class UpdateOrder extends FormRequest
             'price' => ['sometimes', 'numeric'],
             'by_user' => ['sometimes', 'integer'],
             'price_negotiable' => ['sometimes', 'boolean'],
-            
+            'city' => ['sometimes']
         ];
     }
 

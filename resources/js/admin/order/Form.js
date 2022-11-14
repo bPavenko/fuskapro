@@ -16,6 +16,8 @@ Vue.component('order-form', {
                 by_user:  '' ,
                 city: '',
                 price_negotiable:  false ,
+                categories: [],
+                city_name: '',
             },
             categories: [],
             query: '',
@@ -29,31 +31,20 @@ Vue.component('order-form', {
                     section_id: section_id
                 }
             }).then(function (response){
-                console.log(response.data)
-                this.categories = response.data;
-            }.bind(this));
-        },
-        getCity(section_id) {
-            axios.get('/admin/orders/get-categories', {
-                params: {
-                    section_id: section_id
-                }
-            }).then(function (response){
-                console.log(response.data)
-                this.categories = response.data;
+                this.form.categories = response.data;
             }.bind(this));
         },
         autoComplete(){
             this.cities = [];
-            if(this.query.length > 2){
-                axios.get('/admin/orders/get-cities',{params: {query: this.query}}).then(response => {
+            if(this.form.city_name.length > 1){
+                axios.get('/admin/orders/get-cities',{params: {query: this.form.city_name}}).then(response => {
                     this.cities = response.data;
                 });
             }
         },
         setCity($id, $name) {
             this.cities = [];
-            this.query = $name;
+            this.form.city_name = $name;
             this.form.city = $id;
         }
     }

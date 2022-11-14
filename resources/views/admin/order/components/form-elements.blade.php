@@ -8,7 +8,7 @@
 
 
 <div class="form-group row align-items-center" :class="{'has-danger': errors.has('parent_id'), 'has-success': fields.parent_id && fields.parent_id.valid }">
-    <label for="parent_id" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.task-category.columns.parent_id') }}</label>
+    <label for="parent_id" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('main.section') }}</label>
     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
         <select @change='getCategories(form.section_id)' v-validate="'required'"  v-model="form.section_id" class="form-control" id="section_id" name="section_id">
             @foreach($sections as $section)
@@ -19,10 +19,10 @@
 </div>
 
 <div class="form-group row align-items-center" :class="{'has-danger': errors.has('parent_id'), 'has-success': fields.parent_id && fields.parent_id.valid }">
-    <label for="parent_id" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.task-category.columns.parent_id') }}</label>
+    <label for="parent_id" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('main.category') }}</label>
     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
         <select v-validate="'required'"  v-model="form.category_id" class="form-control" id="category_id" name="category_id">
-            <option v-for='data in categories' :value='data.id'>@{{ data.name }}</option>
+            <option v-for='data in form.categories' :value='data.id'>@{{ data.name }}</option>
         </select>
     </div>
 </div>
@@ -30,7 +30,7 @@
     <label for="title" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.order.columns.city') }}</label>
     <input type="hidden"  v-model="form.city" name="city">
     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
-        <input type="text" placeholder="" v-model="query" v-on:keyup="autoComplete" class="form-control">
+        <input type="text" v-model="form.city_name" v-on:keyup="autoComplete" class="form-control">
     </div>
     <div class="panel-footer" v-if="cities.length">
         <ul class="list-group">
@@ -77,7 +77,7 @@
     <div :class="isFormLocalized ? 'col-md-4' : 'col-sm-8'">
         <div class="input-group input-group--custom">
             <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-            <datetime v-model="form.execution_date" :config="datePickerConfig" v-validate="'required|date_format:yyyy-MM-dd HH:mm:ss'" class="flatpickr" :class="{'form-control-danger': errors.has('execution_date'), 'form-control-success': fields.execution_date && fields.execution_date.valid}" id="execution_date" name="execution_date" placeholder="{{ trans('brackets/admin-ui::admin.forms.select_a_date') }}"></datetime>
+            <datetime v-model="form.execution_date" :config="datePickerConfig" v-validate="'required'" class="flatpickr" :class="{'form-control-danger': errors.has('execution_date'), 'form-control-success': fields.execution_date && fields.execution_date.valid}" id="execution_date" name="execution_date" placeholder="{{ trans('brackets/admin-ui::admin.forms.select_a_date') }}"></datetime>
         </div>
         <div v-if="errors.has('execution_date')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('execution_date') }}</div>
     </div>
@@ -88,7 +88,7 @@
     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
         <div class="input-group input-group--custom">
             <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-            <datetime v-model="form.start_execution_time" :config="datetimePickerConfig" v-validate="'date_format:yyyy-MM-dd HH:mm:ss'" class="flatpickr" :class="{'form-control-danger': errors.has('start_execution_time'), 'form-control-success': fields.start_execution_time && fields.start_execution_time.valid}" id="start_execution_time" name="start_execution_time" placeholder="{{ trans('brackets/admin-ui::admin.forms.select_date_and_time') }}"></datetime>
+            <datetime v-model="form.start_execution_time" :config="datetimePickerConfig" v-validate="'sometimes'" class="flatpickr" :class="{'form-control-danger': errors.has('start_execution_time'), 'form-control-success': fields.start_execution_time && fields.start_execution_time.valid}" id="start_execution_time" name="start_execution_time" placeholder="{{ trans('brackets/admin-ui::admin.forms.select_date_and_time') }}"></datetime>
         </div>
         <div v-if="errors.has('start_execution_time')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('start_execution_time') }}</div>
     </div>
@@ -99,7 +99,7 @@
     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
         <div class="input-group input-group--custom">
             <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-            <datetime v-model="form.end_execution_time" :config="datetimePickerConfig" v-validate="'date_format:yyyy-MM-dd HH:mm:ss'" class="flatpickr" :class="{'form-control-danger': errors.has('end_execution_time'), 'form-control-success': fields.end_execution_time && fields.end_execution_time.valid}" id="end_execution_time" name="end_execution_time" placeholder="{{ trans('brackets/admin-ui::admin.forms.select_date_and_time') }}"></datetime>
+            <datetime v-model="form.end_execution_time" :config="datetimePickerConfig" v-validate="'sometimes'" class="flatpickr" :class="{'form-control-danger': errors.has('end_execution_time'), 'form-control-success': fields.end_execution_time && fields.end_execution_time.valid}" id="end_execution_time" name="end_execution_time" placeholder="{{ trans('brackets/admin-ui::admin.forms.select_date_and_time') }}"></datetime>
         </div>
         <div v-if="errors.has('end_execution_time')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('end_execution_time') }}</div>
     </div>
