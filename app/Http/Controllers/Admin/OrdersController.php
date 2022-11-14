@@ -117,9 +117,11 @@ class OrdersController extends Controller
     {
         $this->authorize('admin.order.edit', $order);
 
-
+        $sections = TaskSection::all();
+        
         return view('admin.order.edit', [
             'order' => $order,
+            'sections' => $sections
         ]);
     }
 

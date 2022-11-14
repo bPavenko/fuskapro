@@ -35,12 +35,6 @@ Route::get('user-locale/{locale}/{admin_id}', function ($locale, $admin_id) {
 
 Auth::routes();
 
-Route::middleware(['web', 'admin', 'auth:' . config('admin-auth.defaults.guard')])->group(static function () {
-    Route::namespace('App\Http\Controllers\Admin')->group(static function () {
-        Route::get('/admin', 'AdminHomepageController@index');
-    });
-});
-
 Route::post('/get-search-ajax', [App\Http\Controllers\MainController::class, 'getSearchAjax'])->name('get-search-ajax');
 Route::get('/orders', [App\Http\Controllers\OrdersController::class, 'index'])->name('orders');
 Route::get('/order-info/{id}', [App\Http\Controllers\OrdersController::class, 'show'])->name('order-info');
@@ -100,6 +94,9 @@ Route::group([
     Route::get('/users', [App\Http\Controllers\UsersController::class, 'index']);
 });
 
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::get('/admin', [App\Http\Controllers\Admin\AdminHomePageController::class, 'index']);
+});
 
 /* Auto-generated admin routes */
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
