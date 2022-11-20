@@ -26,7 +26,7 @@
             </div>
             <div>
                 {{ trans('main.gender') }}:
-                <span> {{ trans("main." .  Auth::user()->gender) }}</span>
+                <span> @if(Auth::user()->gender) {{ trans("main." .  Auth::user()->gender) }} @endif</span>
             </div>
         </div>
     </div>
@@ -40,10 +40,6 @@
             <span class="purple-block">{{ $category->name }}</span>
         @endforeach
     </div>
-    {{--                        <h4>{{ trans('main.city_orders') }}:</h4>--}}
-    {{--                        <div class="purple-block-wrap">--}}
-    {{--                            <span class="purple-block">Київ</span>--}}
-    {{--                        </div>--}}
     @if(Auth::user()->delete_request)
         <button class="remove" onclick="event.preventDefault(); document.getElementById('recover-delete-user').submit();">{{ trans('main.recover-delete-user') }}</button>
         <form id="recover-delete-user" action="{{ route('recover-delete-user') }}" method="POST" style="display: none;">
@@ -68,8 +64,8 @@
             buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-        }).then((willDelete) => {
-            if (willDelete) {
+        }).then((willDeleteUser) => {
+            if (willDeleteUser) {
                 form.submit();
             }
         });

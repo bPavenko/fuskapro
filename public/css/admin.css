@@ -20232,3 +20232,8 @@ div.trumbowyg-dropdown-table table td.active {
 .home-cards .table-listing td:last-of-type {
   justify-content: flex-start;
 }
+
+.app-header.navbar .navbar-brand img {
+  max-width: 200px;
+  max-height: 35px;
+}

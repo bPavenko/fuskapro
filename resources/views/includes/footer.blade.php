@@ -2,19 +2,8 @@
     <div class="container">
         <div class="footer__wrapper">
             <div class="footer__left">
-                <div class="footer__logo">
-                    <img loading="lazy" src="img/logo-white.svg" alt="img">
-                </div>
-                <div class="soc-block">
-                    <a href="#">
-                        <img loading="lazy" src="img/youtube-mini.svg" alt="img">
-                    </a>
-                    <a href="#">
-                        <img loading="lazy" src="img/linkedin.svg" alt="img">
-                    </a>
-                    <a href="#">
-                        <img loading="lazy" src="img/facebook.svg" alt="img">
-                    </a>
+                <div class="logo">
+                    <img loading="lazy"  src="img/fuska_pro_white_color.png" alt="img">
                 </div>
             </div>
             <div class="footer__right">

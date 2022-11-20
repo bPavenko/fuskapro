@@ -122,3 +122,14 @@ $factory->define(App\Models\FooterLink::class, static function (Faker\Generator 
         
     ];
 });
+/** @var  \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Price::class, static function (Faker\Generator $faker) {
+    return [
+        'service' => $faker->sentence,
+        'cost' => $faker->randomNumber(5),
+        'created_at' => $faker->dateTime,
+        'updated_at' => $faker->dateTime,
+        
+        
+    ];
+});

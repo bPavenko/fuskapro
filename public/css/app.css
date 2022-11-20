@@ -11091,6 +11091,16 @@ textarea.form-control-lg {
   font-display: swap;
   font-style: normal;
 }
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.top {
+  flex-grow: 1;
+}
+
 @font-face {
   font-family: "Raleway";
   src: url(/fonts/Raleway-Regular.woff2?32f1ff583b976ae9d5cdcc0f1f02e739) format("woff2");
@@ -15398,6 +15408,27 @@ body.scroll-hide {
 
 .modal-edit__wrapper {
   display: flex;
+}
+
+.edit-profile-modal .person-block {
+  display: block !important;
+}
+
+.edit-profile-modal .person-block__info {
+  margin-left: 0px;
+}
+
+.edit-profile-modal .edit-form__btn {
+  margin-top: 10px;
+}
+
+.edit-profile-modal .modal-edit-form__top {
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.edit-profile {
+  margin-bottom: 12px;
 }
 
 .edit-profile-modal .change-password {

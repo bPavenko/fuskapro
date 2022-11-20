@@ -8,3 +8,4 @@ import './task-section';
 import './order';
 import './footer-title';
 import './footer-link';
+import './price';

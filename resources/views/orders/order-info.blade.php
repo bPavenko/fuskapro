@@ -133,10 +133,10 @@
                     <div class="specialist-contact specialist-contact-payment">
                         <div class="specialist-contact__left">
                             <div class="specialist-contact__title">{{ trans('main.show_contacts') }}</div>
-                            <div class="specialist-contact__subtitle">{{ trans('main.cost_per_action') }}</div>
+                            <div class="specialist-contact__subtitle">{{ \App\Models\Price::contactShowText() }}</div>
                         </div>
                         <button class="specialist-contact__btn btn btn--orange">
-                            {{ trans('main.price_per_display') }}
+                            {{ trans('main.display') }}
                         </button>
                     </div>
                 @endif
@@ -253,7 +253,7 @@
             event.preventDefault();
             swal({
                 title: "{{ trans('main.payment_confirmation') }}",
-                text: "{{ trans('main.cost_per_action') }}",
+                text: "{{ \App\Models\Price::contactShowText() }}",
                 icon: "warning",
                 type: "warning",
                 buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],

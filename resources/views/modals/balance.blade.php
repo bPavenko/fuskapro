@@ -19,12 +19,10 @@
                 Поповнити баланс
             </button>
             @auth
-            @if(Auth::user()->isSpecialist())
             <button class="modal-balance__btn btn btn--purple vip-status-button">
-                Віп статус (10 монет)
+                {{ trans('main.vip_status') }} ({{ \App\Models\Price::vipCost() }} {{ trans('main.coins') }})
             </button>
             <form method="POST" action="{{ route('buy-vip-status') }}" class="buy-vip-status" style="display: none;">@csrf</form>
-            @endif
             @endauth
         </div>
     </div>

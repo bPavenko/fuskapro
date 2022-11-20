@@ -62,6 +62,9 @@ class Order extends Model
     }
 
     public function checkRequest($executorId = null, $type) {
+        if ($type == 'show') {
+            return Auth::user()->vip_status ? true : false;
+        }
         if (!$executorId) {
             $order = OrderRequest::where('order_id', $this->id)
                 ->where('type', $type)

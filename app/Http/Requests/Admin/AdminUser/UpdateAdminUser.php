@@ -33,7 +33,7 @@ class UpdateAdminUser extends FormRequest
             'forbidden' => ['sometimes', 'boolean'],
             'language' => ['sometimes', 'string'],
             'last_name' => ['nullable', 'string'],
-            'password' => ['sometimes', 'confirmed', 'min:7', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/', 'string'],
+            'password' => ['sometimes', 'confirmed', 'min:8', 'string'],
                 
             'roles' => ['sometimes', 'array'],
                 

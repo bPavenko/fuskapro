@@ -5,116 +5,120 @@
             <div class="modal-balance__title">
                 {{ trans('main.update-profile') }}
             </div>
-            <div class="modal-edit__wrapper">
-                <div class="person-block">
-                    <div class="modal-edit__img person-block__img">
-                        <img loading="lazy" src="{{ Auth::user()->avatar_path }}" alt="img">
-                    </div>
-                </div>
-{{--                <div class="modal-edit__img" style="margin-bottom: 5px">--}}
-{{--                    <img id="modal-edit-image" src="{{ Auth::user()->avatar_path }}"  loading="lazy" src="" alt="img">--}}
-{{--                </div>--}}
-                <form method="POST" action="{{ route('edit-user') }}" class="change-password" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('edit-user') }}"  enctype="multipart/form-data">
+                <div class="modal-edit__wrapper">
                     @csrf
-                    <div class="modal-edit-form__top">
-                        <div class="input-file btn btn--purple">
-                            <input name="image" type="file">
-                            {{ trans('main.upload_photo') }}
+                    <div class="person-block">
+                        <div class="person-block__img modal-edit__img person-block__img">
+                            <img loading="lazy" src="{{ Auth::user()->avatar_path }}" alt="img">
+                        </div>
+                        <div class="person-block__info">
+                            <div class="modal-edit-form__top">
+                                <div class="input-file btn btn--purple">
+                                    <input name="image" type="file">
+                                    {{ trans('main.upload_photo') }}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-edit-profile-size">
+                    <div class="change-password">
+                        <div class="modal-edit-profile-size">
 
-                        <div class="input-block">
-                            <div class="form-block-title">{{ trans('main.name') }}</div>
-                            <input id="name" type="text" class="input @error('name') is-invalid @enderror" name="name" value="{{ Auth::user()->name }}" placeholder="{{ trans('main.name') }}" required autocomplete="name" autofocus>
+                            <div class="input-block">
+                                <div class="form-block-title">{{ trans('main.name') }}</div>
+                                <input id="name" type="text" class="input @error('name') is-invalid @enderror" name="name" value="{{ Auth::user()->name }}" placeholder="{{ trans('main.name') }}" required autocomplete="name" autofocus>
 
-                            @if($errors->first('name'))
-                                <span class="text-danger" role="alert">
+                                @if($errors->first('name'))
+                                    <span class="text-danger" role="alert">
                                     <strong>{{ $errors->first('name') }}</strong>
                                 </span>
-                            @endif
-                        </div>
-                        <div class="input-block">
-                            <div class="form-block-title">{{ trans('main.surname') }}</div>
+                                @endif
+                            </div>
+                            <div class="input-block">
+                                <div class="form-block-title">{{ trans('main.surname') }}</div>
 
-                            <input class="input" required name="surname" type="text" value="{{ Auth::user()->surname }}" placeholder="{{ trans('main.surname') }}">
-                            @if($errors->first('surname'))
-                                <span class="text-danger" role="alert">
+                                <input class="input" required name="surname" type="text" value="{{ Auth::user()->surname }}" placeholder="{{ trans('main.surname') }}">
+                                @if($errors->first('surname'))
+                                    <span class="text-danger" role="alert">
                                     <strong>{{ $errors->first('surname') }}</strong>
                                 </span>
-                            @endif
-                        </div>
-                        <div class="input-block">
-                            <div class="form-block-title">{{ trans('main.email') }}</div>
-
-                            <input id="email" type="email" value="{{ Auth::user()->email }}" class="input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                            @if($errors->first('email'))
-                                <span class="text-danger" role="alert">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
-                            @endif
-                        </div>
-                        <div class="form-block-title">{{ trans('main.gender') }}</div>
-                        <div class="input-block custom-select">
-
-                            <div class="custom-select__top">
-                                <div class="custom-select-value">{{ trans('main.' . Auth::user()->gender) }}</div>
-                                <input required class="custom-select-input" name="gender" type="hidden" value="{{ Auth::user()->gender }}">
+                                @endif
                             </div>
-                            <div class="gender-list custom-select__list">
-                                <div class="custom-select-item" id="male">
-                                    {{ trans('main.male') }}
+                            <div class="input-block">
+                                <div class="form-block-title">{{ trans('main.email') }}</div>
+
+                                <input id="email" type="email" value="{{ Auth::user()->email }}" class="input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                                @if($errors->first('email'))
+                                    <span class="text-danger" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-block-title">{{ trans('main.gender') }}</div>
+                            <div class="input-block custom-select">
+
+                                <div class="custom-select__top">
+                                    <div class="custom-select-value">{{ Auth::user()->gender ? trans('main.' . Auth::user()->gender) : trans('main.gender') }}</div>
+                                    <input required class="custom-select-input" name="gender" type="hidden" value="{{ Auth::user()->gender }}">
                                 </div>
-                                <div class="custom-select-item" id="female">
-                                    {{ trans('main.female') }}
+                                <div class="gender-list custom-select__list">
+                                    <div class="custom-select-item" id="male">
+                                        {{ trans('main.male') }}
+                                    </div>
+                                    <div class="custom-select-item" id="female">
+                                        {{ trans('main.female') }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="input-block">
-                            <div class="form-block-title">{{ trans('main.city') }}</div>
+                            <div class="input-block">
+                                <div class="form-block-title">{{ trans('main.city') }}</div>
 
-                            <input required type="hidden" name="city" id="city-id" value="{{ Auth::user()->city }}">
-                            <input placeholder="{{ trans('main.city') }}" id="profile-city-search" name="city_name" value="{{ Auth::user()->cityName }}" class="input" type="text">
-                            <div class="ui-front"></div>
-                            @if($errors->first('city'))
-                                <span class="text-danger" role="alert">
+                                <input required type="hidden" name="city" id="city-id" value="{{ Auth::user()->city }}">
+                                <input placeholder="{{ trans('main.city') }}" id="profile-city-search" name="city_name" value="{{ Auth::user()->cityName }}" class="input" type="text">
+                                <div class="ui-front"></div>
+                                @if($errors->first('city'))
+                                    <span class="text-danger" role="alert">
                             <strong>{{ $errors->first('city') }}</strong>
                         </span>
-                            @endif
-                        </div>
-                        <div class="input-block">
-                            <div class="form-block-title">{{ trans('main.phone') }}</div>
+                                @endif
+                            </div>
+                            <div class="input-block">
+                                <div class="form-block-title">{{ trans('main.phone') }}</div>
 
-                            <input placeholder="{{ trans('main.phone') }}" name="phone" class="input" value="{{ Auth::user()->phone }}">
-                            @if($errors->first('phone'))
-                                <span class="text-danger" role="alert">
+                                <input placeholder="{{ trans('main.phone') }}" name="phone" class="input" value="{{ Auth::user()->phone }}">
+                                @if($errors->first('phone'))
+                                    <span class="text-danger" role="alert">
                                 <strong>{{ $errors->first('phone') }}</strong>
                             </span>
-                            @endif
-                        </div>
-                        <div class="input-block">
-                            <div class="form-block-title">{{ trans('main.__date') }}</div>
+                                @endif
+                            </div>
+                            <div class="input-block">
+                                <div class="form-block-title">{{ trans('main.__date') }}</div>
 
-                            <input type="date" name="birth_date" class="input" value="{{ Auth::user()->birth_date  }}">
-                            @if($errors->first('birth_date'))
-                                <span class="text-danger" role="alert">
+                                <input type="date" name="birth_date" class="input" value="{{ Auth::user()->birth_date  }}">
+                                @if($errors->first('birth_date'))
+                                    <span class="text-danger" role="alert">
                                 <strong>{{ $errors->first('birth_date') }}</strong>
                             </span>
-                            @endif
-                        </div>
+                                @endif
+                            </div>
 
-                        <div class="textarea-block">
-                            <div class="form-block-title">{{ trans('main.about_me') }}</div>
-                            <textarea name="about_me" value="{{ Auth::user()->about_me }}" placeholder="Опис" class="textarea"></textarea>
+                            <div class="textarea-block">
+                                <div class="form-block-title">{{ trans('main.about_me') }}</div>
+                                <textarea name="about_me" value="{{ Auth::user()->about_me }}" placeholder="Опис" class="textarea"></textarea>
+                            </div>
+                            <label class="checkbox-block">
+                                <input type="checkbox" @if(Auth::user()->isSpecialist()) checked @endif name="type_id">
+                                {{ trans('main.im_specialist') }}
+                            </label>
                         </div>
+                        <button class="edit-form__btn btn btn--purple">
+                            {{ trans('main.save') }}
+                        </button>
                     </div>
-                    <button class="edit-form__btn btn btn--purple">
-                        {{ trans('main.save') }}
-                    </button>
-                </form>
-            </div>
-
+                </div>
+            </form>
         </div>
     </div>
 </div>

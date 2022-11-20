@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Egulias\EmailValidator\Exception\AtextAfterCFWS;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Igaster\LaravelCities\Geo;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -157,6 +159,9 @@ class User extends Authenticatable
     }
 
     public function checkRequest($profileId = null, $type) {
+        if ($type == 'show') {
+            return Auth::user()->vip_status ? true : false;
+        }
         if ($profileId) {
             $request = UserRequest::where('user_id', $this->id)
                 ->where('profile_id', $profileId)
@@ -167,6 +172,11 @@ class User extends Authenticatable
 
         return $request ? true : false;
     }
+
+    public function showContacts($profileId = null, $type = null) {
+
+    }
+
     public function getResourceUrlAttribute()
     {
         return url('/admin/users/'.$this->getKey());

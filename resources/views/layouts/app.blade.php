@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="{{URL::asset('img/favicon.png')}}">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -25,11 +26,17 @@
 
 </head>
 <body>
-@include('includes.header')
-    <div id="app">
-         @yield('content')
+<div class="wrapper">
+    <div class="top">
+        @include('includes.header')
+        <div id="app">
+            <div class="content">
+                @yield('content')
+            </div>
+        </div>
     </div>
-@include('includes.footer')
+    @include('includes.footer')
+</div>
 @include('modals.balance')
 @include('sweetalert::alert')
 

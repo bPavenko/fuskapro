@@ -245,3 +245,18 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
         });
     });
 });
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
+        Route::prefix('prices')->name('prices/')->group(static function() {
+            Route::get('/',                                             'PricesController@index')->name('index');
+            Route::get('/create',                                       'PricesController@create')->name('create');
+            Route::post('/',                                            'PricesController@store')->name('store');
+            Route::get('/{price}/edit',                                 'PricesController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'PricesController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{price}',                                     'PricesController@update')->name('update');
+            Route::delete('/{price}',                                   'PricesController@destroy')->name('destroy');
+        });
+    });
+});

@@ -226,7 +226,7 @@
                 </div>
             </div>
             <div class="app__img">
-                <img loading="lazy" src="img/app-img.png" alt="img">
+                <img loading="lazy" src="img/app-img-2.png" alt="img">
             </div>
         </div>
     </section>

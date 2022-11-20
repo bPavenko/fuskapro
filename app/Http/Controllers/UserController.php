@@ -268,8 +268,14 @@ class UserController extends Controller
             $user->save();
         }
 
+        $data = $request->all();
 
-        Auth::user()->update($request->all());
+        if (isset($data['type_id'])) {
+            $data['type_id'] = $data['type_id'] == 'on' ? 2 : 1;
+        } else {
+            $data['type_id'] = 1;
+        }
+        Auth::user()->update($data);
         return redirect(route('home'));
     }
 

@@ -60,7 +60,7 @@
             </div>
         @endif
     @endforeach
-        <form method="POST" action="{{ route('delete-media') }}" class="delete-user-form" style="display: none;">
+        <form method="POST" action="{{ route('delete-media') }}" class="delete-media-form" style="display: none;">
             @csrf
             <input type="hidden" name="media_id" id="delete-media-id">
         </form>
@@ -68,7 +68,7 @@
 <script type="text/javascript">
     $('.portfolio-catalog-item__remove').click(function(event){
         $('#delete-media-id').val($(this).attr('media-id'))
-        var form =  $('.delete-user-form');
+        var form =  $('.delete-media-form');
         event.preventDefault();
         swal({
             title: "{{ trans('main.delete_confirmation') }}",
