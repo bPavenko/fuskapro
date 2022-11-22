@@ -149,7 +149,7 @@
         <div class="how-work__bottom">
             <div class="container">
                 {{ trans('main.create_your_order') }}
-                <a href="#" class="how-work__btn btn btn--orange">
+                <a href="{{ route('create-orders') }}" class="how-work__btn btn btn--orange">
                     {{ trans('main.create') }}
                 </a>
             </div>

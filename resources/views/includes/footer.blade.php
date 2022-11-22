@@ -3,7 +3,7 @@
         <div class="footer__wrapper">
             <div class="footer__left">
                 <div class="logo">
-                    <img loading="lazy"  src="img/fuska_pro_white_color.png" alt="img">
+                    <img loading="lazy"  src="{{URL::asset('/img/fuska_pro_white_color.png')}}" alt="img">
                 </div>
             </div>
             <div class="footer__right">
@@ -18,19 +18,6 @@
                         @endforeach
                     </div>
                 @endforeach
-{{--                <div class="footer-list">--}}
-{{--                    <div class="footer-list__title">Title</div>--}}
-{{--                    <a href="#">Link</a>--}}
-{{--                    <a href="#">Link</a>--}}
-{{--                    <a href="#">Link</a>--}}
-{{--                    <a href="#">Link</a>--}}
-{{--                    <a href="#">Link</a>--}}
-{{--                </div>--}}
-{{--                <div class="footer-list">--}}
-{{--                    <div class="footer-list__title">APP</div>--}}
-{{--                    <a href="#">Apple Store</a>--}}
-{{--                    <a href="#">Play Market</a>--}}
-{{--                </div>--}}
             </div>
         </div>
     </div>

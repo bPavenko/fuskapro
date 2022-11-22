@@ -6,7 +6,7 @@
             <div class="profile-top">
                 <div class="person-block">
                     <div class="person-block__img">
-                        <img loading="lazy" src="{{URL::asset('img/person-block-img4.png')}}" alt="img">
+                        <img loading="lazy" src="{{ $user->avatar_path }}" alt="img">
                     </div>
                     <div class="person-block__info">
                         <div class="person-block__name">

@@ -51,10 +51,11 @@ Route::group([
         'middleware' => 'default-user',
         'prefix' => ''
     ], function() {
-        Route::get('/create-order', [App\Http\Controllers\OrdersController::class, 'create'])->name('create-orders');
-        Route::post('/store-order', [App\Http\Controllers\OrdersController::class, 'store'])->name('store-order');
 
     });
+    Route::get('/create-order', [App\Http\Controllers\OrdersController::class, 'create'])->name('create-orders');
+    Route::post('/store-order', [App\Http\Controllers\OrdersController::class, 'store'])->name('store-order');
+
     Route::post('/change-password', [App\Http\Controllers\UserController::class, 'changePassword'])->name('change-password');
 
     Route::post('/update-portfolio', [App\Http\Controllers\UserController::class, 'updatePortfolio'])->name('update-portfolio');
