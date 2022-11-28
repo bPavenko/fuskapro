@@ -452,7 +452,13 @@ body.scroll-hide {
   margin-left: 1px;
   transition: all 0.3s ease-in-out;
 }
-
+.city-name-input::-webkit-search-cancel-button{
+    position:relative !important;
+}
+.reset-filters-btn {
+    margin: auto;
+    margin-top: 10px;
+}
 .lang__list {
   position: absolute;
   background: #FFFFFF;
@@ -695,6 +701,9 @@ body.scroll-hide {
 }
 
 @media (max-width: 1400px) {
+    .city-name-input {
+        padding: 2px !important;
+    }
   .logo {
     width: 100px;
     display: block;
@@ -2167,7 +2176,7 @@ body.scroll-hide {
   box-shadow: 4px 4px 15px rgba(67, 0, 119, 0.18);
   border-radius: 10px;
   padding: 15px;
-  width: 100%;
+  width: auto;
   top: calc(100% + 5px);
   display: none;
   z-index: 2;

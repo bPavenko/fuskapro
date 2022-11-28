@@ -178,10 +178,11 @@ class UserController extends Controller
         $executors = User::where('type_id', 2);
 
         if ($request->get('category_id')) {
-            $executors = $executors->join('user_categories', 'user_categories.user_id', '=', 'users.id')->where('category_id', $request->get('category_id'));
+            $executors = $executors->select('users.*')->join('user_categories', 'user_categories.user_id', '=', 'users.id')->where('category_id', $request->get('category_id'));
         } else if ($request->get('section_id')) {
             $executors = $executors->join('user_categories', 'user_categories.user_id', '=', 'users.id')
                 ->join('task_categories', 'task_categories.id', '=', 'user_categories.category_id')
+                ->select('users.*')
                 ->where('parent_id', $request->get('section_id'));
         }
         $executors = $executors->orderBy('priority', 'ASC');
@@ -200,7 +201,7 @@ class UserController extends Controller
         } else {
             $executors = $executors->orderBy('users.created_at' , 'desc');
         }
-
+        $executors = $executors->groupBy('id');
         $executors = $executors->paginate(10);
         $view = view('includes.executors', [
             'executors' => $executors

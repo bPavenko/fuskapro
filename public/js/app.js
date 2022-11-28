@@ -5582,12 +5582,16 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   $(".executors-city-search-id").on("input", function () {
-    console.log('hererer');
     getExecutors();
   });
   $(".executors--id").change(function () {
-    console.log('jere');
     getExecutors();
+  });
+  $(".city-name-input").on('input', function () {
+    if (this.value == '') {
+      $('#city-id').val('');
+      getExecutors();
+    }
   });
 
   if (Object.keys($("#search")).length != 0) {
@@ -5629,8 +5633,19 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   $('.section-filter-item').on('click', function () {
     getExecutors();
+    $('#category-placeholder').html(category_placeholder);
   });
   $('.category-filter-item').on('click', function () {
+    getExecutors();
+  });
+  $('.reset-filters-btn').on('click', function () {
+    $("#city-id").val('');
+    $(".category-input").val('');
+    $(".city-name-input").val('');
+    $('.section-input').val('');
+    $("input[name='sort']").checked = false;
+    $('#section-placeholder').html(section_placeholder);
+    $('#category-placeholder').html(category_placeholder);
     getExecutors();
   });
   $('.section-header').on('click', function () {
