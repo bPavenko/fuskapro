@@ -75,7 +75,7 @@ class UserController extends Controller
 //        if ($request->get('city')) {
 //            $query = $query->where('city', $request->get('city'));
 //        }
-        $executors = $query->paginate(10);
+        $executors = $query->paginate(15);
 
         return view('executors', [
             'executors' => $executors,
@@ -202,7 +202,12 @@ class UserController extends Controller
             $executors = $executors->orderBy('users.created_at' , 'desc');
         }
         $executors = $executors->groupBy('id');
-        $executors = $executors->paginate(10);
+
+        if ($request->get('page')) {
+            $executors = $executors->paginate(10, ['*'], 'page', $request->get('page'));
+        } else {
+            $executors = $executors->paginate(10);
+        }
         $view = view('includes.executors', [
             'executors' => $executors
         ])->render();

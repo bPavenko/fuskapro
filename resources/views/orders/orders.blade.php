@@ -126,7 +126,7 @@
                     <div class="offers-row row-item">
                         <div class="offers-row-left">
                             <div class="offers-row-left__top">
-                                {{$order->short_description}}
+                                {{$order->title}}
                             </div>
                             <div class="person-block">
                                 <div class="person-block__img">

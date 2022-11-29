@@ -65,7 +65,7 @@ class OrdersController extends Controller
             $status = $request->get('status');
             $query = $query->where('status', $status);
         }
-        $orders = $query->paginate(10);
+        $orders = $query->paginate(15);
 
         return view('orders.orders', [
             'orders' => $orders,
@@ -83,9 +83,9 @@ class OrdersController extends Controller
     public function userOrders()
     {
         if (!Auth::user()->isSpecialist()) {
-            $orders = Order::where('by_user', Auth::user()->id)->paginate(7);
+            $orders = Order::where('by_user', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(7);
         } else {
-            $orders = Order::where('executor_id', Auth::user()->id)->paginate(7);
+            $orders = Order::where('executor_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(7);
         }
 
         return view('orders.my-orders', ['orders' => $orders]);

@@ -33,7 +33,7 @@ class NotificationsController extends Controller
     }
 
     public function rateUser(Request $request) {
-        $notification = Notification::where('order_id', $request->order_id)->where('from', $request->user_id)->first();
+        $notification = Notification::where('order_id', $request->order_id)->where('id', $request->notification_id)->where('type', 'rate')->first();
         if ($notification) {
             $user = User::find($request->user_id);
             Rate::create([
@@ -41,15 +41,12 @@ class NotificationsController extends Controller
                 'rate' => $request->rate,
                 'from_user' => Auth::user()->id
             ]);
-
             Notification::create([
                 'notification' => trans('alerts.thanks_for_feedback'),
                 'user_id' => Auth::user()->id
             ]);
             $user->rate = $user->getRate();
             $user->save();
-
-            $rates = Rate::where('user_id', $request->user_id)->pluck('rate')->toArray();
 
             $notification->delete();
 

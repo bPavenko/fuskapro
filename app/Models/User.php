@@ -159,10 +159,16 @@ class User extends Authenticatable
     }
 
     public function checkRequest($profileId = null, $type) {
-        if ($type == 'show') {
-            return Auth::user()->vip_status ? true : false;
+        if ($type == 'show' && Auth::user()->vip_status) {
+            return true;
         }
         if ($profileId) {
+            if ($type == 'show') {
+                $order = Order::where('by_user', Auth::user()->id)->where('executor_id', $profileId)->first();
+                if ($order) {
+                    return  true;
+                }
+            }
             $request = UserRequest::where('user_id', $this->id)
                 ->where('profile_id', $profileId)
                 ->where('type', $type)

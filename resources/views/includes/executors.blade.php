@@ -41,3 +41,6 @@
         </a>
     </div>
 @endforeach
+<div class="executors-links">
+    {{ $executors->links() }}
+</div>

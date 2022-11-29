@@ -11,7 +11,7 @@
                     <a href="{{ route('order-info', ['id' => $notification->order_id]) }}" class="notification-item">
                         <div class="person-block">
                             <div class="person-block__img">
-                                <img loading="lazy" src="img/person-block-img5.png" alt="img">
+                                <img loading="lazy" src="{{ $notification->from_user->avatar_path }}" alt="img">
                             </div>
                             <div class="person-block__info">
                                 <div class="person-block__name">
@@ -29,11 +29,11 @@
                         </div>
                         @if ($notification->type == 'rate')
                             <div class="star stars-rating">
-                                <a href="{{ route('rate-user', ['order_id' => $notification->order_id, 'user_id' => $notification->from_user->id, 'rate' => 1]) }}" id="star-2" class="star-item star-rate"></a>
-                                <a href="{{ route('rate-user', ['order_id' => $notification->order_id, 'user_id' => $notification->from_user->id, 'rate' => 2]) }}" id="star-3" class="star-item star-rate"></a>
-                                <a href="{{ route('rate-user', ['order_id' => $notification->order_id, 'user_id' => $notification->from_user->id, 'rate' => 3]) }}" id="star-4" class="star-item star-rate"></a>
-                                <a href="{{ route('rate-user', ['order_id' => $notification->order_id, 'user_id' => $notification->from_user->id, 'rate' => 4]) }}" id="star-5" class="star-item star-rate"></a>
-                                <a href="{{ route('rate-user', ['order_id' => $notification->order_id, 'user_id' => $notification->from_user->id, 'rate' => 5]) }}" id="star-6" class="star-item star-rate"></a>
+                                <a href="{{ route('rate-user', ['order_id' => $notification->order_id, 'user_id' => $notification->from_user->id, 'notification_id' => $notification->id, 'rate' => 1]) }}" id="star-2" class="star-item star-rate"></a>
+                                <a href="{{ route('rate-user', ['order_id' => $notification->order_id, 'user_id' => $notification->from_user->id, 'notification_id' => $notification->id, 'rate' => 2]) }}" id="star-3" class="star-item star-rate"></a>
+                                <a href="{{ route('rate-user', ['order_id' => $notification->order_id, 'user_id' => $notification->from_user->id, 'notification_id' => $notification->id, 'rate' => 3]) }}" id="star-4" class="star-item star-rate"></a>
+                                <a href="{{ route('rate-user', ['order_id' => $notification->order_id, 'user_id' => $notification->from_user->id, 'notification_id' => $notification->id, 'rate' => 4]) }}" id="star-5" class="star-item star-rate"></a>
+                                <a href="{{ route('rate-user', ['order_id' => $notification->order_id, 'user_id' => $notification->from_user->id, 'notification_id' => $notification->id, 'rate' => 5]) }}" id="star-6" class="star-item star-rate"></a>
                             </div>
                         @endif
                     </a>
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="notification-item__date">
-                                30.05.22
+                                {{ $notification->created_at }}
                             </div>
                         </a>
                     @endif

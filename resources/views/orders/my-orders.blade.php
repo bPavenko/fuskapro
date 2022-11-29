@@ -26,7 +26,7 @@
                     <div class="offers-row row-item">
                         <div class="offers-row-left">
                             <div class="offers-row-left__top">
-                                {{$order->short_description}}
+                                {{$order->title}}
                             </div>
                             <p>
                                 {{ trans('main.order_executor') }}: <span> {{ isset($order->executor->name) ? $order->executor->name : '-' }} </span>

@@ -222,7 +222,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 .appendTo( ul );
         };
     }
-
+    $(document).on('click', '.executors-links .pagination a', function(event){
+        event.preventDefault();
+        console.log('here')
+        var page = $(this).attr('href').split('page=')[1];
+        getExecutors(page);
+    });
 
     $(".star-rate").on({
         mouseenter: function () {
@@ -404,7 +409,7 @@ function searchByFilters () {
     console.log(form)
 }
 
-function getExecutors() {
+function getExecutors(page = null) {
     var city_id = $("#city-id").val();
     var category_id = $(".category-input").val();
     var section_id = $('.section-input').val();
@@ -420,7 +425,8 @@ function getExecutors() {
             sort: sort,
             section_id: section_id,
             category_id: category_id,
-            city_id: city_id
+            city_id: city_id,
+            page: page
         },
         dataType: 'json',
         success: function success(data) {

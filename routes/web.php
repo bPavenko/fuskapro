@@ -73,6 +73,7 @@ Route::group([
     Route::get('/users/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('show-user');
     Route::post('/user-request/create', [App\Http\Controllers\UserController::class, 'userRequest'])->name('user-request-create');
     Route::post('/buy-vip-status', [App\Http\Controllers\UserController::class, 'buyVipStatus'])->name('buy-vip-status');
+    Route::get('/rate-user', [App\Http\Controllers\NotificationsController::class, 'rateUser'])->name('rate-user');
 
     Route::group([
         'middleware' => 'author',
@@ -81,7 +82,6 @@ Route::group([
         Route::get('/order-respond/accept', [App\Http\Controllers\OrdersController::class, 'orderRespondAccept'])->name('order-respond-accept');
         Route::get('/order-respond/change', [App\Http\Controllers\OrdersController::class, 'orderRespondChange'])->name('order-respond-change');
         Route::get('/close-order', [App\Http\Controllers\OrdersController::class, 'closeOrder'])->name('close-order');
-        Route::get('/rate-user', [App\Http\Controllers\NotificationsController::class, 'rateUser'])->name('rate-user');
     });
 });
 

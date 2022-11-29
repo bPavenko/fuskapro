@@ -62,8 +62,8 @@ class Order extends Model
     }
 
     public function checkRequest($executorId = null, $type) {
-        if ($type == 'show') {
-            return Auth::user()->vip_status ? true : false;
+        if ($type == 'show' && Auth::user()->vip_status) {
+            return true;
         }
         if (!$executorId) {
             $order = OrderRequest::where('order_id', $this->id)
@@ -71,13 +71,15 @@ class Order extends Model
                 ->get()
                 ->toArray();
         } else {
+            if ($type == 'show' && $this->executor_id == $executorId) {
+                return  true;
+            }
             $order = OrderRequest::where('order_id', $this->id)
                 ->where('executor_id', $executorId)
                 ->where('type', $type)
                 ->get()
                 ->toArray();
         }
-
 
         return $order ? true : false;
     }

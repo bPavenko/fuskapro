@@ -88,7 +88,7 @@
                             {{ trans('main.selected_specialist') }}
                         </div>
                         <div class="specialist__img">
-                            <img loading="lazy" src="{{URL::asset('/img/specialist-img2.png')}}" alt="img">
+                            <img loading="lazy" src="{{$order->executor->avatar_path}}" alt="img">
                         </div>
                         <div class="specialist__name">
                             <a class="profile-link" href="{{ route('show-user', $order->executor->id) }}">
@@ -168,7 +168,7 @@
                             @endif
                             <a href="#" class="order-info__btn btn btn--orange-border">{{ trans('main.continue_order') }}</a>
                             <a href="#" class="order-info__btn btn btn--purple-border">{{ trans('main.delete') }}</a>
-                        @elseif (Auth::user()->isExecutor($order->id)))
+                        @elseif (Auth::user()->isExecutor($order->id))
                         @if (!$order->checkRequest(Auth::user()->id, 'close'))
                             <div class="order-respond-close__btn btn btn--purple">{{ trans('main.close_as_done') }}</div>
                         @endif
