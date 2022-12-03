@@ -14,6 +14,10 @@ use Igaster\LaravelCities\Geo;
 use App\Models\OrderRequest;
 use App\Models\Notification;
 use DB;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Console\Input\Input;
+use App\Models\Price;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class OrdersController extends Controller
 {
@@ -93,6 +97,7 @@ class OrdersController extends Controller
 
     public function create()
     {
+
         $sections = TaskSection::all();
         $period = new DatePeriod(
             new DateTime(date('Y-m-d', strtotime('today'))),
@@ -120,6 +125,15 @@ class OrdersController extends Controller
 
     public function orderRespond (Request $request) {
         $order = Order::find($request->order_id);
+
+        if($request->type == 'show' && isset($request->cost)) {
+            if ($request->cost > Auth::user()->balance) {
+                return  false;
+            } else {
+                Auth::user()->balance = Auth::user()->balance - $request->cost;
+                Auth::user()->save();
+            }
+        }
         OrderRequest::create(['order_id' => $order->id, 'executor_id' => Auth::user()->id, 'type' => $request->type]);
 
         if ($request->type == 'request') {
@@ -177,6 +191,20 @@ class OrdersController extends Controller
 
     public function store(Request $request)
     {
+        if (Auth::user()->balance < Price::orderCost()) {
+            Alert::error('Error', trans('main.not_enough_coins'));
+            return back()->withInput($request->input());
+        }
+
+        $validator = Validator::make($request->all(), [
+            'section_id' => 'required',
+            'category_id' => 'required',
+            'city' => 'required',
+            'execution_date' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator->errors())->withInput($request->input());
+        }
         $data = $request->all();
         $data['by_user'] = Auth::user()->id;
         $data['status'] = 'open';
@@ -191,7 +219,8 @@ class OrdersController extends Controller
             $data['end_execution_time'] = $data['execution_date'] . " " . $data['end_execution_time'];
         }
         Order::create($data);
-
+        Auth::user()->balance = Auth::user()->balance - Price::orderCost();
+        Auth::user()->save();
         return redirect('/my-orders');
     }
 

@@ -11,8 +11,10 @@
             <div class="now-available">
                 Зараз в наявності:
                 <div class="now-available__wrap">
-                    <img src="img/coins-orange.svg" alt="img">
-                    0 монет
+                    <img src="{{ asset('img/coins-orange.svg') }}" alt="img">
+                    @if(Auth::user())
+                    {{ Auth::user()->balance }}
+                    @endif
                 </div>
             </div>
             <button class="modal-balance__btn btn btn--purple trigger-next1">

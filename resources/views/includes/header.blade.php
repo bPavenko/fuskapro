@@ -13,8 +13,9 @@
             <div class="header-btns" data-da=".mob-menu, 580, 0">
                 @auth
                     <a href="{{ url('/my-orders') }}" class="basket hed-circle" data-da=".header-person-mob, 580, 0"></a>
-                    <a href="{{ url('/notifications') }}" class="notifications dot-show hed-circle"></a>
-                    <a href="#" class="coins hed-circle " data-da=".header-person-mob, 1023, 1">{{ trans('main.coins') }}: 0</a>
+                    <a href="{{ url('/notifications') }}" class="notifications @if(Auth::user()->new_notifications) dot-show @endif hed-circle"></a>
+                    <a href="#" class="coins hed-circle " data-da=".header-person-mob, 1023, 1">{{ trans('main.coins') }}:
+                        {{ Auth::user()->balance }}</a>
                     <div class="hed-person-menu">
                         <div class="hed-person">
                             <div class="hed-person__icon">
@@ -102,4 +103,7 @@
             <div class="header-person-mob"></div>
         </div>
     </div>
+    @include('modals.balance')
+    @include('modals.balance2')
+    @include('modals.balance3')
 </header>

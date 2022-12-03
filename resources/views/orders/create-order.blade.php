@@ -25,6 +25,11 @@
                             @endforeach
                         </div>
                     </div>
+                    @error('section_id')
+                    <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                    @enderror
                 </div>
                 <div class="select-block">
                     <div class="form-block-title">{{ trans('main.category') }}:</div>
@@ -35,14 +40,25 @@
                         </div>
                         <div class="categories-list custom-select__list">
                         </div>
+
                     </div>
+                    @error('category_id')
+                    <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                    @enderror
                 </div>
                 <div class="input-block">
                     <div class="form-block-title">
                         <span>{{trans('main.city')}}</span>
                     </div>
-                    <input required type="hidden" name="city" id="city-id" value="{{ Auth::user()->city }}">
-                    <input placeholder="{{ trans('main.city') }}" id="city-search"  class="input" type="text">
+                    <input type="hidden" name="city" id="city-id" value="{{ old('city') }}">
+                    <input placeholder="{{ trans('main.city') }}" id="city-search" name="city-name" value="{{ old('city-name') }}"  class="input" type="text">
+                    @error('city')
+                    <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                    @enderror
                 </div>
 {{--                <div class="select-block">--}}
 {{--                    <div class="form-block-title">{{ trans('main.city') }}:</div>--}}
@@ -76,19 +92,19 @@
                         <div class="form-block-title">
                             <span>{{trans('main.title')}}</span>
                         </div>
-                        <input required name="title" class="input" type="text">
+                        <input  value="{{ old('title') }}" required name="title" class="input" type="text">
                     </div>
                     <div class="input-block">
                         <div class="form-block-title">
                             {{ trans('main.what_need_to_do') }} <span>({{trans('main.short')}})</span>
                         </div>
-                        <input required name="short_description" class="input" type="text">
+                        <input value="{{ old('short_description') }}" required name="short_description" class="input" type="text">
                     </div>
                     <div class="textarea-block">
                         <div class="form-block-title">
                             {{ trans('main.describe_more_about_order') }}:
                         </div>
-                        <textarea required name="full_description" class="textarea"></textarea>
+                        <textarea value="{{ old('full_description') }}" required name="full_description" class="textarea"></textarea>
                         <div class="textarea-block__bottom">
                             <button class="textarea__btn">
                                 {{ trans('main.leave_contacts') }} <span>({{ trans('main.confidentially') }})</span>
@@ -100,37 +116,46 @@
                         </div>
                     </div>
                 </div>
-                <div class="creation-form-date">
-                    <div class="creation-form-title">
-                        {{ trans('main.execute_to') }}:
+                <div class="input-block">
+                    <div class="form-block-title">
+                        <span>{{trans('main.execute_to')}}</span>
                     </div>
-                    <div class="creation-form-date__wrapper">
-                        <div class="swiper creation-form-swiper">
-                            <div class="swiper-wrapper">
-                                @foreach($dates as $key => $date)
-                                    <div class="swiper-slide">
-                                        <div class="creation-form-date-item">
-                                            <input value="{{$date['format_date']}}" type="radio" name="execution_date">
-                                            <div class="creation-form-date-item__top">
-                                                {{$date['month']}}
-                                            </div>
-                                            <div class="creation-form-date-item__num">
-                                                {{$date['day']}}
-                                            </div>
-                                            @if($key == 0)
-                                            <div class="creation-form-date-item__today">
-                                                {{ trans('main.today') }}
-                                            </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
+                    <input required type="date" name="execution_date" class="input" value="{{ old('execute_to') }}">
                 </div>
+{{--                <div class="input-block">--}}
+{{--                    --}}
+{{--                </div>--}}
+{{--                <div class="creation-form-date">--}}
+{{--                    <div class="creation-form-title">--}}
+{{--                        {{ trans('main.execute_to') }}:--}}
+{{--                    </div>--}}
+{{--                    <div class="creation-form-date__wrapper">--}}
+{{--                        <div class="swiper creation-form-swiper">--}}
+{{--                            <div class="swiper-wrapper">--}}
+{{--                                @foreach($dates as $key => $date)--}}
+{{--                                    <div class="swiper-slide">--}}
+{{--                                        <div class="creation-form-date-item">--}}
+{{--                                            <input value="{{$date['format_date']}}" type="radio" name="execution_date">--}}
+{{--                                            <div class="creation-form-date-item__top">--}}
+{{--                                                {{$date['month']}}--}}
+{{--                                            </div>--}}
+{{--                                            <div class="creation-form-date-item__num">--}}
+{{--                                                {{$date['day']}}--}}
+{{--                                            </div>--}}
+{{--                                            @if($key == 0)--}}
+{{--                                            <div class="creation-form-date-item__today">--}}
+{{--                                                {{ trans('main.today') }}--}}
+{{--                                            </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                @endforeach--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="swiper-button-next"></div>--}}
+{{--                        <div class="swiper-button-prev"></div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 <div class="creation-form-time">
                     <div class="creation-form-title">
                         {{ trans('main.execute_to_time') }}
@@ -141,7 +166,7 @@
                             {{ trans('main.anytime') }}
                         </label>
                         <div class="radio-block radio-block-selects">
-                            <input type="radio" value="{{ true }}" name="time" checked>
+                            <input type="radio" value="{{ true }}" name="time" >
                             <div class="custom-select">
                                 <div class="custom-select__top">
                                     <div class="custom-select-value">00:00</div>
@@ -155,7 +180,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <p>до</p>
+                            <p>{{ trans('main.to') }}</p>
                             <div class="custom-select">
                                 <div class="custom-select__top">
                                     <div class="custom-select-value">00:00</div>
@@ -177,15 +202,15 @@
                         {{ trans('main.estimated_cost_work') }}:
                     </div>
                     <div class="creation-form-suma__top">
-                        <p>{{ trans('main.publication_price_text') }} <span>10 {{ trans('main.coins') }}</span></p>
+                        <p>{{ trans('main.publication_price_text') }} <span>{{ \App\Models\Price::orderCost() }} {{ trans('main.coins') }}</span></p>
                         <label class="checkbox-block">
-                            <input required name="is_confirm" type="checkbox" checked>
+                            <input required name="is_confirm" type="checkbox">
                             {{ trans('main.agree') }}
                         </label>
                     </div>
                     <div class="creation-form-suma__bottom">
                         <div class="input-block">
-                            <input name="price" class="input" type="text">
+                            <input required name="price" class="input" type="text" value="{{ old('price') }}">
                             €
                         </div>
                         <label class="checkbox-block">

@@ -2181,6 +2181,13 @@ body.scroll-hide {
   display: none;
   z-index: 2;
 }
+.user-profile {
+    justify-content: space-between;
+}
+.time-select {
+    overflow-y: scroll !important;
+    height: 300px !important;
+}
 .custom-select .custom-select-item {
   font-weight: 600;
   font-size: 15px;
@@ -2209,6 +2216,9 @@ body.scroll-hide {
     color: #000000;
 }
 
+.empty-items-text {
+    margin: 80px;
+}
 
 .sort-radio {
   font-weight: 700;
@@ -2404,7 +2414,9 @@ body.scroll-hide {
 .person-info__reviews::before {
   background-image: url("../img/message-circle.svg");
 }
-
+.coins-input {
+    display: flex;
+}
 .person-info__like::before {
   background-image: url("../img/thumbs-up.svg");
 }

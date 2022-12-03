@@ -3,7 +3,7 @@
 @section('content')
     <div class="profile">
         <div class="container">
-            <div class="profile-top">
+            <div class="profile-top user-profile">
                 <div class="person-block">
                     <div class="person-block__img">
                         <img loading="lazy" src="{{ Auth::user()->avatar_path }}" alt="img">
@@ -12,7 +12,7 @@
                         <div class="person-block__name">
                             {{Auth::user()->name . ' ' . Auth::user()->surname}}
                         </div>
-                        @if(Auth::user()->isSpecialist() && Auth::user()->vip_status)
+                        @if(Auth::user()->vip_status)
                             <div>
                                 {{ trans('main.vip_status_to' )}}: {{ Auth::user()->vip_status }}
                             </div>
@@ -20,6 +20,7 @@
 
                     </div>
                 </div>
+                <button class="btn btn--purple edit-profile">{{ trans('main.edit') }}</button>
             </div>
             <div class="tabs-wrapper tab-link-wrapper">
                 <a class="tab  @if(!session('active_tabs')) tab-active @endif" href="#tab-1">
@@ -68,82 +69,6 @@
         </div>
     </div>
 
-
-    <div class="modal-wrap modal-balance modal-balance--two">
-        <div class="modal modal-balance-size">
-            <div class="modal__body">
-                <div class="modal__close"></div>
-                <div class="modal-balance__title">
-                    Поповнення балансу
-                </div>
-                <div class="modal-balance__subtitle">
-                    Оберіть кількість <br>
-                    монет, яку ви хочете придбати
-                </div>
-                <div class="coins-radio">
-                    <label class="radio-block">
-                        <input type="radio" name="coins">
-                        <img src="img/coins-orange.svg" alt="img">
-                        5 монет
-                    </label>
-                    <label class="radio-block">
-                        <input type="radio" name="coins">
-                        <img src="img/coins-orange.svg" alt="img">
-                        10 монет
-                    </label>
-                    <label class="radio-block">
-                        <input type="radio" name="coins">
-                        <img src="img/coins-orange.svg" alt="img">
-                        20 монет
-                    </label>
-                    <label class="radio-block">
-                        <input type="radio" name="coins">
-                        <img src="img/coins-orange.svg" alt="img">
-                        50 монет
-                    </label>
-                </div>
-                <div class="price-block">
-                    До оплати
-                    <div class="price-item"><span>€</span> 10</div>
-                </div>
-                <button class="modal-balance__btn btn btn--orange trigger-next2">
-                    Придбати 10 монет
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-wrap modal-balance modal-balance--three">
-        <div class="modal modal-balance-size">
-            <div class="modal__body">
-                <div class="modal__close"></div>
-                <div class="modal-balance__title">
-                    Оплата
-                </div>
-                <div class="price-block">
-                    До оплати
-                    <div class="price-item"><span>€</span> 10</div>
-                </div>
-                <form action="#" class="modal-balance-form">
-                    <div class="modal-balance-form__wrap">
-                        <div class="input-block input-block--card">
-                            <input class="input" type="text" placeholder="Card Number">
-                        </div>
-                        <div class="input-block input-block--month">
-                            <input class="input" type="text" placeholder="MM/YY">
-                        </div>
-                        <div class="input-block input-block--cvv">
-                            <input class="input" type="password" placeholder="CVV">
-                        </div>
-                    </div>
-                    <button class="modal-balance-form__btn btn btn--orange trigger-next3">
-                        Оплатити
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <div class="modal-wrap modal-balance modal-balance--four">
         <div class="modal modal-balance-size">
             <div class="modal__body">
@@ -158,7 +83,7 @@
         </div>
     </div>
     @include('modals.edit-profile')
-    @include('modals.balance')
+
     @include('modals.edit-portfolio-img', ['sections' => $sections])
     @include('modals.edit-portfolio-video', ['sections' => $sections])
 

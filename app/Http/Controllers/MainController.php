@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApplicationsLink;
 use Illuminate\Http\Request;
 use App\Models\TaskSection;
 use App\Models\TaskCategory;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Igaster\LaravelCities\Geo;
+use App\Models\AdminReviewer;
 
 class MainController extends Controller
 {
@@ -31,8 +33,9 @@ class MainController extends Controller
                 ->orderBy('id', 'desc')
                 ->get();
         }
-
-        return view('welcome', with(['sections' => $sections, 'categories' => $categories, 'lastUserCategoriesOrders' => $lastUserCategoriesOrders]));
+        $reviews = AdminReviewer::all();
+        $applicationLinks = ApplicationsLink::all();
+        return view('welcome', with(['sections' => $sections, 'categories' => $categories, 'lastUserCategoriesOrders' => $lastUserCategoriesOrders, 'reviews' => $reviews, 'links' => $applicationLinks]));
     }
 
     public function privacyPolicy() {

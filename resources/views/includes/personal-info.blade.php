@@ -1,4 +1,3 @@
-<button class="portfolio-catalog-item__edit edit-profile">{{ trans('main.edit') }}</button>
 
 <div class="general-information">
     <div class="order-box">
@@ -13,20 +12,11 @@
         </div>
         <div class="order-box-item">
             <div class="order-box-item__icon">
-                <img loading="lazy" src="img/order-box-item-icon5.svg" alt="img">
-            </div>
-            <div>
-                {{ trans('main.date_birth') }}:
-                <span>{{ Auth::user()->birth_date }}</span>
-            </div>
-        </div>
-        <div class="order-box-item">
-            <div class="order-box-item__icon">
                 <img loading="lazy" src="img/order-box-item-icon6.svg" alt="img">
             </div>
             <div>
-                {{ trans('main.gender') }}:
-                <span> @if(Auth::user()->gender) {{ trans("main." .  Auth::user()->gender) }} @endif</span>
+                {{ trans('main.role') }}:
+                <span> @if(Auth::user()->type_id == 1) {{ trans("main.user") }} @else {{ trans("main.specialist") }} @endif</span>
             </div>
         </div>
     </div>

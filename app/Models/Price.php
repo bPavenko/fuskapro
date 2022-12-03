@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Brackets\Translatable\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,8 +35,24 @@ class Price extends Model
     public function vipCost() {
         return Price::find(1)->cost;
     }
-
-    public function contactShowText() {
-        return trans('main.cost_per_action') . ' ' . Price::find(3)->cost . ' ' . trans('main.coins');
+    public function orderCost() {
+        return Price::find(2)->cost;
+    }
+    public function contactCost($id) {
+        $user = User::find($id);
+        if ($user->type_id == 1) {
+            return Price::find(3)->cost;
+        } else {
+            return Price::find(4)->cost;
+        }
+    }
+    public function contactShowText($id) {
+        $user = User::find($id);
+        if ($user->type_id == 1) {
+            $price =  Price::find(3)->cost;
+        } else {
+            $price =  Price::find(4)->cost;
+        }
+        return trans('main.cost_per_action') . ' ' . $price . ' ' . trans('main.coins');
     }
 }

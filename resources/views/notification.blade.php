@@ -58,6 +58,11 @@
                         </a>
                     @endif
                 @endforeach
+                @if(!count($notifications))
+                    <h1 class="empty-items-text title">
+                        {{ trans('main.no_notifications') }}
+                    </h1>
+                @endif
             </div>
             <a href="#" class="notification__btn btn btn--grey">
                 {{ trans('main.archive_notifications') }}

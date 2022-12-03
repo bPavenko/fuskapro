@@ -55,22 +55,6 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="form-block-title">{{ trans('main.gender') }}</div>
-                            <div class="input-block custom-select">
-
-                                <div class="custom-select__top">
-                                    <div class="custom-select-value">{{ Auth::user()->gender ? trans('main.' . Auth::user()->gender) : trans('main.gender') }}</div>
-                                    <input required class="custom-select-input" name="gender" type="hidden" value="{{ Auth::user()->gender }}">
-                                </div>
-                                <div class="gender-list custom-select__list">
-                                    <div class="custom-select-item" id="male">
-                                        {{ trans('main.male') }}
-                                    </div>
-                                    <div class="custom-select-item" id="female">
-                                        {{ trans('main.female') }}
-                                    </div>
-                                </div>
-                            </div>
                             <div class="input-block">
                                 <div class="form-block-title">{{ trans('main.city') }}</div>
 
@@ -93,25 +77,26 @@
                             </span>
                                 @endif
                             </div>
-                            <div class="input-block">
-                                <div class="form-block-title">{{ trans('main.__date') }}</div>
 
-                                <input type="date" name="birth_date" class="input" value="{{ Auth::user()->birth_date  }}">
-                                @if($errors->first('birth_date'))
-                                    <span class="text-danger" role="alert">
-                                <strong>{{ $errors->first('birth_date') }}</strong>
-                            </span>
-                                @endif
+                            <div class="input-block custom-select">
+                                <div class="custom-select__top">
+                                    <div class="custom-select-value">@if(Auth::user()->type_id == 1) {{ trans('main.user') }} @else {{ trans('main.specialist') }} @endif</div>
+                                    <input class="custom-select-input" name="type_id" type="hidden" value="{{ Auth::user()->type_id  }}">
+                                </div>
+                                <div class="profession-list custom-select__list">
+                                    <div class="custom-select-item" id="1">
+                                        {{ trans('main.user') }}
+                                    </div>
+                                    <div class="custom-select-item" id="2">
+                                        {{ trans('main.specialist') }}
+                                    </div>
+                                </div>
                             </div>
-
                             <div class="textarea-block">
                                 <div class="form-block-title">{{ trans('main.about_me') }}</div>
                                 <textarea name="about_me" value="{{ Auth::user()->about_me }}" placeholder="Опис" class="textarea"></textarea>
                             </div>
-                            <label class="checkbox-block">
-                                <input type="checkbox" @if(Auth::user()->isSpecialist()) checked @endif name="type_id">
-                                {{ trans('main.im_specialist') }}
-                            </label>
+
                         </div>
                         <button class="edit-form__btn btn btn--purple">
                             {{ trans('main.save') }}

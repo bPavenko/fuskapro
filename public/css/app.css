@@ -13283,6 +13283,15 @@ body.scroll-hide {
   z-index: 2;
 }
 
+.user-profile {
+  justify-content: space-between;
+}
+
+.time-select {
+  overflow-y: scroll !important;
+  height: 300px !important;
+}
+
 .custom-select .custom-select-item {
   font-weight: 600;
   font-size: 15px;
@@ -13312,6 +13321,10 @@ body.scroll-hide {
   font-size: 18px;
   line-height: 30px;
   color: #000000;
+}
+
+.empty-items-text {
+  margin: 80px;
 }
 
 .sort-radio {
@@ -13518,6 +13531,10 @@ body.scroll-hide {
 
 .person-info__reviews::before {
   background-image: url(/images/message-circle.svg?66e880d08bfc21cfcec5100e7c251c59);
+}
+
+.coins-input {
+  display: flex;
 }
 
 .person-info__like::before {

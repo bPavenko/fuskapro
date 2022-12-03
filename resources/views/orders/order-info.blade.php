@@ -133,7 +133,7 @@
                     <div class="specialist-contact specialist-contact-payment">
                         <div class="specialist-contact__left">
                             <div class="specialist-contact__title">{{ trans('main.show_contacts') }}</div>
-                            <div class="specialist-contact__subtitle">{{ \App\Models\Price::contactShowText() }}</div>
+                            <div class="specialist-contact__subtitle">{{ \App\Models\Price::contactShowText($order->by_user) }}</div>
                         </div>
                         <button class="specialist-contact__btn btn btn--orange">
                             {{ trans('main.display') }}
@@ -143,7 +143,7 @@
                 <div class="specialist-contact specialist-contact-show" @if(!$order->checkRequest(Auth::user()->id, 'show')) hidden @endif>
                     <div class="specialist-contact__left">
                         <div class="specialist-contact__title">{{ trans('main.show_contacts') }}</div>
-                        <div class="specialist-contact__subtitle">{{ trans('main.cost_per_action') }}</div>
+                        <div class="specialist-contact__subtitle">{{ \App\Models\Price::contactShowText($order->by_user) }}</div>
                     </div>
                     <div class="specialist-contact__center">
                         <a href="tel:380989140248">{{ $order->author->phone }}</a>
@@ -253,7 +253,7 @@
             event.preventDefault();
             swal({
                 title: "{{ trans('main.payment_confirmation') }}",
-                text: "{{ \App\Models\Price::contactShowText() }}",
+                text: "{{ \App\Models\Price::contactShowText($order->by_user) }}",
                 icon: "warning",
                 type: "warning",
                 buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
@@ -269,12 +269,20 @@
                         },
                         data: {
                             order_id: order_id,
-                            type: 'show'
+                            type: 'show',
+                            cost: "{{ \App\Models\Price::contactCost($order->by_user) }}"
                         },
                         dataType: 'json',
                         success: function success() {
                             $(".specialist-contact-payment").hide();
                             $(".specialist-contact-show").removeAttr('hidden');
+                        },
+                        error: function () {
+                            swal({
+                                title: "Error",
+                                text: "{{ trans('main.not_enough_coins') }}",
+                                type: "error"
+                            });
                         }
                     });
                 }

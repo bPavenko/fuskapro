@@ -155,7 +155,6 @@
             </div>
         </div>
     </section>
-
     <section class="reviews sec-marg">
         <div class="container">
             <h2 class="reviews__title title">
@@ -164,20 +163,20 @@
             <div class="reviews__wrapper">
                 <div class="swiper reviews-swiper">
                     <div class="swiper-wrapper">
-                        @for($i = 0; $i < 4; $i++)
+                        @foreach($reviews as $review)
                         <div class="swiper-slide">
                             <div class="reviews-item">
                                 <div class="reviews-item__top">
                                     <div class="person-block">
                                         <div class="person-block__img">
-                                            <img loading="lazy" src="img/person-block-img3.png" alt="img">
+                                            <img loading="lazy" src="{{ $review->image_path }}" alt="img">
                                         </div>
                                         <div class="person-block__info">
                                             <div class="person-block__name">
-                                                John Doe
+                                                {{ $review->name }}
                                             </div>
                                             <div class="person-block__online">
-                                                Будівельник
+                                                {{ $review->profession }}
                                             </div>
                                         </div>
                                     </div>
@@ -190,16 +189,12 @@
                                         <img loading="lazy" src="img/reviews-item-icon2.svg" alt="img">
                                     </div>
                                     <div class="reviews-item__descr">
-                                        В условиях большого города, беготни и вечного балансирования "сколько стоит
-                                        моё время" для меня этот сайт -
-                                        палочка-выручалочка. 3 минуты на создание заказа, 1 телефонный звонок с
-                                        специалистом, около часа его работы и все
-                                        счастливы!
+                                        {{ $review->review }}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @endfor
+                        @endforeach
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
@@ -217,10 +212,10 @@
                     <span>{{ trans('main.download_app') }}</span>
                 </div>
                 <div class="app__download">
-                    <a href="#">
+                    <a href="{{ $links[0]->url }}">
                         <img loading="lazy" src="img/download-img.png" alt="img">
                     </a>
-                    <a href="#">
+                    <a href="{{ $links[1]->url }}">
                         <img loading="lazy" src="img/download-img2.png" alt="img">
                     </a>
                 </div>

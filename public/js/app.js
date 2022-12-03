@@ -5450,7 +5450,7 @@ document.addEventListener('DOMContentLoaded', function () {
   $('.sort-radio-input').on('click', function () {
     getExecutors();
   });
-  $('.gender-list .custom-select-item').on('click', function () {
+  $('.profession-list .custom-select-item').on('click', function () {
     var text = $(this).text();
     var gender = $(this).attr('id');
     $(this).parents('.custom-select').find('.custom-select-value').text(text);
@@ -5548,6 +5548,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }).data("ui-autocomplete")._renderItem = function (ul, item) {
       return $("<li>").data("ui-autocomplete-item", item).append("<div id='" + item.id + "' class='ui-menu-item-wrapper'>" + item.label + " </div>").appendTo(ul);
     };
+  }
+
+  $('.trigger-next2').on('click', function () {
+    var coins = $('#count-coins').val();
+    console.log(coins);
+    $('#cost-coins').html(coins);
+    $('#payment-coins').val(coins);
+  });
+
+  if (Object.keys($("#count-coins")).length != 0) {
+    var coins = $('#count-coins').val();
+    console.log(coins);
+    $('#cost-coins').html(coins);
+    $('#payment-coins').val(coins);
   }
 
   if (Object.keys($("#profile-city-search")).length != 0) {

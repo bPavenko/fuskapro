@@ -16,6 +16,7 @@ use App\Models\UserPortfolio;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Alert;
+use App\Models\Price;
 
 class UserController extends Controller
 {
@@ -241,7 +242,12 @@ class UserController extends Controller
     }
 
     public function userRequest(Request $request) {
+        if ($request->cost > Auth::user()->balance) {
+            return false;
+        }
         UserRequest::create(['profile_id' => $request->profile_id, 'user_id' => Auth::user()->id, 'type' => $request->type]);
+        Auth::user()->balance = Auth::user()->balance - $request->cost;
+        Auth::user()->save();
         return true;
     }
 
@@ -252,7 +258,6 @@ class UserController extends Controller
             'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255',  Rule::unique('users')->ignore(Auth::user()->id)],
             'city' => ['required', 'integer'],
-            'birth_date' => ['date'],
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         if ($validator->fails()) {
@@ -276,16 +281,15 @@ class UserController extends Controller
 
         $data = $request->all();
 
-        if (isset($data['type_id'])) {
-            $data['type_id'] = $data['type_id'] == 'on' ? 2 : 1;
-        } else {
-            $data['type_id'] = 1;
-        }
         Auth::user()->update($data);
         return redirect(route('home'));
     }
 
     public function buyVipStatus () {
+        if (Auth::user()->balance < Price::vipCost()) {
+            Alert::error('error', trans('main.not_enough_coins'));
+            return back();
+        }
         $user = Auth::user();
         if (!$user->vip_status) {
             $user->vip_status = date('Y-m-d', strtotime('+1 month'));
@@ -293,6 +297,7 @@ class UserController extends Controller
             $user->vip_status = date('Y-m-d',strtotime('+30 days',strtotime($user->vip_status)));
         }
         $user->priority = 1;
+        $user->balance = $user->balance - Price::vipCost();
         $user->save();
         Alert::success('success', 'Віп статус куплено до: ' . $user->vip_status);
         return back();

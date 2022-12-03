@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    $('.gender-list .custom-select-item').on('click', function () {
+    $('.profession-list .custom-select-item').on('click', function () {
         var text = $(this).text();
         var gender = $(this).attr('id');
         $(this).parents('.custom-select').find('.custom-select-value').text(text);
@@ -148,6 +148,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 .append("<div id='" + item.id + "' class='ui-menu-item-wrapper'>" + item.label + " </div>")
                 .appendTo(ul);
         };
+    }
+
+
+    $('.trigger-next2').on('click', function () {
+        let coins = $('#count-coins').val();
+        console.log(coins)
+        $('#cost-coins').html(coins)
+        $('#payment-coins').val(coins)
+    });
+    if (Object.keys($( "#count-coins" )).length != 0) {
+        let coins = $('#count-coins').val();
+        console.log(coins)
+        $('#cost-coins').html(coins)
+        $('#payment-coins').val(coins)
+
     }
 
     if (Object.keys($( "#profile-city-search" )).length != 0) {

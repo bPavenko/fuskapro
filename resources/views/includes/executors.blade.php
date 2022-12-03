@@ -5,9 +5,9 @@
                 <img loading="lazy" src="{{ $executor->avatar_path }}" alt="img">
             </div>
             <div class="person-block__info">
-                <div class="person-block__name">
+                <a href="{{ route('show-user', $executor->id) }}" class="person-block__name">
                     {{ $executor->name }}
-                </div>
+                </a>
                 <div class="person-block__online">
                     {{ $executor->lastSeen() }}
                 </div>

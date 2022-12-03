@@ -38,20 +38,11 @@
                             </div>
                             <div class="order-box-item">
                                 <div class="order-box-item__icon">
-                                    <img loading="lazy" src="{{URL::asset('img/order-box-item-icon5.svg')}}" alt="img">
-                                </div>
-                                <div>
-                                    {{ trans('main.date_birth') }}:
-                                    <span>{{ $user->date_birth }}</span>
-                                </div>
-                            </div>
-                            <div class="order-box-item">
-                                <div class="order-box-item__icon">
                                     <img loading="lazy" src="{{URL::asset('img/order-box-item-icon6.svg')}}" alt="img">
                                 </div>
                                 <div>
-                                    {{ trans('main.gender') }}:
-                                    <span>@if($user->gender){{ trans('main.' . $user->gender) }} @endif</span>
+                                    {{ trans('main.role') }}:
+                                    <span>@if($user->type_id == 1){{ trans('main.user') }} @else {{ trans('main.specialist') }} @endif</span>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +62,7 @@
                             <div class="specialist-contact profile-contact-payment">
                                 <div class="specialist-contact__left">
                                     <div class="specialist-contact__title">{{ trans('main.show_contacts') }}</div>
-                                    <div class="specialist-contact__subtitle">{{ \App\Models\Price::contactShowText() }}</div>
+                                    <div class="specialist-contact__subtitle">{{ \App\Models\Price::contactShowText($user->id) }}</div>
                                 </div>
                                 <button id="{{ $user->id }}" class="profile-contact__btn btn btn--orange">
                                     {{ trans('main.display') }}
@@ -104,12 +95,11 @@
     @include('modals.edit-portfolio-video')
     <script type="text/javascript">
         $('.profile-contact__btn').click(function(event){
-            connsole.log('here')
             var profile_id = $(this).attr('id');
             event.preventDefault();
             swal({
                 title: "{{ trans('main.payment_confirmation') }}",
-                text: "{{ \App\Models\Price::contactShowText() }}",
+                text: "{{ \App\Models\Price::contactShowText($user->id) }}",
                 icon: "warning",
                 type: "warning",    
                 buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
@@ -125,12 +115,20 @@
                         },
                         data: {
                             profile_id: profile_id,
-                            type: 'show'
+                            type: 'show',
+                            cost: {{ \App\Models\Price::contactCost($user->id) }}
                         },
                         dataType: 'json',
                         success: function success() {
                             $(".profile-contact-payment").hide();
                             $(".profile-contact-show").removeAttr('hidden');
+                        },
+                        error: function () {
+                            swal({
+                                title: "Error",
+                                text: "{{ trans('main.not_enough_coins') }}",
+                                type: "error"
+                            });
                         }
                     });
                 }

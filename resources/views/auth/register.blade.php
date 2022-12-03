@@ -12,15 +12,6 @@
             </a>
         </div>
         <div class="registr-wrap">
-{{--            <div class="tabs-wrapper tab-link-wrapper">--}}
-{{--                <a class="tab tab-active" href="#tab-1">--}}
-{{--                    {{ trans('main.specialist') }}--}}
-{{--                </a>--}}
-{{--                <a class="tab" href="#tab-2">--}}
-{{--                    {{ trans('main.company') }}--}}
-{{--                </a>--}}
-{{--            </div>--}}
-{{--            <div class="tabs-wrapper tab-content-wrapper">--}}
                     <form method="POST" action="{{ route('register') }}" class="registr-form">
                         @csrf
                         <div class="input-block">
@@ -61,20 +52,7 @@
                         <div class="input-block">
                             <input placeholder="{{ trans('main.repeat_password') }}" id="password-confirm" type="password" class="input" name="password_confirmation" required autocomplete="new-password">
                         </div>
-                        <div class="input-block custom-select">
-                            <div class="custom-select__top">
-                                <div class="custom-select-value">{{ trans('main.gender') }}</div>
-                                <input class="custom-select-input" name="gender" type="hidden" value="">
-                            </div>
-                            <div class="gender-list custom-select__list">
-                                <div class="custom-select-item" id="male">
-                                    {{ trans('main.male') }}
-                                </div>
-                                <div class="custom-select-item" id="female">
-                                    {{ trans('main.female') }}
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="input-block">
                             <input required type="hidden" name="city" id="city-id" value="{{ old('city') }}">
                             <input placeholder="{{ trans('main.city') }}" id="city-search" name="city_name" value="{{ old('city_name') }}" class="input" type="text">
@@ -92,20 +70,20 @@
                                 </span>
                             @enderror
                         </div>
-
-                        <div class="input-block">
-                            <input type="date" name="birth_date" class="input" value="{{ old('birth_date') }}">
-                            @error('birth_date')
-                                <span class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                        <div class="input-block custom-select">
+                            <div class="custom-select__top">
+                                <div class="custom-select-value">{{ trans('main.user') }}</div>
+                                <input class="custom-select-input" name="type_id" type="hidden" value="1">
+                            </div>
+                            <div class="profession-list custom-select__list">
+                                <div class="custom-select-item" id="1">
+                                    {{ trans('main.user') }}
+                                </div>
+                                <div class="custom-select-item" id="2">
+                                    {{ trans('main.specialist') }}
+                                </div>
+                            </div>
                         </div>
-
-                        <label class="checkbox-block">
-                            <input type="checkbox" name="type_id">
-                            {{ trans('main.im_specialist') }}
-                        </label>
                         <button class="registr-form__btn btn btn--purple">
                             {{ trans('main.register') }}
                         </button>

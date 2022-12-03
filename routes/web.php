@@ -57,7 +57,7 @@ Route::group([
     Route::post('/store-order', [App\Http\Controllers\OrdersController::class, 'store'])->name('store-order');
 
     Route::post('/change-password', [App\Http\Controllers\UserController::class, 'changePassword'])->name('change-password');
-
+    Route::post('/balance-replenishment', [App\Http\Controllers\PaymentController::class, 'balanceReplenishment'])->name('balance-replenishment');
     Route::post('/update-portfolio', [App\Http\Controllers\UserController::class, 'updatePortfolio'])->name('update-portfolio');
     Route::post('/get-portfolio-media', [App\Http\Controllers\UserController::class, 'getPortfolioMedia'])->name('get-portfolio-media');
     Route::post('/add-portfolio-image', [App\Http\Controllers\UserController::class, 'addPortfolioImage'])->name('add-portfolio-image');
@@ -258,6 +258,36 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
             Route::post('/bulk-destroy',                                'PricesController@bulkDestroy')->name('bulk-destroy');
             Route::post('/{price}',                                     'PricesController@update')->name('update');
             Route::delete('/{price}',                                   'PricesController@destroy')->name('destroy');
+        });
+    });
+});
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
+        Route::prefix('applications-links')->name('applications-links/')->group(static function() {
+            Route::get('/',                                             'ApplicationsLinksController@index')->name('index');
+            Route::get('/create',                                       'ApplicationsLinksController@create')->name('create');
+            Route::post('/',                                            'ApplicationsLinksController@store')->name('store');
+            Route::get('/{applicationsLink}/edit',                      'ApplicationsLinksController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'ApplicationsLinksController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{applicationsLink}',                          'ApplicationsLinksController@update')->name('update');
+            Route::delete('/{applicationsLink}',                        'ApplicationsLinksController@destroy')->name('destroy');
+        });
+    });
+});
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
+        Route::prefix('admin-reviewers')->name('admin-reviewers/')->group(static function() {
+            Route::get('/',                                             'AdminReviewersController@index')->name('index');
+            Route::get('/create',                                       'AdminReviewersController@create')->name('create');
+            Route::post('/',                                            'AdminReviewersController@store')->name('store');
+            Route::get('/{adminReviewer}/edit',                         'AdminReviewersController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'AdminReviewersController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{adminReviewer}',                             'AdminReviewersController@update')->name('update');
+            Route::delete('/{adminReviewer}',                           'AdminReviewersController@destroy')->name('destroy');
         });
     });
 });

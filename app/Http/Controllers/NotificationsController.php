@@ -28,7 +28,7 @@ class NotificationsController extends Controller
     public function index()
     {
         $userNotifications = Notification::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
-
+        Notification::where('user_id', Auth::user()->id)->update(['shown' => 1]);
         return view('notification' , ['notifications' => $userNotifications]);
     }
 

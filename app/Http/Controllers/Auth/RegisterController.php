@@ -69,15 +69,14 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         Alert::success('Congrats', 'You\'ve Successfully Registered');
+
         return User::create([
-            'type_id' => (isset($data['type_id']) && $data['type_id'] == 'on') ? "2" : "1",
+            'type_id' => $data['type_id'],
             'phone' => $data['phone'],
             'city' => $data['city'] ? $data['city'] : '',
             'name' => $data['name'],
             'surname' => $data['surname'],
-            'birth_date' => $data['birth_date'],
             'email' => $data['email'],
-            'gender' => $data['gender'],
             'password' => Hash::make($data['password']),
         ]);
     }

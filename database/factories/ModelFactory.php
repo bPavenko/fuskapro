@@ -133,3 +133,33 @@ $factory->define(App\Models\Price::class, static function (Faker\Generator $fake
         
     ];
 });
+/** @var  \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\ApplicationsLink::class, static function (Faker\Generator $faker) {
+    return [
+        
+        
+    ];
+});
+/** @var  \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\AdminReviewer::class, static function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->firstName,
+        'profession' => $faker->sentence,
+        'review' => $faker->sentence,
+        'created_at' => $faker->dateTime,
+        'updated_at' => $faker->dateTime,
+        
+        
+    ];
+});
+/** @var  \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\ApplicationsLink::class, static function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->firstName,
+        'url' => $faker->sentence,
+        'created_at' => $faker->dateTime,
+        'updated_at' => $faker->dateTime,
+        
+        
+    ];
+});

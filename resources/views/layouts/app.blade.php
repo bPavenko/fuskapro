@@ -37,7 +37,7 @@
     </div>
     @include('includes.footer')
 </div>
-@include('modals.balance')
+
 @include('sweetalert::alert')
 
 </body>

@@ -50,6 +50,11 @@
                         </div>
                     </div>
                 @endforeach
+                @if(!count($orders))
+                    <h1 class="empty-items-text title">
+                        {{ trans('main.no_orders') }}
+                    </h1>
+                @endif
             </div>
             {{ $orders->links() }}
             <a href="#" class="active-orders__btn btn btn--grey">

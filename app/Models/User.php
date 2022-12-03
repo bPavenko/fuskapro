@@ -28,17 +28,16 @@ class User extends Authenticatable
         'surname',
         'city',
         'type_id',
-        'gender',
         'about_me',
         'last_seen',
         'rate',
-        'birth_date',
         'avatar',
         'delete_request',
         'vip_status',
         'priority',
         'provider_name',
-        'provider_id'
+        'provider_id',
+        'balance'
     ];
     protected $appends = ['resource_url'];
     /**
@@ -193,6 +192,15 @@ class User extends Authenticatable
             return $this->avatar;
         } else {
             return asset('storage/images/' . $this->avatar);
+        }
+    }
+
+    public function getNewNotificationsAttribute() {
+        $newNotifications = Notification::where('user_id', Auth::user()->id)->where('shown', 0)->get();
+        if (count($newNotifications)) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
