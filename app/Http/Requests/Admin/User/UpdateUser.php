@@ -34,6 +34,7 @@ class UpdateUser extends FormRequest
             'phone' => ['sometimes', 'string'],
             'city' => ['sometimes', 'string'],
             'type_id' => ['sometimes', 'integer'],
+            'balance' => ['integer']
             
         ];
     }

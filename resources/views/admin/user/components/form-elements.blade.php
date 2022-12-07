@@ -57,6 +57,14 @@
     </div>
 </div>
 
+<div class="form-group row align-items-center" :class="{'has-danger': errors.has('balance'), 'has-success': fields.balance && fields.balance.valid }">
+    <label for="balance" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.user.columns.balance') }}</label>
+    <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
+        <input type="text" v-model="form.balance" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('balance'), 'form-control-success': fields.balance && fields.balance.valid}" id="balance" name="balance" placeholder="{{ trans('admin.user.columns.balance') }}">
+        <div v-if="errors.has('balance')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('balance') }}</div>
+    </div>
+</div>
+
 <div class="form-group row align-items-center" :class="{'has-danger': errors.has('city'), 'has-success': fields.city && fields.city.valid }">
     <label for="city" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.user.columns.city') }}</label>
         <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">

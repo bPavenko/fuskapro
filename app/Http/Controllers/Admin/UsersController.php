@@ -38,7 +38,7 @@ class UsersController extends Controller
             $request,
 
             // set columns to query
-            ['id', 'name', 'email', 'email_verified_at', 'surname', 'phone', 'city', 'type_id'],
+            ['id', 'name', 'email', 'balance', 'surname', 'phone', 'city', 'type_id'],
 
             // set columns to searchIn
             ['id', 'name', 'email', 'surname', 'phone', 'city']
@@ -131,7 +131,7 @@ class UsersController extends Controller
     {
         // Sanitize input
         $sanitized = $request->getSanitized();
-        if ($sanitized['password']) {
+        if (isset($sanitized['password'])) {
             $sanitized['password'] = Hash::make($request->get('password'));
         }
         // Update changed values User

@@ -34,6 +34,7 @@ class StoreUser extends FormRequest
             'phone' => ['required', 'string'],
             'city' => ['required', 'string'],
             'type_id' => ['required', 'integer'],
+            'balance' => ['integer']
             
         ];
     }
