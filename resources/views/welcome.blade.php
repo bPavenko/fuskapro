@@ -78,31 +78,31 @@
             @endforeach
         </div>
     </section>
-    <h2 class="offers__title title">
-        {{ trans('main.popular_categories') }}
-    </h2>
-    <section class="category sec-marg">
-        <div class="container category__wrapper">
-            @foreach($categories as $category)
-                @if(count($category->orders))
-                    <a href="{{ route('orders', ['section_id' =>  $category->parent_id, 'category_id' => $category->id]) }}" class="category-item">
-                        <div class="section-item">
-                            <div class="col">
-                                <div class="row">
-                                    <div class="category-item__text">
-                                        {{ $category->name }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="category-item__num">
-                                {{ count($category->orders) }}
-                            </div>
-                        </div>
-                    </a>
-                @endif
-            @endforeach
-        </div>
-    </section>
+{{--    <h2 class="offers__title title">--}}
+{{--        {{ trans('main.popular_categories') }}--}}
+{{--    </h2>--}}
+{{--    <section class="category sec-marg">--}}
+{{--        <div class="container category__wrapper">--}}
+{{--            @foreach($categories as $category)--}}
+{{--                @if(count($category->orders))--}}
+{{--                    <a href="{{ route('orders', ['section_id' =>  $category->parent_id, 'category_id' => $category->id]) }}" class="category-item">--}}
+{{--                        <div class="section-item">--}}
+{{--                            <div class="col">--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="category-item__text">--}}
+{{--                                        {{ $category->name }}--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="category-item__num">--}}
+{{--                                {{ count($category->orders) }}--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </a>--}}
+{{--                @endif--}}
+{{--            @endforeach--}}
+{{--        </div>--}}
+{{--    </section>--}}
     @if(count($lastUserCategoriesOrders))
         <section class="offers sec-marg">
             <div class="container">
