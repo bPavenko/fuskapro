@@ -12,7 +12,7 @@ class TaskSection extends Model
 
     protected $fillable = [
         'name',
-
+        'image'
     ];
     public $translatable = ['name'];
     
@@ -39,5 +39,13 @@ class TaskSection extends Model
     public function orders ()
     {
         return $this->hasMany(Order::class, 'section_id', 'id');
+    }
+
+    public function getImagePathAttribute() {
+        if ($this->image) {
+            return asset('storage/images/' . $this->image);
+        } else {
+            return asset('img/pin.png');
+        }
     }
 }

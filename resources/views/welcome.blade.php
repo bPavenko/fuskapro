@@ -15,6 +15,9 @@
              <div class="promo-btns">
                 <a href="{{ url('/orders') }}" class="promo__btn btn btn--purple">{{ trans('main.find_work') }}</a>
                 <a href="{{ url('/executors') }}" class="promo__btn btn btn--purple">{{ trans('main.find_employee') }}</a>
+                 <a href="{{ route('create-orders') }}" class="promo__btn btn btn--purple">
+                     {{ trans('main.create-order') }}
+                 </a>
             </div>
         </div>
     </section>
@@ -25,20 +28,53 @@
     <section class="category sec-marg">
         <div class="container category__wrapper">
             @foreach($sections as $section)
-                @if(count($section->orders))
-                    <a href="{{ route('orders', ['section_id' =>  $section->id]) }}" class="category-item">
-                        <div class="col">
-                            <div class="row">
-                                <div class="category-item__text">
-                                    {{ $section->name }}
+{{--                @if(count($section->orders))--}}
+                    <div  class="category-item">
+                        <div class="section-item">
+                            <div class="person-block">
+                            <div class="person-block__img category-item-img">
+                                <img loading="lazy" src="{{ $section->image_path }}" alt="img">
+                            </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <a href="{{ route('orders', ['section_id' =>  $section->id]) }}" class="category-item__text">
+                                        {{ $section->name }}
+                                    </a>
                                 </div>
                             </div>
+{{--                            <div class="category-item__num">--}}
+{{--                                {{ count($section->orders) }}--}}
+{{--                            </div>--}}
                         </div>
-                        <div class="category-item__num">
-                            {{ count($section->orders) }}
+                        <div class="category-items">
+                            @isset($section->categories[0])
+                            <div class="row">
+                                <a href="{{ route('orders', ['section_id' =>  $section->id]) }}"> {{ $section->categories[0]->name }} ({{count($section->categories[0]->orders)}}) </a>
+                            </div>
+                            @endisset
+                            @isset($section->categories[1])
+                            <div class="row">
+                                <a href="{{ route('orders', ['section_id' =>  $section->id]) }}"> {{ $section->categories[1]->name }} ({{count($section->categories[1]->orders)}}) </a>
+                            </div>
+                            @endisset
+                            @if(count($section->categories) > 2)
+                                <div class="show-more">
+                                    {{ trans('main.show_more') }}
+                                </div>
+                                <div class="hidden-categories" hidden>
+                                    @foreach($section->categories as $key => $category )
+                                        @if($key > 1)
+                                        <div class="row">
+                                            <a href="{{ route('orders', ['section_id' =>  $section->id, 'category_id' => $category->id]) }}"> {{ $category->name }} ({{count($category->orders)}})  </a>
+                                        </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
-                    </a>
-                @endif
+                    </div>
+{{--                @endif--}}
             @endforeach
         </div>
     </section>
@@ -50,15 +86,17 @@
             @foreach($categories as $category)
                 @if(count($category->orders))
                     <a href="{{ route('orders', ['section_id' =>  $category->parent_id, 'category_id' => $category->id]) }}" class="category-item">
-                        <div class="col">
-                            <div class="row">
-                                <div class="category-item__text">
-                                    {{ $category->name }}
+                        <div class="section-item">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="category-item__text">
+                                        {{ $category->name }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="category-item__num">
-                            {{ count($category->orders) }}
+                            <div class="category-item__num">
+                                {{ count($category->orders) }}
+                            </div>
                         </div>
                     </a>
                 @endif

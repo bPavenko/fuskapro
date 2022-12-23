@@ -18,6 +18,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class TaskSectionsController extends Controller
@@ -81,6 +82,14 @@ class TaskSectionsController extends Controller
             'en' => $request->get('en'),
             'cz' => $request->get('cz'),
         ];
+        if($request->hasFile('image')) {
+            $file = $request->file('image');
+
+            $imageName = time().'.'.str_replace(' ', '_', $file->getClientOriginalName());
+
+            $file->storeAs('public/images/',$imageName);
+            $sanitized['image'] = $imageName;
+        }
             // Store the TaskSection
         $taskSection = TaskSection::create($sanitized);
 
@@ -140,6 +149,16 @@ class TaskSectionsController extends Controller
             'en' => $request->get('en'),
             'cz' => $request->get('cz'),
         ];
+        if($request->hasFile('image')) {
+            Storage::delete('public/images/' . $taskSection->image);
+
+            $file = $request->file('image');
+
+            $imageName = time().'.'.str_replace(' ', '_', $file->getClientOriginalName());
+
+            $file->storeAs('public/images/',$imageName);
+            $sanitized['image'] = $imageName;
+        }
         // Update changed values TaskSection
         $taskSection->update($sanitized);
 

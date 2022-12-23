@@ -26,7 +26,11 @@ class UpdateTaskSection extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['sometimes', 'string'],
+            'name' => ['sometimes'],
+            'en' => ['sometimes', 'string'],
+            'ua' => ['sometimes', 'string'],
+            'cz' => ['sometimes', 'string'],
+            'image' => ['sometimes', 'image'],
             
         ];
     }

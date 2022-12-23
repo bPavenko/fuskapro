@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Artisan;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/pages/{page}', [App\Http\Controllers\MainController::class, 'getPage'])->name('get-page');
 Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
 Route::get('/privacy-policy', [App\Http\Controllers\MainController::class, 'privacyPolicy']);
 Route::get('redirect/{driver}', [App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider']);
@@ -288,6 +288,21 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
             Route::post('/bulk-destroy',                                'AdminReviewersController@bulkDestroy')->name('bulk-destroy');
             Route::post('/{adminReviewer}',                             'AdminReviewersController@update')->name('update');
             Route::delete('/{adminReviewer}',                           'AdminReviewersController@destroy')->name('destroy');
+        });
+    });
+});
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
+        Route::prefix('pages')->name('pages/')->group(static function() {
+            Route::get('/',                                             'PagesController@index')->name('index');
+            Route::get('/create',                                       'PagesController@create')->name('create');
+            Route::post('/',                                            'PagesController@store')->name('store');
+            Route::get('/{page}/edit',                                  'PagesController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'PagesController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{page}',                                      'PagesController@update')->name('update');
+            Route::delete('/{page}',                                    'PagesController@destroy')->name('destroy');
         });
     });
 });

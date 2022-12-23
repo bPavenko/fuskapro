@@ -13,7 +13,7 @@
                 v-cloak
                 inline-template>
             
-                <form action="{{ route('admin/admin-reviewers/update', ['adminReviewer' => 1]) }}" enctype="multipart/form-data" class="form-horizontal form-edit" method="post" novalidate>
+                <form action="{{ route('admin/admin-reviewers/update', ['adminReviewer' => $adminReviewer->id]) }}" enctype="multipart/form-data" class="form-horizontal form-edit" method="post" novalidate>
                     @csrf
                     <input type="hidden" name="id" value="{{ $adminReviewer->id }}">
                     <div class="card-header">

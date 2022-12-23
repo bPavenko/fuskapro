@@ -11,3 +11,4 @@ import './footer-link';
 import './price';
 import './applications-link';
 import './admin-reviewer';
+import './page';

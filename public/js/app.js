@@ -5426,6 +5426,10 @@ document.addEventListener('DOMContentLoaded', function () {
     $(this).addClass('active');
     $(this).parent().siblings().find('.creation-form-date-item').removeClass('active');
   });
+  $('.show-more').on('click', function () {
+    $(this).hide();
+    $(this).parent().find('.hidden-categories').removeAttr('hidden');
+  });
   $('.tab').on('click', function (event) {
     event.preventDefault();
     $($(this).siblings()).removeClass('tab-active');

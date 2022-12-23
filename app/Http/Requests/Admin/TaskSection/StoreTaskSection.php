@@ -26,9 +26,11 @@ class StoreTaskSection extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => ['sometimes'],
             'en' => ['required', 'string'],
             'ua' => ['required', 'string'],
             'cz' => ['required', 'string'],
+            'image' => ['image'],
         ];
     }
 

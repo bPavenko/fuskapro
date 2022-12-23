@@ -23,7 +23,7 @@
     </div>
     <div class="footer__bottom">
         <div class="container">
-            Copyright © 2022 Work Company. All rights reserved.
+            Copyright © 2022 Fuskapro Company. All rights reserved.
         </div>
     </div>
 </footer>

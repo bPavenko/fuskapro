@@ -163,3 +163,14 @@ $factory->define(App\Models\ApplicationsLink::class, static function (Faker\Gene
         
     ];
 });
+/** @var  \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Page::class, static function (Faker\Generator $faker) {
+    return [
+        'content' => $faker->text(),
+        'created_at' => $faker->dateTime,
+        'updated_at' => $faker->dateTime,
+        'url' => $faker->sentence,
+        
+        
+    ];
+});

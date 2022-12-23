@@ -130,7 +130,7 @@
                             </div>
                             <div class="person-block">
                                 <div class="person-block__img">
-                                    <img loading="lazy" src="img/person-block-img.png" alt="img">
+                                    <img loading="lazy" src="{{ $order->author->avatar_path }}" alt="img">
                                 </div>
                                 <div class="person-block__info">
                                     <div class="person-block__name">

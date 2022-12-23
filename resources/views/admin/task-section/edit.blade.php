@@ -12,9 +12,9 @@
                 :data="{{ $taskSection->toJson() }}"
                 v-cloak
                 inline-template>
-            
-                <form class="form-horizontal form-edit" method="post" @submit.prevent="onSubmit" :action="action" novalidate>
 
+                <form action="{{ route('admin/task-sections/update', ['taskSection' => $taskSection->id]) }}" enctype="multipart/form-data" class="form-horizontal form-edit" method="post" novalidate>
+                    @csrf
 
                     <div class="card-header">
                         <i class="fa fa-pencil"></i> {{ trans('admin.task-section.actions.edit', ['name' => $taskSection->name]) }}
