@@ -16,7 +16,7 @@
                 <a href="{{ url('/orders') }}" class="promo__btn btn btn--purple">{{ trans('main.find_work') }}</a>
                 <a href="{{ url('/executors') }}" class="promo__btn btn btn--purple">{{ trans('main.find_employee') }}</a>
                  <a href="{{ route('create-orders') }}" class="promo__btn btn btn--purple">
-                     {{ trans('main.create-order') }}
+                     {{ trans('main.create_order') }}
                  </a>
             </div>
         </div>
