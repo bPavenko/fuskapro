@@ -12122,8 +12122,12 @@ body.scroll-hide {
 
 .category-item-img {
   margin-right: 10px;
-  width: 90px;
-  height: 90px;
+  width: 50px;
+  height: 50px;
+}
+
+.category-item-img img {
+  border-radius: 0% !important;
 }
 
 .show-more {
