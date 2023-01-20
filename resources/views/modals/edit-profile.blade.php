@@ -69,8 +69,8 @@
                             </div>
                             <div class="input-block custom-select">
                                 <div class="custom-select__top">
-                                    <div class="custom-select-value">{{ trans('main.citizenship') }}</div>
-                                    <input class="custom-select-input" name="country_code" type="hidden" value="">
+                                    <div class="custom-select-value">@if(Auth::user()->country_code) {{ array_search(Auth::user()->country_code, array_flip(\App\Models\User::countriesList())) }} @else {{ trans('main.citizenship') }} @endif</div>
+                                    <input class="custom-select-input" name="country_code" type="hidden" value="{{ Auth::user()->country_code }}">
                                 </div>
                                 <div class="profession-list custom-select__list countries-list">
                                     @foreach(\App\Models\User::countriesList() as $key => $country)
