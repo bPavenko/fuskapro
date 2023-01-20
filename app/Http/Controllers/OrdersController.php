@@ -261,9 +261,11 @@ class OrdersController extends Controller
 
     public function show ($id) {
         $order = Order::find($id);
-        $order->update([
-            'count_views' => $order->count_views + 1
-        ]);
+        
+        if ($order) {
+            $order->count_views = $order->count_views + 1;
+            $order->save();
+        }
 
         return view('orders.order-info', ['order' => $order]);
     }
