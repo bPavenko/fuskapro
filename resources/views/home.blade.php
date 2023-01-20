@@ -17,7 +17,7 @@
                         </div>
                         @if(Auth::user()->vip_status)
                             <div>
-                                {{ trans('main.vip_status_to' )}}: {{ Auth::user()->vip_status }}
+                                {{ trans('main.vip_status_to')}}: {{ Auth::user()->vip_status }}
                             </div>
                         @endif
 
