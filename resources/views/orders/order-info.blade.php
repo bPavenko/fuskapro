@@ -7,7 +7,7 @@
                     <div class="order-info__top">
                         <input type="hidden" id="order-id" value="{{ $order->id }}">
                         <div class="order-info__title">
-                            {{ $order->title }} <span>| {{ $order->section->name }}</span>
+                            {{ $order->title }} <span>| @if($order->section){{ $order->section->name }} @endif</span>
                         </div>
                         <div class="order-info__code">
                             #{{ $order->id }}
@@ -128,7 +128,7 @@
                     </div>
                     @endif
             </div>
-            @if(Auth::user() && !Auth::user()->isAuthor($order->id))
+            @if(Auth::user() && !Auth::user()->isAuthor($order->id) && !Auth::user()->isSpecialist())
                 @if (!$order->checkRequest(Auth::user()->id, 'show'))
                     <div class="specialist-contact specialist-contact-payment">
                         <div class="specialist-contact__left">
@@ -139,7 +139,7 @@
                             {{ trans('main.display') }}
                         </button>
                     </div>
-                @endif
+                @else
                 <div class="specialist-contact specialist-contact-show" @if(!$order->checkRequest(Auth::user()->id, 'show')) hidden @endif>
                     <div class="specialist-contact__left">
                         <div class="specialist-contact__title">{{ trans('main.show_contacts') }}</div>
@@ -154,6 +154,7 @@
                         {{trans('main.displayed')}}
                     </a>
                 </div>
+                @endif
             @endif
 
             <div class="order-info-btns">
@@ -250,43 +251,62 @@
 
         $('.specialist-contact__btn').click(function(event){
             var order_id = $(this).parents('.order-info').find('#order-id').val();
-            event.preventDefault();
-            swal({
-                title: "{{ trans('main.payment_confirmation') }}",
-                text: "{{ \App\Models\Price::contactShowText($order->by_user) }}",
-                icon: "warning",
-                type: "warning",
-                buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-            }).then((confirm) => {
-                if (confirm) {
-                    $.ajax({
-                        url: "/order-respond/create",
-                        type: "POST",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: {
-                            order_id: order_id,
-                            type: 'show',
-                            cost: "{{ \App\Models\Price::contactCost($order->by_user) }}"
-                        },
-                        dataType: 'json',
-                        success: function success() {
-                            $(".specialist-contact-payment").hide();
-                            $(".specialist-contact-show").removeAttr('hidden');
-                        },
-                        error: function () {
-                            swal({
-                                title: "Error",
-                                text: "{{ trans('main.not_enough_coins') }}",
-                                type: "error"
-                            });
-                        }
-                    });
-                }
-            });
+            var type_id = {{ Auth::user()->id }};
+            if (type_id == 1) {
+                event.preventDefault();
+                swal({
+                    title: "{{ trans('main.payment_confirmation') }}",
+                    text: "{{ \App\Models\Price::contactShowText($order->by_user) }}",
+                    icon: "warning",
+                    type: "warning",
+                    buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                }).then((confirm) => {
+                    if (confirm) {
+                        $.ajax({
+                            url: "/order-respond/create",
+                            type: "POST",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: {
+                                order_id: order_id,
+                                type: 'show',
+                                cost: "{{ \App\Models\Price::contactCost($order->by_user) }}"
+                            },
+                            dataType: 'json',
+                            success: function success() {
+                                $(".specialist-contact-payment").hide();
+                                $(".specialist-contact-show").removeAttr('hidden');
+                            },
+                            error: function () {
+                                swal({
+                                    title: "Error",
+                                    text: "{{ trans('main.not_enough_coins') }}",
+                                    type: "error"
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                event.preventDefault();
+                swal({
+                    title: "{{ trans('main.redirect_confirmation') }}",
+                    text: "{{ trans('main.redirect_confirmation_text') }}",
+                    icon: "warning",
+                    type: "warning",
+                    buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                }).then((confirm) => {
+                    if (confirm) {
+                        window.location.href = "{{ route('show-user', $order->by_user) }}";
+                    }
+                });
+            }
+
         });
     </script>
 @endsection

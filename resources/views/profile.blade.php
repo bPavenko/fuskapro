@@ -57,7 +57,7 @@
                             @endforeach
                         </div>
                     </div>
-                    @if(Auth::user() && Auth::user()->id != $user->id)
+                    @if(Auth::user() && Auth::user()->id != $user->id && (($user->isSpecialist() && Auth::user()->isSpecialist()) || !Auth::user()->isSpecialist()))
                         @if (!Auth::user()->checkRequest($user->id, 'show'))
                             <div class="specialist-contact profile-contact-payment">
                                 <div class="specialist-contact__left">

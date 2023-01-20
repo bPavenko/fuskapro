@@ -11,6 +11,9 @@
                     <div class="person-block__info">
                         <div class="person-block__name">
                             {{Auth::user()->name . ' ' . Auth::user()->surname}}
+                            @if(Auth::user()->country_code)
+                            <img src="{{ asset('vendor/blade-country-flags/4x3-'. Auth::user()->country_code . '.svg') }}" width="20"/>
+                            @endif
                         </div>
                         @if(Auth::user()->vip_status)
                             <div>

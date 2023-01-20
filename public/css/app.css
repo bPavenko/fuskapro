@@ -12122,8 +12122,8 @@ body.scroll-hide {
 
 .category-item-img {
   margin-right: 10px;
-  width: 40px;
-  height: 40px;
+  width: 40px !important;
+  height: 40px !important;
   margin-left: 10px;
 }
 
@@ -12149,6 +12149,11 @@ body.scroll-hide {
   display: block;
   margin-left: 1px;
   transition: all 0.3s ease-in-out;
+}
+
+.countries-list {
+  height: 320px;
+  overflow-y: scroll;
 }
 
 .category-item {

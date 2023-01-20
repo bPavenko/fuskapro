@@ -69,7 +69,7 @@ class OrdersController extends Controller
             $status = $request->get('status');
             $query = $query->where('status', $status);
         }
-        $orders = $query->paginate(15);
+        $orders = $query->orderBy('created_at', 'desc')->paginate(15);
 
         return view('orders.orders', [
             'orders' => $orders,

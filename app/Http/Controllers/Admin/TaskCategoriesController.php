@@ -41,7 +41,7 @@ class TaskCategoriesController extends Controller
             ['id', 'name', 'parent_id'],
 
             // set columns to searchIn
-            ['id', 'name', 'section.name'],
+            ['id', 'name', 'name'],
 
             function ($query) use ($request)
             {

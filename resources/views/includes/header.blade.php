@@ -1,7 +1,7 @@
 <header class="header">
     @php
         if (!Session::get('locale')) {
-            Session::put('locale', 'ua');
+            Session::put('locale', 'cz');
         }
         $locales = ['ua', 'en', 'cz'];
     @endphp

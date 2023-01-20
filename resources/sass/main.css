@@ -1015,8 +1015,8 @@ body.scroll-hide {
 }
 .category-item-img {
     margin-right: 10px;
-    width: 40px;
-    height: 40px;
+    width: 40px !important;
+    height: 40px!important;
     margin-left: 10px;
 }
 .category-item-img img {
@@ -1040,7 +1040,10 @@ body.scroll-hide {
     margin-left: 1px;
     transition: all 0.3s ease-in-out;
 }
-
+.countries-list {
+    height: 320px;
+    overflow-y: scroll;
+}
 .category-item {
   background: #F8F3FB;
   border-radius: 30px;
