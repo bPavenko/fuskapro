@@ -1,8 +1,5 @@
 <header class="header">
     @php
-        if (!Session::get('locale')) {
-            Session::put('locale', 'cz');
-        }
         $locales = ['ua', 'en', 'cz'];
     @endphp
     <div class="container">
