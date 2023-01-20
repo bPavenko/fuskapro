@@ -67,6 +67,20 @@
                         </span>
                                 @endif
                             </div>
+                            <div class="input-block custom-select">
+                                <div class="custom-select__top">
+                                    <div class="custom-select-value">{{ trans('main.citizenship') }}</div>
+                                    <input class="custom-select-input" name="country_code" type="hidden" value="">
+                                </div>
+                                <div class="profession-list custom-select__list countries-list">
+                                    @foreach(\App\Models\User::countriesList() as $key => $country)
+                                        <div class="custom-select-item" id="{{ $key }}">
+                                            <img src="{{ asset('vendor/blade-country-flags/4x3-'. $key . '.svg') }}" width="15"/>
+                                            {{ $country }}
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                             <div class="input-block">
                                 <div class="form-block-title">{{ trans('main.phone') }}</div>
 
