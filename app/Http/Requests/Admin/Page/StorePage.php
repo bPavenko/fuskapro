@@ -26,8 +26,10 @@ class StorePage extends FormRequest
     public function rules(): array
     {
         return [
-            'url' => ['required', 'string'],
-            'content' => ['required', 'string']
+            'en' => ['required', 'string'],
+            'ua' => ['required', 'string'],
+            'cz' => ['required', 'string'],
+            'url' => ['sometimes', 'string']
             
         ];
     }

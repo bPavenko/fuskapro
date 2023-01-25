@@ -78,6 +78,12 @@ class PagesController extends Controller
     {
         // Sanitize input
         $sanitized = $request->getSanitized();
+
+        $sanitized['content'] = [
+            'ua' => $request->get('ua'),
+            'en' => $request->get('en'),
+            'cz' => $request->get('cz'),
+        ];
         // Store the Page
         $page = Page::create($sanitized);
 
@@ -131,6 +137,11 @@ class PagesController extends Controller
         // Sanitize input
         $sanitized = $request->getSanitized();
 
+        $sanitized['content'] = [
+            'ua' => $request->get('ua'),
+            'en' => $request->get('en'),
+            'cz' => $request->get('cz'),
+        ];
         // Update changed values Page
         $page->update($sanitized);
 
