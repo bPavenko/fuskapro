@@ -97,6 +97,7 @@ Route::group([
 
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
     Route::get('/admin', [App\Http\Controllers\Admin\AdminHomePageController::class, 'index']);
+    Route::post('/update-mobile-block-show', [App\Http\Controllers\Admin\AdminHomePageController::class, 'updateMobileBlockShow'])->name('update-mobile-block-show');
 });
 
 /* Auto-generated admin routes */

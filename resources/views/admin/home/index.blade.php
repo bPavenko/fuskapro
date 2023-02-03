@@ -46,6 +46,21 @@
                     </table>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" id="update-mobile-block" action="{{ route('update-mobile-block-show') }}">
+                        @csrf
+                        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('type_id'), 'has-success': fields.type_id && fields.type_id.valid }">
+                            <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
+                                <select class="form-control"  name="show_id" onchange="event.preventDefault(); document.getElementById('update-mobile-block').submit();">
+                                    <option @if(!App\Models\ShowComponent::isMobileBlockShow()) selected @endif value="0">{{ trans('main.hide') }}</option>
+                                    <option @if(App\Models\ShowComponent::isMobileBlockShow()) selected @endif value="1">{{ trans('main.show') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

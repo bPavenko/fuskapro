@@ -128,7 +128,8 @@
                     </div>
                     @endif
             </div>
-            @if(Auth::user() && !Auth::user()->isAuthor($order->id) && !Auth::user()->isSpecialist())
+
+            @if(Auth::user() && !Auth::user()->isAuthor($order->id) && (!Auth::user()->isSpecialist() || $order->executor_id == Auth::user()->id))
                 @if (!$order->checkRequest(Auth::user()->id, 'show'))
                     <div class="specialist-contact specialist-contact-payment">
                         <div class="specialist-contact__left">
@@ -253,43 +254,72 @@
             var order_id = $(this).parents('.order-info').find('#order-id').val();
             var type_id = {{ Auth::user()->id }};
             if (type_id == 1) {
-                event.preventDefault();
-                swal({
-                    title: "{{ trans('main.payment_confirmation') }}",
-                    text: "{{ \App\Models\Price::contactShowText($order->by_user) }}",
-                    icon: "warning",
-                    type: "warning",
-                    buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                }).then((confirm) => {
-                    if (confirm) {
-                        $.ajax({
-                            url: "/order-respond/create",
-                            type: "POST",
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            data: {
-                                order_id: order_id,
-                                type: 'show',
-                                cost: "{{ \App\Models\Price::contactCost($order->by_user) }}"
-                            },
-                            dataType: 'json',
-                            success: function success() {
-                                $(".specialist-contact-payment").hide();
-                                $(".specialist-contact-show").removeAttr('hidden');
-                            },
-                            error: function () {
-                                swal({
-                                    title: "Error",
-                                    text: "{{ trans('main.not_enough_coins') }}",
-                                    type: "error"
-                                });
-                            }
-                        });
-                    }
-                });
+                var cost = {{ \App\Models\Price::contactCost($order->by_user) }}
+                if (cost == 0) {
+                    $.ajax({
+                        url: "/order-respond/create",
+                        type: "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            order_id: order_id,
+                            type: 'show',
+                            cost: cost
+                        },
+                        dataType: 'json',
+                        success: function success() {
+                            $(".specialist-contact-payment").hide();
+                            $(".specialist-contact-show").removeAttr('hidden');
+                        },
+                        error: function () {
+                            swal({
+                                title: "Error",
+                                text: "{{ trans('main.not_enough_coins') }}",
+                                type: "error"
+                            });
+                        }
+                    });
+                } else {
+                    event.preventDefault();
+                    swal({
+                        title: "{{ trans('main.payment_confirmation') }}",
+                        text: "{{ \App\Models\Price::contactShowText($order->by_user) }}",
+                        icon: "warning",
+                        type: "warning",
+                        buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                    }).then((confirm) => {
+                        if (confirm) {
+                            $.ajax({
+                                url: "/order-respond/create",
+                                type: "POST",
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                data: {
+                                    order_id: order_id,
+                                    type: 'show',
+                                    cost: cost
+                                },
+                                dataType: 'json',
+                                success: function success() {
+                                    $(".specialist-contact-payment").hide();
+                                    $(".specialist-contact-show").removeAttr('hidden');
+                                },
+                                error: function () {
+                                    swal({
+                                        title: "Error",
+                                        text: "{{ trans('main.not_enough_coins') }}",
+                                        type: "error"
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+
             } else {
                 event.preventDefault();
                 swal({

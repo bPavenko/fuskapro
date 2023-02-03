@@ -3,7 +3,7 @@
     <div class="top-ban active-orders-ban">
         <div class="container">
             <div class="active-orders-top">
-                <h1 class="top-ban__title">{{ trans('main.find_work') }}</h1>
+                <h1 class="top-ban__title">{{ trans('main.find_employee') }}</h1>
             </div>
         </div>
     </div>

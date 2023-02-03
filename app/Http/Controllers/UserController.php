@@ -119,7 +119,8 @@ class UserController extends Controller
         UserPortfolio::create([
             'user_id' => Auth::user()->id,
             'path' => $request->path,
-            'type' => 'video'
+            'type' => 'video',
+            'description' => $request->description
         ]);
 
         return back()->with(['active_tabs' => ['portfolio' => true]]);
@@ -252,19 +253,10 @@ class UserController extends Controller
     }
 
     public function update(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'phone' => ['required', 'string', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
-            'name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255',  Rule::unique('users')->ignore(Auth::user()->id)],
-            'city' => ['required', 'integer'],
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        if ($validator->fails()) {
-            return back()->with('active_modals', ['edit-profile' => true])->withErrors($validator->errors());
-        }
-
         if($request->hasFile('image')) {
+            $validator = Validator::make($request->all(), [
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
             $user = Auth::user();
             if ($user->avatar != 'def_user_av.jpg') {
                 Storage::delete('public/images/' . $user->avatar);
@@ -277,6 +269,19 @@ class UserController extends Controller
             $file->storeAs('public/images/',$imageName);
             $user->avatar = $imageName;
             $user->save();
+        } else {
+            $validator = Validator::make($request->all(), [
+                'phone' => ['required', 'string', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
+                'name' => ['required', 'string', 'max:255'],
+                'surname' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255',  Rule::unique('users')->ignore(Auth::user()->id)],
+                'city' => ['required', 'integer'],
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+        }
+
+        if ($validator->fails()) {
+            return back()->with('active_modals', ['edit-profile' => true])->withErrors($validator->errors());
         }
 
         $data = $request->all();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\ShowComponent;
 
 class AdminHomePageController extends Controller
 {
@@ -36,5 +37,14 @@ class AdminHomePageController extends Controller
         ];
 
         return view('admin.home.index', ['newUsers' => $newUsers, 'activeOrders' => $activeOrders]);
+    }
+
+    public function updateMobileBlockShow() {
+        $component = ShowComponent::where('component_name', 'mobile-block')->first();
+
+        $component->is_show = $component->is_show == 0 ? 1 : 0;
+        $component->save();
+
+        return back();
     }
 }

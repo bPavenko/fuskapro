@@ -96,43 +96,72 @@
     <script type="text/javascript">
         $('.profile-contact__btn').click(function(event){
             var profile_id = $(this).attr('id');
-            event.preventDefault();
-            swal({
-                title: "{{ trans('main.payment_confirmation') }}",
-                text: "{{ \App\Models\Price::contactShowText($user->id) }}",
-                icon: "warning",
-                type: "warning",    
-                buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-            }).then((confirm) => {
-                if (confirm) {
-                    $.ajax({
-                        url: "/user-request/create",
-                        type: "POST",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: {
-                            profile_id: profile_id,
-                            type: 'show',
-                            cost: {{ \App\Models\Price::contactCost($user->id) }}
-                        },
-                        dataType: 'json',
-                        success: function success() {
-                            $(".profile-contact-payment").hide();
-                            $(".profile-contact-show").removeAttr('hidden');
-                        },
-                        error: function () {
-                            swal({
-                                title: "Error",
-                                text: "{{ trans('main.not_enough_coins') }}",
-                                type: "error"
-                            });
-                        }
-                    });
-                }
-            });
+            var cost = {{ \App\Models\Price::contactCost($user->id) }}
+            if (cost == 0) {
+                $.ajax({
+                    url: "/user-request/create",
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        profile_id: profile_id,
+                        type: 'show',
+                        cost: {{ \App\Models\Price::contactCost($user->id) }}
+                    },
+                    dataType: 'json',
+                    success: function success() {
+                        $(".profile-contact-payment").hide();
+                        $(".profile-contact-show").removeAttr('hidden');
+                    },
+                    error: function () {
+                        swal({
+                            title: "Error",
+                            text: "{{ trans('main.not_enough_coins') }}",
+                            type: "error"
+                        });
+                    }
+                });
+            } else {
+                event.preventDefault();
+                swal({
+                    title: "{{ trans('main.payment_confirmation') }}",
+                    text: "{{ \App\Models\Price::contactShowText($user->id) }}",
+                    icon: "warning",
+                    type: "warning",
+                    buttons: ["{{ trans('main.cancel') }}","{{ trans('main.yes') }}!"],
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                }).then((confirm) => {
+                    if (confirm) {
+                        $.ajax({
+                            url: "/user-request/create",
+                            type: "POST",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: {
+                                profile_id: profile_id,
+                                type: 'show',
+                                cost: {{ \App\Models\Price::contactCost($user->id) }}
+                            },
+                            dataType: 'json',
+                            success: function success() {
+                                $(".profile-contact-payment").hide();
+                                $(".profile-contact-show").removeAttr('hidden');
+                            },
+                            error: function () {
+                                swal({
+                                    title: "Error",
+                                    text: "{{ trans('main.not_enough_coins') }}",
+                                    type: "error"
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+
         });
     </script>
 @endsection

@@ -11,7 +11,7 @@
                     <input type="hidden" id="video-id" name="id">
                     <input type="hidden" id="video-type" name="type">
                     <div class="input-block">
-                        <input id="video-link" class="input" type="text" value="https://www.youtube.com/watch?v...">
+                        <input id="video-link" class="input" type="text" value="">
                     </div>
                     @if(!isset($user))
                     <div class="custom-select">
@@ -46,7 +46,7 @@
                         </div>
                     @endif
                     <div class="textarea-block">
-                        <textarea @if(isset($user)) readonly @endif id="video-description" name="description" placeholder="Опис" class="textarea"></textarea>
+                        <textarea @if(isset($user)) readonly @endif id="video-description" name="description" class="textarea">123</textarea>
                     </div>
                     <div class="modal-edit-form__bottom">
                         <button class="modal-edit-form__btn btn btn--purple-border">

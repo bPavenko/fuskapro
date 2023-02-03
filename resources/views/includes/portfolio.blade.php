@@ -19,11 +19,16 @@
     <form method="POST" action="{{ route('add-portfolio-video') }}">
         @csrf
         <div class="portfolio-block">
-            <img class="portfolio-block__icon" src="img/portfolio-block-icon2.svg" alt="img">
-            <div class="input-block">
-                <input required name="path" class="input" type="text">
+            <div class="d-block">
+                <div class="input-block">
+                    <img class="portfolio-block__icon" src="img/portfolio-block-icon2.svg" alt="img">
+                    <input required name="path" class="input" type="text">
+                </div>
+                <div class="textarea-block">
+                    <textarea required id="video-description" name="description" placeholder="" class="textarea"></textarea>
+                </div>
             </div>
-            <button class="portfolio-block__btn btn btn--purple">
+            <button style="margin-left: 20px;" class="portfolio-block__btn btn btn--purple">
                 {{ trans('main.upload_video') }}
             </button>
         </div>

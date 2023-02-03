@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 $('#image-section-name').html(data.media.section_name);
                 $('#category-name').val(data.media.category_name);
                 $('#section-name').val(data.media.section_name);
-                $('#image-description').val(data.media.description);
+                $('#image-description').html(data.media.description);
                 $('#image-category-id').val(data.media.category_id);
                 $('#image-section-id').val(data.media.section_id);
             }
@@ -344,7 +344,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 $('#video-section-name').html(data.media.section_name);
                 $('#video-show-category-name').val(data.media.category_name);
                 $('#video-show-section-name').val(data.media.section_name);
-                $('#video-description').val(data.media.description);
+                $('#video-description').html(data.media.description);
+                // $('#video-description').text('asdasdads123');
                 $('#video-category-id').val(data.media.category_id);
                 $('#video-section-id').val(data.media.section_id);
                 $('#video-path').attr('src', data.media.url);

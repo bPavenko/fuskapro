@@ -241,7 +241,7 @@
             </div>
         </div>
     </section>
-
+    @if(App\Models\ShowComponent::isMobileBlockShow())
     <section class="app">
         <div class="container app__wrapper">
             <div class="app__left">
@@ -263,5 +263,6 @@
             </div>
         </div>
     </section>
+    @endif
 @endsection
 

@@ -5,9 +5,7 @@
             <div class="modal-balance__title">
                 {{ trans('main.update-profile') }}
             </div>
-            <form method="POST" action="{{ route('edit-user') }}"  enctype="multipart/form-data">
                 <div class="modal-edit__wrapper">
-                    @csrf
                     <div class="person-block">
                         <div class="person-block__img modal-edit__img person-block__img">
                             <img loading="lazy" src="{{ Auth::user()->avatar_path }}" alt="img">
@@ -15,14 +13,19 @@
                         <div class="person-block__info">
                             <div class="modal-edit-form__top">
                                 <div class="input-file btn btn--purple">
-                                    <input name="image" type="file">
-                                    {{ trans('main.upload_photo') }}
+                                    <form method="POST" id="input-file-form" action="{{ route('edit-user') }}"  enctype="multipart/form-data">
+                                        @csrf
+                                        <input name="image" type="file" onchange="event.preventDefault(); document.getElementById('input-file-form').submit();">
+                                        {{ trans('main.upload_photo') }}
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="change-password">
-                        <div class="modal-edit-profile-size">
+                        <form method="POST" action="{{ route('edit-user') }}"  enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-edit-profile-size">
 
                             <div class="input-block">
                                 <div class="form-block-title">{{ trans('main.name') }}</div>
@@ -115,15 +118,13 @@
                         <button class="edit-form__btn btn btn--purple">
                             {{ trans('main.save') }}
                         </button>
+                        </form>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 </div>
 
-{{--{{ dd($errors->has('birth_date'), $errors->birth_date, $errors->first('birth_date')) }}--}}
-{{--{{ dd($errors) }}--}}
 <script type="text/javascript">
     @if (isset(session('active_modals')['edit-profile']))
         $('.edit-profile-modal').addClass('active');

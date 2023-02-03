@@ -123,6 +123,7 @@
             </h2>
             <div class="active-orders__wrapper">
                 @foreach($orders as $order)
+                    @if ($order->author)
                     <div class="offers-row row-item">
                         <div class="offers-row-left">
                             <div class="offers-row-left__top">
@@ -161,6 +162,7 @@
                             </a>
                         </div>
                     </div>
+                    @endif
                 @endforeach
             </div>
             {{ $orders->links() }}
